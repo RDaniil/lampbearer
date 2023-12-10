@@ -1,10 +1,14 @@
 package com.vdn.lampbearer.game;
 
 import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
+import com.vdn.lampbearer.game.engine.BasicEngine;
+import com.vdn.lampbearer.game.engine.Engine;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
+import org.hexworks.zircon.api.screen.Screen;
+import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.Map;
 
@@ -13,8 +17,11 @@ import java.util.Map;
  */
 public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
+    private final Engine engine;
+
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
+        engine = new BasicEngine();
     }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {
@@ -25,5 +32,25 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
         entity.setPosition(position3D);
         block.addEntity(entity);
+        engine.addEntity(entity);
+    }
+
+    public boolean moveEntity(AbstractEntity entity, Position3D position) {
+        var success = false;
+        var oldBlock = fetchBlockAtOrNull(entity.getPosition());
+        var newBlock = fetchBlockAtOrNull(position);
+
+        if (oldBlock != null && newBlock != null) {
+            success = true;
+            oldBlock.removeEntity(entity);
+            entity.setPosition(position);
+            newBlock.addEntity(entity);
+        }
+
+        return success;
+    }
+
+    public void update(Screen screen, KeyboardEvent event, Game game) {
+        engine.executeTurn(new GameContext(this, screen, event, game.getPlayer()));
     }
 }

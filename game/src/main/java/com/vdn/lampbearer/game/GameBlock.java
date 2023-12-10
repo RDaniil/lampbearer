@@ -45,7 +45,7 @@ public class GameBlock extends BaseBlock<Tile> {
 
     private void updateContent() {
         List<Tile> tiles = entities.stream().map(AbstractEntity::getTile).collect(Collectors.toList());
-        Tile newContent = getContent();
+        Tile newContent = getEmptyTile();
         if (tiles.contains(TileRepository.PLAYER)) {
             newContent = TileRepository.PLAYER;
         }

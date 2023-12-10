@@ -12,4 +12,11 @@ public class GameBlockFactory {
         block.setWalkable(true);
         return block;
     }
+
+    public GameBlock createGrass() {
+        //TODO енам с типами блоков? сюда передать
+        GameBlock block = new GameBlock(TileRepository.GRASS);
+        block.setWalkable(true);
+        return block;
+    }
 }

@@ -9,6 +9,8 @@ import org.hexworks.zircon.api.component.ComponentAlignment;
 import org.hexworks.zircon.api.component.renderer.ComponentRenderer;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.grid.TileGrid;
+import org.hexworks.zircon.api.uievent.KeyboardEventType;
+import org.hexworks.zircon.api.uievent.Processed;
 import org.hexworks.zircon.api.view.base.BaseView;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -37,7 +39,7 @@ public class PlayView extends BaseView {
                 .build();
 
         var gameComponent = Components.panel()
-                .withPreferredSize(game.world.getVisibleSize().to2DSize())
+                .withPreferredSize(game.getWorld().getVisibleSize().to2DSize())
                 .withComponentRenderer(createGameAreaRenderer(game))
                 .withAlignmentWithin(screen, ComponentAlignment.TOP_RIGHT)
                 .build();
@@ -45,10 +47,15 @@ public class PlayView extends BaseView {
         screen.addComponent(panel);
         screen.addComponent(logArea);
         screen.addComponent(gameComponent);
+
+        screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (event, uiEventPhase) -> {
+            game.getWorld().update(screen, event, game);
+            return Processed.INSTANCE;
+        });
     }
 
     @NotNull
     private static ComponentRenderer<org.hexworks.zircon.api.component.Panel> createGameAreaRenderer(Game game) {
-        return GameComponents.newGameAreaComponentRenderer(game.world, TOP_DOWN, TileRepository.GROUND);
+        return GameComponents.newGameAreaComponentRenderer(game.getWorld(), TOP_DOWN, TileRepository.GROUND);
     }
 }

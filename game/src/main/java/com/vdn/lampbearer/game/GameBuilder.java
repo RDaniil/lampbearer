@@ -21,7 +21,6 @@ public class GameBuilder {
             1
     );
 
-
     public Game buildGame(Size3D worldSize) {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
         Player player = new Player();

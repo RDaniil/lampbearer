@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class Game {
 
-    public final World world;
-    public final Player player;
+    private final World world;
+    private final Player player;
 
     public Game(World world, Player player) {
         this.world = world;
