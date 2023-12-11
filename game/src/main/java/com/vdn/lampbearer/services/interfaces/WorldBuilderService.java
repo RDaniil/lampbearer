@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.services.interfaces;
 
-import com.vdn.lampbearer.game.World;
+import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Size3D;
 
 public interface WorldBuilderService {

@@ -2,6 +2,7 @@ package com.vdn.lampbearer.game.engine;
 
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
+import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Position3D;
@@ -10,15 +11,33 @@ import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.ArrayList;
 
-public class BasicEngine implements Engine {
+public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
 
     public void addEntity(AbstractEntity entity) {
         entities.add(entity);
+        if (entity instanceof Schedulable) {
+            addToSchedule((Schedulable) entity);
+        }
     }
 
     public void removeEntity(AbstractEntity entity) {
         entities.add(entity);
+        if (entity instanceof Schedulable) {
+            removeFromSchedule((Schedulable) entity);
+        }
+    }
+
+    private void addToSchedule(Schedulable schedulable) {
+        Scheduler.add(schedulable);
+    }
+
+    private void removeFromSchedule(Schedulable schedulable) {
+        Scheduler.remove(schedulable);
+    }
+
+    public Schedulable getNextSchedulable() {
+        return Scheduler.getNext();
     }
 
     @Override
@@ -29,10 +48,15 @@ public class BasicEngine implements Engine {
         Position3D newPosition;
         if (event instanceof KeyboardEvent) {
             if (isMovementEvent((KeyboardEvent) event)) {
-                //TODO: По идее передвижение и камера не должны тут обрабатываться
-                newPosition = getNewPosition((KeyboardEvent) event, currentPos);
-                if (gameContext.getWorld().moveEntity(player, newPosition)) {
-                    moveCamera(gameContext, currentPos, newPosition);
+                //TODO: Разделить действия на тратящие время и не тратящие
+                Schedulable nextSchedulable = getNextSchedulable();
+                if (nextSchedulable instanceof Player) {
+                    //TODO: По идее передвижение и камера не должны тут обрабатываться
+                    newPosition = getNewPosition((KeyboardEvent) event, currentPos);
+                    if (gameContext.getWorld().moveEntity(player, newPosition)) {
+                        moveCamera(gameContext, currentPos, newPosition);
+                    }
+                    addToSchedule(nextSchedulable);
                 }
             }
         }

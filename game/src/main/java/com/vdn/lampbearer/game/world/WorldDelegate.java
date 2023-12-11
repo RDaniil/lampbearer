@@ -1,5 +1,6 @@
-package com.vdn.lampbearer.game;
+package com.vdn.lampbearer.game.world;
 
+import com.vdn.lampbearer.game.GameBlock;
 import kotlin.jvm.functions.Function1;
 import lombok.Getter;
 import lombok.Setter;

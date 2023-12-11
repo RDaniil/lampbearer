@@ -1,8 +1,11 @@
-package com.vdn.lampbearer.game;
+package com.vdn.lampbearer.game.world;
 
 import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
-import com.vdn.lampbearer.game.engine.BasicEngine;
+import com.vdn.lampbearer.game.Game;
+import com.vdn.lampbearer.game.GameBlock;
+import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
+import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
@@ -21,7 +24,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
-        engine = new BasicEngine();
+        engine = new ScheduledEngine();
     }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {

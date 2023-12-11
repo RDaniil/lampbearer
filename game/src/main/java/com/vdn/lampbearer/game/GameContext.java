@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.game;
 
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.game.world.World;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
