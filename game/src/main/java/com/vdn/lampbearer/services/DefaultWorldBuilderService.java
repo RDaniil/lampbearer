@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.services;
 
 import com.vdn.lampbearer.factories.GameBlockFactory;
-import com.vdn.lampbearer.game.GameBlock;
 import com.vdn.lampbearer.game.world.World;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;

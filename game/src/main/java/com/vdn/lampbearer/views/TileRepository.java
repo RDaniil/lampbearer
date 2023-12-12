@@ -4,6 +4,9 @@ import com.vdn.lampbearer.constants.GameCharacterConstants;
 import com.vdn.lampbearer.constants.GameColorConstants;
 import org.hexworks.zircon.api.data.Tile;
 
+/**
+ * Репозиторий тайлов, возвращает созданные инстансы тайлов, чтобы не плодить миллион объектов
+ */
 public class TileRepository {
 
     public static final Tile PLAYER = Tile.newBuilder()

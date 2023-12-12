@@ -1,9 +1,12 @@
 package com.vdn.lampbearer.factories;
 
-import com.vdn.lampbearer.game.GameBlock;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.TileRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Фабрика игровых блоков
+ */
 @Service
 public class GameBlockFactory {
     public GameBlock createGround() {

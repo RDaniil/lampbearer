@@ -2,10 +2,10 @@ package com.vdn.lampbearer.game.world;
 
 import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
 import com.vdn.lampbearer.game.Game;
-import com.vdn.lampbearer.game.GameBlock;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;

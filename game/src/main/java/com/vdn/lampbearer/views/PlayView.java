@@ -20,6 +20,10 @@ import static com.vdn.lampbearer.config.GameConfig.WINDOW_WIDTH;
 import static org.hexworks.zircon.api.ComponentDecorations.box;
 import static org.hexworks.zircon.api.game.ProjectionMode.TOP_DOWN;
 
+/**
+ * UI класс, создает панели, отображаемые в терминале
+ * Обрабатывает события ввода (с клавиатуры\мышки)
+ */
 @Component
 public class PlayView extends BaseView {
 

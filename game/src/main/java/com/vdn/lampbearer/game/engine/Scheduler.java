@@ -16,7 +16,6 @@ public class Scheduler {
 
     public static void add(Schedulable schedulable) {
         int schedulableNextTime = currentTime + schedulable.getTime();
-        log.info("Added new schedulable {}", schedulableNextTime);
         if (!timeToSchedulable.containsKey(schedulableNextTime)) {
             timeToSchedulable.putIfAbsent(schedulableNextTime, new ArrayList<>());
         }
