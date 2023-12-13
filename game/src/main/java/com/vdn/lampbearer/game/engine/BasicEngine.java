@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.game.engine;
 
+import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
-import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Position3D;

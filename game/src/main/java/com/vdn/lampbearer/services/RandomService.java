@@ -1,7 +1,9 @@
 package com.vdn.lampbearer.services;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class RandomService {
     public static int getRandom(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 }

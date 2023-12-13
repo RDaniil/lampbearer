@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.entites.interfaces;
+package com.vdn.lampbearer.entites;
 
 import lombok.Getter;
 import lombok.Setter;

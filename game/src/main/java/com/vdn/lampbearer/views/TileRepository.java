@@ -26,4 +26,10 @@ public class TileRepository {
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
             .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
             .buildCharacterTile();
+
+    public static final Tile SIMPLE_ZOMBIE = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.SIMPLE_ZOMBIE)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.SIMPLE_ZOMBIE_COLOR)
+            .buildCharacterTile();
 }

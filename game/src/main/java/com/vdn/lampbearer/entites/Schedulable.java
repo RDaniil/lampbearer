@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.entites.interfaces;
+package com.vdn.lampbearer.entites;
 
 public interface Schedulable {
     int getTime();

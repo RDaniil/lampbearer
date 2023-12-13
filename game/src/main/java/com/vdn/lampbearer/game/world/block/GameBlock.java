@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.game.world.block;
 
-import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
+import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.views.TileRepository;
 import kotlin.Pair;
 import lombok.Getter;

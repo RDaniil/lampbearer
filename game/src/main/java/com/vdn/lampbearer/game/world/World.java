@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.game.world;
 
-import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
+import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;

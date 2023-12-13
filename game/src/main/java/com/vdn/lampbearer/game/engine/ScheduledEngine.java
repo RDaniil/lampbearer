@@ -1,8 +1,9 @@
 package com.vdn.lampbearer.game.engine;
 
+import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
-import com.vdn.lampbearer.entites.interfaces.AbstractEntity;
-import com.vdn.lampbearer.entites.interfaces.Schedulable;
+import com.vdn.lampbearer.entites.Schedulable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Position3D;
@@ -43,23 +44,35 @@ public class ScheduledEngine implements Engine {
     @Override
     public void executeTurn(GameContext gameContext) {
         var event = gameContext.getEvent();
-        Player player = gameContext.getPlayer();
-        var currentPos = player.getPosition();
-        Position3D newPosition;
+
         if (event instanceof KeyboardEvent) {
             if (isMovementEvent((KeyboardEvent) event)) {
-                //TODO: Разделить действия на тратящие время и не тратящие
+
                 Schedulable nextSchedulable = getNextSchedulable();
-                if (nextSchedulable instanceof Player) {
-                    //TODO: По идее передвижение и камера не должны тут обрабатываться
-                    newPosition = getNewPosition((KeyboardEvent) event, currentPos);
-                    if (gameContext.getWorld().moveEntity(player, newPosition)) {
-                        moveCamera(gameContext, currentPos, newPosition);
+
+                while (!(nextSchedulable instanceof Player)) {
+                    if (nextSchedulable instanceof Actor) {
+                        ((Actor) nextSchedulable).doAction(gameContext);
+                        addToSchedule(nextSchedulable);
                     }
-                    addToSchedule(nextSchedulable);
+                    nextSchedulable = getNextSchedulable();
                 }
+
+                //TODO: Разделить действия на тратящие время и не тратящие
+                //TODO: По идее передвижение и камера не должны тут обрабатываться
+                handlePlayerMovement(gameContext, (KeyboardEvent) event);
             }
         }
+    }
+
+    private void handlePlayerMovement(GameContext gameContext, KeyboardEvent event) {
+        Player player = gameContext.getPlayer();
+        var currentPos = player.getPosition();
+        var newPosition = getNewPosition(event, currentPos);
+        if (gameContext.getWorld().moveEntity(player, newPosition)) {
+            moveCamera(gameContext, currentPos, newPosition);
+        }
+        addToSchedule(player);
     }
 
     private void moveCamera(GameContext gameContext, Position3D previousPos, Position3D currentPos) {

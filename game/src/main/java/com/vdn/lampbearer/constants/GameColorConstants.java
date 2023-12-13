@@ -9,4 +9,5 @@ public class GameColorConstants {
     public static final TileColor WALL_BACKGROUND = TileColor.fromString("#3E3D32");
     public static final TileColor FLOOR_FOREGROUND = TileColor.fromString("#75715E");
     public static final TileColor FLOOR_BACKGROUND = TileColor.fromString("#1e2320");
+    public static final TileColor SIMPLE_ZOMBIE_COLOR = TileColor.fromString("#6F0A1F");
 }
