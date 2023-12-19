@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.game.engine;
 
+import com.vdn.lampbearer.actions.AttackAction;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
@@ -69,7 +70,12 @@ public class ScheduledEngine implements Engine {
         Player player = gameContext.getPlayer();
         var currentPos = player.getPosition();
         var newPosition = getNewPosition(event, currentPos);
-        if (gameContext.getWorld().moveEntity(player, newPosition)) {
+
+        var blockOccupier = gameContext.getWorld().getBlockOccupier(newPosition);
+        if (blockOccupier.isPresent()) {
+            new AttackAction().execute(player, blockOccupier.get(), gameContext);
+
+        } else if (gameContext.getWorld().moveEntity(player, newPosition)) {
             moveCamera(gameContext, currentPos, newPosition);
         }
         addToSchedule(player);

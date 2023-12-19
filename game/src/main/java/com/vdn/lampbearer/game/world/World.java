@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.game.world;
 
+import com.vdn.lampbearer.attributes.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameContext;
@@ -14,6 +15,7 @@ import org.hexworks.zircon.api.screen.Screen;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Содержит всю карту из блоков
@@ -36,6 +38,27 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         entity.setPosition(position3D);
         block.addEntity(entity);
         engine.addEntity(entity);
+    }
+
+    public void removeEntity(AbstractEntity entity, Position3D position3D) {
+        GameBlock block = fetchBlockAtOrElse(position3D,
+                (pos) -> {
+                    throw new IllegalArgumentException(String.format("Position %s does not contains any blocks", pos));
+                });
+
+        block.removeEntity(entity);
+        engine.removeEntity(entity);
+    }
+
+    public Optional<AbstractEntity> getBlockOccupier(Position3D position) {
+        GameBlock block = fetchBlockAtOrElse(position,
+                (pos) -> {
+                    throw new IllegalArgumentException(String.format("Position %s does not contains any blocks", pos));
+                });
+
+        return block.getEntities().stream()
+                .filter(entity -> entity.findAttribute(BlockOccupier.class).isPresent())
+                .findFirst();
     }
 
     public boolean moveEntity(AbstractEntity entity, Position3D position) {

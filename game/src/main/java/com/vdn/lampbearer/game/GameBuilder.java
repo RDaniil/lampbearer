@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.game;
 
+import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.game.world.World;
@@ -27,9 +28,9 @@ public class GameBuilder {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
         Player player = new Player();
         world.addEntity(player, Position3D.create(5, 5, 0));
-        world.addEntity(new SimpleZombie(10), Position3D.create(5, 6, 0));
-        world.addEntity(new SimpleZombie(14), Position3D.create(5, 7, 0));
-        world.addEntity(new SimpleZombie(3), Position3D.create(5, 4, 0));
+        world.addEntity(new SimpleZombie(new SpeedAttr(10)), Position3D.create(5, 6, 0));
+        world.addEntity(new SimpleZombie(new SpeedAttr(14)), Position3D.create(5, 7, 0));
+        world.addEntity(new SimpleZombie(new SpeedAttr(3)), Position3D.create(5, 4, 0));
         return new Game(world, player);
     }
 }
