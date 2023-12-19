@@ -53,7 +53,7 @@ public class PlayView extends BaseView {
         screen.addComponent(gameComponent);
 
         screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (event, uiEventPhase) -> {
-            game.getWorld().update(screen, event, game);
+            game.getWorld().update(screen, event, game, logArea);
             return Processed.INSTANCE;
         });
     }

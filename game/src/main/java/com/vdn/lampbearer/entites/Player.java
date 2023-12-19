@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Player extends AbstractEntity implements Schedulable {
     public Player() {
+        setName("Lampbearer");
         setTile(TileRepository.PLAYER);
         setAttributes(List.of(
                 new HealthAttr(10),

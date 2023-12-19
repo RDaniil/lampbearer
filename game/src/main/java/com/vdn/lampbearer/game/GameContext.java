@@ -5,6 +5,7 @@ import com.vdn.lampbearer.game.world.World;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.screen.Screen;
 import org.hexworks.zircon.api.uievent.UIEvent;
 
@@ -16,4 +17,5 @@ public class GameContext {
     Screen screen;
     UIEvent event;
     Player player;
+    LogArea logArea;
 }

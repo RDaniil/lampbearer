@@ -14,6 +14,7 @@ import java.util.List;
 public class SimpleZombie extends Actor implements Schedulable {
 
     public SimpleZombie(SpeedAttr speedAttr) {
+        setName("Zombie");
         setTile(TileRepository.SIMPLE_ZOMBIE);
         setAttributes(List.of(
                 new HealthAttr(20),

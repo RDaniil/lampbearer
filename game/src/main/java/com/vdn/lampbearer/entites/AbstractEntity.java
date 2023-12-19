@@ -12,6 +12,8 @@ import java.util.Optional;
 @Getter
 @Setter
 public abstract class AbstractEntity {
+    private String name;
+    private String description;
     private Tile tile;
     private Position3D position;
     private List<Attribute> attributes;
