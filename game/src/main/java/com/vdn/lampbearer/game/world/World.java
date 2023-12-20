@@ -7,6 +7,7 @@ import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
@@ -76,7 +77,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         return success;
     }
 
-    public void update(Screen screen, KeyboardEvent event, Game game) {
-        engine.executeTurn(new GameContext(this, screen, event, game.getPlayer()));
+    public void update(Screen screen, KeyboardEvent event, Game game, LogArea logArea) {
+        engine.executeTurn(new GameContext(this, screen, event, game.getPlayer(), logArea));
     }
 }
