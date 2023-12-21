@@ -24,13 +24,16 @@ public class SimpleZombie extends Actor implements Schedulable {
         ));
     }
 
+
     //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
     Behavior wanderBehavior = new WanderBehavior();
 
+
     @Override
     public void doAction(GameContext context) {
-        wanderBehavior.Act(this, context);
+        wanderBehavior.act(this, context);
     }
+
 
     @Override
     public int getTime() {
