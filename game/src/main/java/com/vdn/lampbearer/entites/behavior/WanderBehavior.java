@@ -12,8 +12,9 @@ public class WanderBehavior implements Behavior {
 
     MoveToAi moveToAi = new MoveToAi();
 
+
     @Override
-    public void Act(AbstractEntity entity, GameContext context) {
+    public void act(AbstractEntity entity, GameContext context) {
         selectRandomPositionInView(entity, context);
 //        if(!isMoving){
 //            selectRandomPositionInView(entity, context);
@@ -21,6 +22,7 @@ public class WanderBehavior implements Behavior {
 
         isMoving = moveToAi.execute(entity, positionToMoveTo, context);
     }
+
 
     private void selectRandomPositionInView(AbstractEntity entity, GameContext context) {
         positionToMoveTo = entity.getPosition()

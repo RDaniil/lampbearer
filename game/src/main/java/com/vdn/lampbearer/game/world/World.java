@@ -25,42 +25,54 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     private final Engine engine;
 
+
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
         engine = new ScheduledEngine();
     }
 
+
     public void addEntity(AbstractEntity entity, Position3D position3D) {
-        GameBlock block = fetchBlockAtOrElse(position3D,
-                (pos) -> {
-                    throw new IllegalArgumentException(String.format("Position %s does not contains any blocks", pos));
-                });
+        GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
+            throw new IllegalArgumentException(
+                    String.format("Position %s does not contains any blocks", pos)
+            );
+        });
 
         entity.setPosition(position3D);
         block.addEntity(entity);
         engine.addEntity(entity);
     }
 
+
     public void removeEntity(AbstractEntity entity, Position3D position3D) {
-        GameBlock block = fetchBlockAtOrElse(position3D,
-                (pos) -> {
-                    throw new IllegalArgumentException(String.format("Position %s does not contains any blocks", pos));
-                });
+        GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
+            throw new IllegalArgumentException(
+                    String.format("Position %s does not contains any blocks", pos)
+            );
+        });
 
         block.removeEntity(entity);
         engine.removeEntity(entity);
     }
 
-    public Optional<AbstractEntity> getBlockOccupier(Position3D position) {
-        GameBlock block = fetchBlockAtOrElse(position,
-                (pos) -> {
-                    throw new IllegalArgumentException(String.format("Position %s does not contains any blocks", pos));
-                });
 
-        return block.getEntities().stream()
-                .filter(entity -> entity.findAttribute(BlockOccupier.class).isPresent())
-                .findFirst();
+    public Optional<AbstractEntity> getBlockOccupier(Position3D position) {
+        try {
+            GameBlock block = fetchBlockAtOrElse(position, (pos) -> {
+                throw new IllegalArgumentException(
+                        String.format("Position %s does not contains any blocks", pos)
+                );
+            });
+
+            return block.getEntities().stream()
+                    .filter(entity -> entity.findAttribute(BlockOccupier.class).isPresent())
+                    .findFirst();
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
     }
+
 
     public boolean moveEntity(AbstractEntity entity, Position3D position) {
         var success = false;
@@ -76,6 +88,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
         return success;
     }
+
 
     public void update(Screen screen, KeyboardEvent event, Game game, LogArea logArea) {
         engine.executeTurn(new GameContext(this, screen, event, game.getPlayer(), logArea));
