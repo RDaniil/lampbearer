@@ -16,7 +16,7 @@ public class GameConfig {
 
     public static AppConfig getAppConfig() {
         return AppConfig.newBuilder()
-                .withDefaultTileset(CP437TilesetResources.rogueYun16x16())
+                .withDefaultTileset(CP437TilesetResources.raving16x16())
                 .withSize(WINDOW_WIDTH, WINDOW_HEIGHT)
                 .build();
     }

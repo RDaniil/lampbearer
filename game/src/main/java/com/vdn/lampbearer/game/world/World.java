@@ -93,4 +93,14 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     public void update(Screen screen, KeyboardEvent event, Game game, LogArea logArea) {
         engine.executeTurn(new GameContext(this, screen, event, game.getPlayer(), logArea));
     }
+
+
+    public boolean isBlockWalkable(Position3D position3D) {
+        GameBlock block = fetchBlockAtOrElse(position3D,
+                (pos) -> {
+                    throw new IllegalArgumentException(
+                            String.format("Position %s does not contains any blocks", pos));
+                });
+        return block.isWalkable();
+    }
 }

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GameBlockFactory {
+
     public GameBlock createGround() {
         //TODO енам с типами блоков? сюда передать
         GameBlock block = new GameBlock(TileRepository.GROUND);
         block.setWalkable(true);
+        block.setTransparent(true);
         return block;
     }
 
@@ -20,6 +22,15 @@ public class GameBlockFactory {
         //TODO енам с типами блоков? сюда передать
         GameBlock block = new GameBlock(TileRepository.GRASS);
         block.setWalkable(true);
+        block.setTransparent(true);
+        return block;
+    }
+
+
+    public GameBlock createRock() {
+        //TODO енам с типами блоков? сюда передать
+        GameBlock block = new GameBlock(TileRepository.ROCK);
+        block.setWalkable(false);
         return block;
     }
 }

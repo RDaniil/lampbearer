@@ -14,6 +14,13 @@ public class TileRepository {
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
             .withForegroundColor(GameColorConstants.PLAYER_COLOR)
             .buildCharacterTile();
+
+    public static final Tile ROCK = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.ROCK)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+
     public static Tile EMPTY = Tile.empty();
     public static Tile GROUND = Tile.newBuilder()
             .withCharacter(GameCharacterConstants.GROUND)

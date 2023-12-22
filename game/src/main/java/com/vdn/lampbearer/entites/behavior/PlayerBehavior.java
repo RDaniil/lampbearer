@@ -43,8 +43,12 @@ public class PlayerBehavior implements Behavior {
             return;
         }
 
-        if (context.getWorld().moveEntity(player, newPos))
-            moveCamera(context, currentPos, newPos);
+        if (context.getWorld().isBlockWalkable(newPos)) {
+            if (context.getWorld().moveEntity(player, newPos)) {
+                moveCamera(context, currentPos, newPos);
+            }
+        }
+        //TODO: В идеале не тратить ход, если упираемся в стену (или просто в лог писать)
     }
 
 
