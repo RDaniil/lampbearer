@@ -13,6 +13,10 @@ import java.util.List;
 
 public class SimpleZombie extends Actor implements Schedulable {
 
+    //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
+    private final Behavior wanderBehavior = new WanderBehavior();
+
+
     public SimpleZombie(SpeedAttr speedAttr) {
         setName("Zombie");
         setTile(TileRepository.SIMPLE_ZOMBIE);
@@ -23,10 +27,6 @@ public class SimpleZombie extends Actor implements Schedulable {
                 new BlockOccupier()
         ));
     }
-
-
-    //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
-    Behavior wanderBehavior = new WanderBehavior();
 
 
     @Override

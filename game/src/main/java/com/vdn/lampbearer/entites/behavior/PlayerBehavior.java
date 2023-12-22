@@ -1,5 +1,6 @@
-package com.vdn.lampbearer.game.engine;
+package com.vdn.lampbearer.entites.behavior;
 
+import com.vdn.lampbearer.actions.AttackAction;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
@@ -8,35 +9,44 @@ import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class BasicEngine implements Engine {
-    private final ArrayList<AbstractEntity> entities = new ArrayList<>();
+public class PlayerBehavior implements Behavior {
 
-    public void addEntity(AbstractEntity entity) {
-        entities.add(entity);
-    }
+    private static final Set<KeyCode> MOVEMENT_KEYS = new HashSet<>(
+            List.of(KeyCode.KEY_W, KeyCode.KEY_A, KeyCode.KEY_S, KeyCode.KEY_D)
+    );
 
-    public void removeEntity(AbstractEntity entity) {
-        entities.add(entity);
-    }
 
     @Override
-    public void executeTurn(GameContext gameContext) {
-        var event = gameContext.getEvent();
-        Player player = gameContext.getPlayer();
-        var currentPos = player.getPosition();
-        Position3D newPosition;
+    public void act(AbstractEntity entity, GameContext context) {
+        //TODO: Разделить действия на тратящие время и не тратящие
+        var event = context.getEvent();
         if (event instanceof KeyboardEvent) {
-            if (isMovementEvent((KeyboardEvent) event)) {
-                //TODO: По идее передвижение и камера не должны тут обрабатываться
-                newPosition = getNewPosition((KeyboardEvent) event, currentPos);
-                if (gameContext.getWorld().moveEntity(player, newPosition)) {
-                    moveCamera(gameContext, currentPos, newPosition);
-                }
+            if (isMovement((KeyboardEvent) event)) {
+                move(context, (KeyboardEvent) event);
             }
         }
     }
+
+
+    private void move(GameContext context, KeyboardEvent event) {
+        Player player = context.getPlayer();
+        var currentPos = player.getPosition();
+        var newPos = getNewPosition(event, currentPos);
+
+        var blockOccupier = context.getWorld().getBlockOccupier(newPos);
+        if (blockOccupier.isPresent()) {
+            new AttackAction().execute(player, blockOccupier.get(), context);
+            return;
+        }
+
+        if (context.getWorld().moveEntity(player, newPos))
+            moveCamera(context, currentPos, newPos);
+    }
+
 
     private void moveCamera(GameContext gameContext, Position3D previousPos, Position3D currentPos) {
         World world = gameContext.getWorld();
@@ -58,12 +68,6 @@ public class BasicEngine implements Engine {
         }
     }
 
-    private boolean isMovementEvent(KeyboardEvent event) {
-        return event.getCode() == KeyCode.KEY_W ||
-                event.getCode() == KeyCode.KEY_A ||
-                event.getCode() == KeyCode.KEY_S ||
-                event.getCode() == KeyCode.KEY_D;
-    }
 
     private static Position3D getNewPosition(KeyboardEvent event, Position3D currentPos) {
         Position3D newPosition;
@@ -84,6 +88,12 @@ public class BasicEngine implements Engine {
                 newPosition = currentPos;
                 break;
         }
+
         return newPosition;
+    }
+
+
+    public static boolean isMovement(KeyboardEvent event) {
+        return event != null && MOVEMENT_KEYS.contains(event.getCode());
     }
 }
