@@ -30,6 +30,7 @@ public class GameBlock extends BaseBlock<Tile> {
 
     private boolean isWalkable;
     private boolean isTransparent;
+
     private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
 
 

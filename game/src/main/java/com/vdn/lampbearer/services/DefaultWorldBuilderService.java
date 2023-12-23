@@ -19,12 +19,15 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
     private final GameBlockFactory gameBlockFactory;
     private final HashMap<Position3D, GameBlock> blocks = new HashMap<>();
 
+
     public World buildWorld(Size3D worldSize, Size3D visibleSize) {
         Iterator<Position3D> it = worldSize.fetchPositions().iterator();
         while (it.hasNext()) {
             Position3D pos = it.next();
-            if (RandomService.getRandom(0, 10) % 7 == 0) {
+            if (RandomService.getRandom(0, 20) % 4 == 0) {
                 blocks.put(pos, gameBlockFactory.createGrass());
+            } else if (RandomService.getRandom(0, 30) % 29 == 0) {
+                blocks.put(pos, gameBlockFactory.createRock());
             } else {
                 blocks.put(pos, gameBlockFactory.createGround());
             }
