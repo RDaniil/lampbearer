@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.entites;
 
+import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.BlockOccupier;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
@@ -24,14 +25,15 @@ public class SimpleZombie extends Actor implements Schedulable {
                 new HealthAttr(20),
                 new StrengthAttr(5),
                 speedAttr,
-                new BlockOccupier()
+                BlockOccupier.getInstance()
         ));
+        setActions(List.of(AttackAction.getInstance()));
     }
 
 
     @Override
-    public void doAction(GameContext context) {
-        wanderBehavior.act(this, context);
+    public boolean doAction(GameContext context) {
+        return wanderBehavior.act(this, context);
     }
 
 

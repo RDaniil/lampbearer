@@ -4,11 +4,13 @@ import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.Schedulable;
-import com.vdn.lampbearer.entites.behavior.PlayerBehavior;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.ArrayList;
+
+import static com.vdn.lampbearer.entites.behavior.PlayerBehavior.isInteraction;
+import static com.vdn.lampbearer.entites.behavior.PlayerBehavior.isMovement;
 
 public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
@@ -40,8 +42,8 @@ public class ScheduledEngine implements Engine {
     }
 
 
-    public Schedulable getNextSchedulable() {
-        return Scheduler.getNext();
+    public Schedulable peekNextSchedulable() {
+        return Scheduler.peek();
     }
 
 
@@ -50,16 +52,21 @@ public class ScheduledEngine implements Engine {
         var event = gameContext.getEvent();
 
         if (event instanceof KeyboardEvent) {
-            if (PlayerBehavior.isMovement((KeyboardEvent) event)) {
+            KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+            if (isMovement(keyboardEvent) || isInteraction(keyboardEvent)) {
 
-                Schedulable nextSchedulable = getNextSchedulable();
+                Schedulable nextSchedulable = peekNextSchedulable();
 
                 while (nextSchedulable instanceof Actor) {
-                    ((Actor) nextSchedulable).doAction(gameContext);
+                    boolean isActionDone = ((Actor) nextSchedulable).doAction(gameContext);
+                    if (!isActionDone && nextSchedulable instanceof Player) break;
+
+                    removeFromSchedule(nextSchedulable);
                     addToSchedule(nextSchedulable);
+
                     if (nextSchedulable instanceof Player) break;
 
-                    nextSchedulable = getNextSchedulable();
+                    nextSchedulable = peekNextSchedulable();
                 }
             }
         }

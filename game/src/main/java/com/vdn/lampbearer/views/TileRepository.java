@@ -41,6 +41,24 @@ public class TileRepository {
             .withForegroundColor(GameColorConstants.SIMPLE_ZOMBIE_COLOR)
             .buildCharacterTile();
 
+    public static Tile H_CLOSED_DOOR = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.H_WALL_THIN)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.DOOR_COLOR)
+            .buildCharacterTile();
+
+    public static Tile V_CLOSED_DOOR = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.V_WALL_THIN)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.DOOR_COLOR)
+            .buildCharacterTile();
+
+    public static Tile OPENED_DOOR = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.OPENED_DOOR)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.DOOR_COLOR)
+            .buildCharacterTile();
+
     public static final Tile UR_CORNER = Tile.newBuilder()
             .withCharacter(GameCharacterConstants.UR_CORNER)
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)

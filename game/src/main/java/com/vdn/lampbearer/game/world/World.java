@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.game.world;
 
+import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.Game;
@@ -7,6 +8,7 @@ import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.action.Action;
 import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
@@ -35,7 +37,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     public void addEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
             throw new IllegalArgumentException(
-                    String.format("Position %s does not contains any blocks", pos)
+                    String.format("Position %s does not contain any blocks", pos)
             );
         });
 
@@ -45,10 +47,21 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
+    public void updateBlockContent(Position3D position3D) {
+        GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
+            throw new IllegalArgumentException(
+                    String.format("Position %s does not contain any blocks", pos)
+            );
+        });
+
+        block.updateContent();
+    }
+
+
     public void removeEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
             throw new IllegalArgumentException(
-                    String.format("Position %s does not contains any blocks", pos)
+                    String.format("Position %s does not contain any blocks", pos)
             );
         });
 
@@ -57,16 +70,35 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public Optional<AbstractEntity> getBlockOccupier(Position3D position) {
+    public <T extends Attribute> Optional<AbstractEntity> getByAttribute(Position3D position,
+                                                                         Class<T> attributeType) {
         try {
             GameBlock block = fetchBlockAtOrElse(position, (pos) -> {
                 throw new IllegalArgumentException(
-                        String.format("Position %s does not contains any blocks", pos)
+                        String.format("Position %s does not contain any blocks", pos)
                 );
             });
 
             return block.getEntities().stream()
-                    .filter(entity -> entity.findAttribute(BlockOccupier.class).isPresent())
+                    .filter(entity -> entity.findAttribute(attributeType).isPresent())
+                    .findFirst();
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
+    }
+
+
+    public <T extends Action<?>> Optional<AbstractEntity> getByAction(Position3D position,
+                                                                      Class<T> actionType) {
+        try {
+            GameBlock block = fetchBlockAtOrElse(position, (pos) -> {
+                throw new IllegalArgumentException(
+                        String.format("Position %s does not contain any blocks", pos)
+                );
+            });
+
+            return block.getEntities().stream()
+                    .filter(entity -> entity.findAction(actionType).isPresent())
                     .findFirst();
         } catch (IllegalArgumentException e) {
             return Optional.empty();

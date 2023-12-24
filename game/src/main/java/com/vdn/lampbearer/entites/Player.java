@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.entites;
 
+import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.BlockOccupier;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
@@ -24,14 +25,15 @@ public class Player extends Actor implements Schedulable {
                 new HealthAttr(10),
                 new StrengthAttr(5),
                 new SpeedAttr(5),
-                new BlockOccupier()
+                BlockOccupier.getInstance()
         ));
+        setActions(List.of(AttackAction.getInstance()));
     }
 
 
     @Override
-    public void doAction(GameContext context) {
-        behavior.act(this, context);
+    public boolean doAction(GameContext context) {
+        return behavior.act(this, context);
     }
 
 
