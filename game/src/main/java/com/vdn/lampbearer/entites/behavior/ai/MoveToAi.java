@@ -20,6 +20,10 @@ public class MoveToAi implements Ai {
     }
 
     private boolean canMoveTo(Position3D position, Position3D param, World world) {
-        return true;
+        if (world.isBlockWalkable(param)) {
+            return true;
+        }
+        return false;
+
     }
 }
