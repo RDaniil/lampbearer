@@ -22,6 +22,7 @@ public class TileRepository {
             .buildCharacterTile();
 
     public static Tile EMPTY = Tile.empty();
+
     public static Tile GROUND = Tile.newBuilder()
             .withCharacter(GameCharacterConstants.GROUND)
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
@@ -38,5 +39,36 @@ public class TileRepository {
             .withCharacter(GameCharacterConstants.SIMPLE_ZOMBIE)
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
             .withForegroundColor(GameColorConstants.SIMPLE_ZOMBIE_COLOR)
+            .buildCharacterTile();
+
+    public static final Tile UR_CORNER = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.UR_CORNER)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+    public static final Tile BR_CORNER = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.BR_CORNER)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+    public static final Tile UL_CORNER = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.UL_CORNER)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+    public static final Tile BL_CORNER = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.BL_CORNER)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+    public static final Tile H_WALL_THICK = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.H_WALL_THICK)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
+            .buildCharacterTile();
+    public static final Tile V_WALL_THICK = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.V_WALL_THICK)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
             .buildCharacterTile();
 }
