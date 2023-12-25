@@ -24,13 +24,16 @@ public class GameBuilder {
             1
     );
 
+
     public Game buildGame(Size3D worldSize) {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
         Player player = new Player();
         world.addEntity(player, Position3D.create(5, 5, 0));
+
         world.addEntity(new SimpleZombie(new SpeedAttr(10)), Position3D.create(5, 6, 0));
         world.addEntity(new SimpleZombie(new SpeedAttr(14)), Position3D.create(5, 7, 0));
         world.addEntity(new SimpleZombie(new SpeedAttr(3)), Position3D.create(5, 4, 0));
+
         return new Game(world, player);
     }
 }

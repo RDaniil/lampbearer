@@ -4,5 +4,5 @@ import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
 
 public interface Behavior {
-    void act(AbstractEntity entity, GameContext context);
+    boolean act(AbstractEntity entity, GameContext context);
 }

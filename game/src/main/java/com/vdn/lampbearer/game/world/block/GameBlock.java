@@ -28,6 +28,7 @@ public class GameBlock extends BaseBlock<Tile> {
         super(tile, persistentMapOf(new Pair<>(BlockTileType.CONTENT, tile)));
     }
 
+
     private boolean isWalkable;
     private boolean isTransparent;
 
@@ -39,18 +40,22 @@ public class GameBlock extends BaseBlock<Tile> {
         updateContent();
     }
 
+
     public void removeEntity(AbstractEntity entity) {
         entities.remove(entity);
         updateContent();
     }
 
-    private void updateContent() {
-        List<Tile> tiles = entities.stream().map(AbstractEntity::getTile).collect(Collectors.toList());
+
+    public void updateContent() {
+        List<Tile> tiles = entities.stream()
+                .map(AbstractEntity::getTile)
+                .collect(Collectors.toList());
+
         Tile newContent = getEmptyTile();
         if (tiles.contains(TileRepository.PLAYER)) {
             newContent = TileRepository.PLAYER;
-        }
-        if (!tiles.isEmpty()) {
+        } else if (!tiles.isEmpty()) {
             newContent = tiles.get(0);
         }
 

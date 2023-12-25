@@ -15,13 +15,14 @@ public class WanderBehavior implements Behavior {
 
 
     @Override
-    public void act(AbstractEntity entity, GameContext context) {
+    public boolean act(AbstractEntity entity, GameContext context) {
         selectRandomPositionInView(entity, context);
 //        if(!isMoving){
 //            selectRandomPositionInView(entity, context);
 //        }
 
         isMoving = moveToAi.execute(entity, positionToMoveTo, context);
+        return true;
     }
 
 

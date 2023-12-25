@@ -11,42 +11,57 @@ import java.util.TreeMap;
 @Component
 @Slf4j
 public class Scheduler {
-    private static final TreeMap<Integer, List<Schedulable>> timeToSchedulable = new TreeMap<>();
+    private static final TreeMap<Integer, List<Schedulable>> timeToSchedulablesMap =
+            new TreeMap<>();
     private static int currentTime = 0;
 
+
     public static void add(Schedulable schedulable) {
-        int schedulableNextTime = currentTime + schedulable.getTime();
-        if (!timeToSchedulable.containsKey(schedulableNextTime)) {
-            timeToSchedulable.putIfAbsent(schedulableNextTime, new ArrayList<>());
-        }
-        timeToSchedulable.get(schedulableNextTime).add(schedulable);
+        int time = currentTime + schedulable.getTime();
+        List<Schedulable> schedulables = timeToSchedulablesMap
+                .putIfAbsent(time, new ArrayList<>() {{
+                    add(schedulable);
+                }});
+        if (schedulables != null) schedulables.add(schedulable);
     }
+
 
     public static void remove(Schedulable schedulable) {
         List<Integer> emptySchedules = new ArrayList<>();
-        for (var timeToSchedul : timeToSchedulable.entrySet()) {
-            List<Schedulable> schedulables = timeToSchedul.getValue();
+        for (var timeToSchedulables : timeToSchedulablesMap.entrySet()) {
+            List<Schedulable> schedulables = timeToSchedulables.getValue();
             schedulables.remove(schedulable);
 
             if (schedulables.isEmpty()) {
-                emptySchedules.add(timeToSchedul.getKey());
+                emptySchedules.add(timeToSchedulables.getKey());
             }
         }
 
         for (Integer emptyScheduleKey : emptySchedules) {
-            timeToSchedulable.remove(emptyScheduleKey);
+            timeToSchedulablesMap.remove(emptyScheduleKey);
         }
     }
 
-    public static Schedulable getNext() {
-        currentTime = timeToSchedulable.firstKey();
-        List<Schedulable> scheduledToCurrentTime = timeToSchedulable.get(currentTime);
+
+    /**
+     * Returns the first Schedulable
+     */
+    public static Schedulable peek() {
+        currentTime = timeToSchedulablesMap.firstKey();
+        List<Schedulable> scheduledToCurrentTime = timeToSchedulablesMap.get(currentTime);
         var schedulable = scheduledToCurrentTime.get(0);
-        if (schedulable != null) {
-            remove(schedulable);
-            return schedulable;
-        }
+        if (schedulable != null) return schedulable;
+
         throw new RuntimeException("Расписание сломалось, " + currentTime);
     }
 
+
+    /**
+     * Returns and removes first Schedulable
+     */
+    public static Schedulable poll() {
+        var schedulable = peek();
+        remove(schedulable);
+        return schedulable;
+    }
 }
