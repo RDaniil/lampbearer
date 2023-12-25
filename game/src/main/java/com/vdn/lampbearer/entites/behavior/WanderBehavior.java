@@ -3,6 +3,7 @@ package com.vdn.lampbearer.entites.behavior;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.behavior.ai.MoveToAi;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.services.RandomService;
 import org.hexworks.zircon.api.data.Position3D;
 
 public class WanderBehavior implements Behavior {
@@ -26,7 +27,7 @@ public class WanderBehavior implements Behavior {
 
     private void selectRandomPositionInView(AbstractEntity entity, GameContext context) {
         positionToMoveTo = entity.getPosition()
-                .withRelativeX(1)
-                .withRelativeY(0);
+                .withRelativeX(RandomService.getRandom(-1, 1))
+                .withRelativeY(RandomService.getRandom(-1, 1));
     }
 }

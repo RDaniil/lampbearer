@@ -96,11 +96,16 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
 
     public boolean isBlockWalkable(Position3D position3D) {
-        GameBlock block = fetchBlockAtOrElse(position3D,
-                (pos) -> {
-                    throw new IllegalArgumentException(
-                            String.format("Position %s does not contains any blocks", pos));
-                });
-        return block.isWalkable();
+        try {
+            GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
+                throw new IllegalArgumentException(
+                        String.format("Position %s does not contains any blocks", pos)
+                );
+            });
+
+            return block.isWalkable();
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
