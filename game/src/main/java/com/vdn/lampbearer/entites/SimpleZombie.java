@@ -1,22 +1,25 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.AttackAction;
-import com.vdn.lampbearer.attributes.BlockOccupier;
+import com.vdn.lampbearer.action.AttackingAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
+import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
-import com.vdn.lampbearer.entites.behavior.Behavior;
-import com.vdn.lampbearer.entites.behavior.WanderBehavior;
+import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
+import com.vdn.lampbearer.entites.behavior.ai.LinearAi;
+import com.vdn.lampbearer.entites.behavior.npc.AttackingBehavior;
+import com.vdn.lampbearer.entites.behavior.npc.ChasingBehavior;
+import com.vdn.lampbearer.entites.behavior.npc.NonPlayerCharacterBehavior;
+import com.vdn.lampbearer.entites.behavior.npc.WanderingBehavior;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.TileRepository;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class SimpleZombie extends Actor implements Schedulable {
-
-    //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
-    private final Behavior wanderBehavior = new WanderBehavior();
-
+public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
 
     public SimpleZombie(SpeedAttr speedAttr) {
         setName("Zombie");
@@ -24,16 +27,47 @@ public class SimpleZombie extends Actor implements Schedulable {
         setAttributes(List.of(
                 new HealthAttr(20),
                 new StrengthAttr(5),
+                new PerceptionAttr(8),
                 speedAttr,
-                BlockOccupier.getInstance()
+                StaticBlockOccupier.getInstance()
         ));
-        setActions(List.of(AttackAction.getInstance()));
+        setActions(List.of(AttackingAction.getInstance()));
+
+        behaviors.add(new AttackingBehavior(LinearAi.getInstance()));
+        behaviors.add(new ChasingBehavior(LinearAi.getInstance()));
+        behaviors.add(new WanderingBehavior(LinearAi.getInstance()));
     }
 
 
     @Override
-    public boolean doAction(GameContext context) {
-        return wanderBehavior.act(this, context);
+    public boolean makeAction(GameContext context) {
+        for (NonPlayerCharacterBehavior behavior : behaviors) {
+            if (behavior.isApplicable(this, context))
+                return behavior.act(this, context);
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean isStuck(GameContext context) {
+        List<GameBlock> blocks = getSurroundingPositions().stream()
+                .map(context.getWorld()::fetchBlockAtOrNull).filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        for (GameBlock block : blocks) {
+            if (!block.isWalkable()) continue;
+            if (block.getEntities().isEmpty()) return false;
+
+            for (AbstractEntity entity : block.getEntities()) {
+                if (entity.findAttribute(StaticBlockOccupier.class).isEmpty() ||
+                        entity instanceof Player &&
+                                entity.findAction(AttackingAction.class).isPresent())
+                    return false;
+            }
+        }
+
+        return true;
     }
 
 

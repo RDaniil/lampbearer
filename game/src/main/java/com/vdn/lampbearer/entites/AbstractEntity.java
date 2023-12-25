@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.action.Action;
+import com.vdn.lampbearer.attributes.Attribute;
 import lombok.Getter;
 import lombok.Setter;
 import org.hexworks.zircon.api.data.Position3D;
@@ -17,7 +17,7 @@ public abstract class AbstractEntity {
     private String name;
     private String description;
     private Tile tile;
-    private Position3D position;
+    protected Position3D position;
     private List<Attribute> attributes = new ArrayList<>();
     private List<Action<?>> actions = new ArrayList<>();
 

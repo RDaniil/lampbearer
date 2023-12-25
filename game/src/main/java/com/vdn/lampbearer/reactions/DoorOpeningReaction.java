@@ -2,7 +2,7 @@ package com.vdn.lampbearer.reactions;
 
 import com.vdn.lampbearer.action.interaction.DoorClosingAction;
 import com.vdn.lampbearer.action.interaction.DoorOpeningAction;
-import com.vdn.lampbearer.attributes.BlockOccupier;
+import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.TileRepository;
