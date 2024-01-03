@@ -5,13 +5,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AttackingAction implements Action<AttackingReaction> {
+public class AttackAction implements Action<AttackingReaction> {
 
-    private static AttackingAction INSTANCE;
+    private static AttackAction INSTANCE;
 
 
-    public static AttackingAction getInstance() {
-        return INSTANCE != null ? INSTANCE : (INSTANCE = new AttackingAction());
+    public static AttackAction getInstance() {
+        return INSTANCE != null ? INSTANCE : (INSTANCE = new AttackAction());
     }
 
 

@@ -1,8 +1,8 @@
-package com.vdn.lampbearer.entites.behavior.npc;
+package com.vdn.lampbearer.entites.behavior.npc.general;
 
 import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
-import com.vdn.lampbearer.entites.behavior.ai.Ai;
+import com.vdn.lampbearer.entites.behavior.ai.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
 
@@ -12,11 +12,12 @@ import static com.vdn.lampbearer.services.RandomService.getRandom;
  * A wandering behavior of NPC
  */
 public class WanderingBehavior extends NonPlayerCharacterBehavior {
+    private final MovementAi movementAi;
     protected Position3D positionToMoveTo;
 
 
-    public WanderingBehavior(Ai ai) {
-        super(ai);
+    public WanderingBehavior(MovementAi ai) {
+        this.movementAi = ai;
     }
 
 
@@ -24,7 +25,7 @@ public class WanderingBehavior extends NonPlayerCharacterBehavior {
     public boolean act(NonPlayerCharacter npc, GameContext context) {
         if (npc.isStuck(context)) return true;
 
-        while (positionToMoveTo == null || !ai.move(npc, positionToMoveTo, context)) {
+        while (positionToMoveTo == null || !movementAi.move(npc, positionToMoveTo, context)) {
             positionToMoveTo = getRandomPositionInView(npc);
         }
 

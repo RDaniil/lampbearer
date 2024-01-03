@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.reactions;
 
-import com.vdn.lampbearer.action.AttackingAction;
+import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -15,13 +15,19 @@ public class AttackingReaction implements Reaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        if (target.findAction(AttackingAction.class).isEmpty()) return false;
+        if (target.findAction(AttackAction.class).isEmpty()) return false;
 
         Optional<StrengthAttr> strengthAttr = initiator.findAttribute(StrengthAttr.class);
         if (strengthAttr.isEmpty()) return false;
 
         HealthAttr healthAttr = target.findAttribute(HealthAttr.class).get();
         int remainingHealth = healthAttr.reduceHealth(strengthAttr.get().getValue());
+        log.info(String.format("%s's attacked %s for %d damage",
+                initiator.getName(),
+                target.getName(),
+                strengthAttr.get().getValue()
+        ));
+
         context.getLogArea().addParagraph(
                 String.format(
                         "%s's attacked %s for %d damage",

@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.reactions;
 
-import com.vdn.lampbearer.action.interaction.DoorClosingAction;
-import com.vdn.lampbearer.action.interaction.DoorOpeningAction;
+import com.vdn.lampbearer.action.interaction.DoorCloseAction;
+import com.vdn.lampbearer.action.interaction.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -14,13 +14,13 @@ public class DoorClosingReaction implements Reaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        if (target.findAction(DoorClosingAction.class).isEmpty()) return false;
+        if (target.findAction(DoorCloseAction.class).isEmpty()) return false;
 
         boolean isVertical = target.findAttribute(VerticalArrangement.class).isPresent();
         target.setTile(isVertical ? TileRepository.V_CLOSED_DOOR : TileRepository.H_CLOSED_DOOR);
         target.getAttributes().add(DynamicBlockOccupier.getInstance());
-        target.removeAction(DoorClosingAction.class);
-        target.getActions().add(DoorOpeningAction.getInstance());
+        target.removeAction(DoorCloseAction.class);
+        target.getActions().add(DoorOpenAction.getInstance());
         context.getWorld().updateBlockContent(target.getPosition());
 
         context.getLogArea()

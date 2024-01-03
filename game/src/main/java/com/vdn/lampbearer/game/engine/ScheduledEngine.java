@@ -4,14 +4,15 @@ import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.Schedulable;
+import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.game.GameContext;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.ArrayList;
 
-import static com.vdn.lampbearer.entites.behavior.player.PlayerBehavior.isInteraction;
-import static com.vdn.lampbearer.entites.behavior.player.PlayerBehavior.isMovement;
-
+@Slf4j
 public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
 
@@ -47,23 +48,25 @@ public class ScheduledEngine implements Engine {
     }
 
 
+    @SneakyThrows
     @Override
     public void executeTurn(GameContext gameContext) {
         var event = gameContext.getEvent();
 
         if (event instanceof KeyboardEvent) {
             KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-            if (isMovement(keyboardEvent) || isInteraction(keyboardEvent)) {
+            if (PlayerBehavior.isValidEvent(keyboardEvent)) {
 
                 Schedulable nextSchedulable = peekNextSchedulable();
 
                 while (nextSchedulable instanceof Actor) {
                     boolean isActionDone = ((Actor) nextSchedulable).makeAction(gameContext);
+                    Thread.sleep(55);
+                    log.info(nextSchedulable + " makes a move");
                     if (!isActionDone && nextSchedulable instanceof Player) break;
 
                     removeFromSchedule(nextSchedulable);
                     addToSchedule(nextSchedulable);
-
                     if (nextSchedulable instanceof Player) break;
 
                     nextSchedulable = peekNextSchedulable();

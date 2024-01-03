@@ -1,7 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.Action;
-import com.vdn.lampbearer.action.AttackingAction;
+import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.action.interaction.Interaction;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -9,7 +8,6 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
-import com.vdn.lampbearer.reactions.AttackingReaction;
 import com.vdn.lampbearer.reactions.Reaction;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
@@ -24,6 +22,15 @@ public class PlayerBehavior extends Behavior<Player> {
     );
 
     private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
+    private static final KeyCode WAITING_KEY = KeyCode.SPACE;
+
+
+    public static boolean isValidEvent(KeyboardEvent keyboardEvent) {
+        //TODO: Нерасширяемое
+        return isMovement(keyboardEvent)
+                || isInteraction(keyboardEvent)
+                || isWaiting(keyboardEvent);
+    }
 
 
     @Override
@@ -37,6 +44,7 @@ public class PlayerBehavior extends Behavior<Player> {
             KeyboardEvent keyboardEvent = (KeyboardEvent) event;
             if (isMovement(keyboardEvent)) return move(context, keyboardEvent);
             if (isInteraction(keyboardEvent)) return interact(context);
+            if (isWaiting(keyboardEvent)) return true;
 
             return false;
         }
@@ -68,20 +76,20 @@ public class PlayerBehavior extends Behavior<Player> {
 
         if (target == null) throw new RuntimeException("No target's been found!");
 
-        Reaction reaction = getReactionToInteraction(target.getActions());
+        Reaction reaction = getReactionToInteraction(target);
         if (reaction == null) return false;
 
         return reaction.execute(player, target, context);
     }
 
 
-    private static Reaction getReactionToInteraction(List<Action<?>> actions) {
-        Optional<Action<?>> action = actions.stream()
-                .filter(Interaction.class::isInstance).findFirst();
-        if (action.isEmpty()) throw new RuntimeException("No interaction's been found!");
+    private static Reaction getReactionToInteraction(AbstractEntity target) {
+        var interactionAction = target.findAction(Interaction.class);
+
+        if (interactionAction.isEmpty()) throw new RuntimeException("No interaction's been found!");
 
         try {
-            return action.get().createReaction();
+            return interactionAction.get().createReaction();
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
@@ -126,10 +134,7 @@ public class PlayerBehavior extends Behavior<Player> {
         if (blockOccupier.isPresent()) {
             AbstractEntity target = blockOccupier.get();
 
-            if (target.findAction(AttackingAction.class).isPresent())
-                return new AttackingReaction().execute(player, target, context);
-
-            return false;
+            return tryAttack(player, target, context);
         }
 
         if (context.getWorld().isBlockWalkable(newPos)) {
@@ -140,6 +145,19 @@ public class PlayerBehavior extends Behavior<Player> {
         }
 
         return false;
+    }
+
+
+    private boolean tryAttack(Player player, AbstractEntity target, GameContext context) {
+        Optional<AttackAction> attackAction = target.findAction(AttackAction.class);
+        if (attackAction.isPresent()) {
+            try {
+                return attackAction.get().createReaction().execute(player, target, context);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 
 
@@ -191,5 +209,10 @@ public class PlayerBehavior extends Behavior<Player> {
 
     public static boolean isInteraction(KeyboardEvent event) {
         return event != null && INTERACTION_KEY.equals(event.getCode());
+    }
+
+
+    private static boolean isWaiting(KeyboardEvent event) {
+        return event != null && WAITING_KEY.equals(event.getCode());
     }
 }

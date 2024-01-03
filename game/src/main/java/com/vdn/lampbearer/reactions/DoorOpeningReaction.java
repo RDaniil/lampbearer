@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.reactions;
 
-import com.vdn.lampbearer.action.interaction.DoorClosingAction;
-import com.vdn.lampbearer.action.interaction.DoorOpeningAction;
+import com.vdn.lampbearer.action.interaction.DoorCloseAction;
+import com.vdn.lampbearer.action.interaction.DoorOpenAction;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
@@ -13,12 +13,12 @@ public class DoorOpeningReaction implements Reaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        if (target.findAction(DoorOpeningAction.class).isEmpty()) return false;
+        if (target.findAction(DoorOpenAction.class).isEmpty()) return false;
 
         target.setTile(TileRepository.OPENED_DOOR);
         target.removeAttribute(BlockOccupier.class);
-        target.removeAction(DoorOpeningAction.class);
-        target.getActions().add(DoorClosingAction.getInstance());
+        target.removeAction(DoorOpenAction.class);
+        target.getActions().add(DoorCloseAction.getInstance());
         context.getWorld().updateBlockContent(target.getPosition());
 
         context.getLogArea()

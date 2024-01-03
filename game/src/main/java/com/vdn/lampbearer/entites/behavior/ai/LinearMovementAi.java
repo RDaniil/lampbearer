@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
  * Bresenham's line algorithm
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LinearAi extends Ai {
+public class LinearMovementAi extends MovementAi {
 
-    private static LinearAi INSTANCE;
+    private static LinearMovementAi INSTANCE;
 
 
-    public static LinearAi getInstance() {
-        return INSTANCE != null ? INSTANCE : (INSTANCE = new LinearAi());
+    public static LinearMovementAi getInstance() {
+        return INSTANCE != null ? INSTANCE : (INSTANCE = new LinearMovementAi());
     }
 
 

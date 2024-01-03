@@ -1,11 +1,13 @@
 package com.vdn.lampbearer.entites;
 
+import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An actor who can make some actions
@@ -18,6 +20,16 @@ public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
 
     private final List<Position3D> surroundingPositions = new ArrayList<>();
 
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName()).append(" ");
+        Optional<SpeedAttr> attribute = findAttribute(SpeedAttr.class);
+        attribute.ifPresent(speedAttr -> sb.append("Speed is: ").append(speedAttr.getValue()));
+        attribute.ifPresent(speedAttr -> sb.append(", pos is: ").append(getPosition()));
+        return sb.toString();
+    }
 
     /**
      * Makes an action

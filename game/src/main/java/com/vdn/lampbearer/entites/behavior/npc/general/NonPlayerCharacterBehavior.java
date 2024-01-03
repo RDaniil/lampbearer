@@ -1,21 +1,13 @@
-package com.vdn.lampbearer.entites.behavior.npc;
+package com.vdn.lampbearer.entites.behavior.npc.general;
 
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.Behavior;
-import com.vdn.lampbearer.entites.behavior.ai.Ai;
 import com.vdn.lampbearer.game.GameContext;
 
 /**
  * A behavior of NPC
  */
 public abstract class NonPlayerCharacterBehavior extends Behavior<NonPlayerCharacter> {
-
-    protected final Ai ai;
-
-
-    public NonPlayerCharacterBehavior(Ai ai) {
-        this.ai = ai;
-    }
 
 
     /**

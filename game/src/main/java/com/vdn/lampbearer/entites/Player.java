@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.AttackingAction;
+import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
@@ -30,12 +30,12 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setName("Lampbearer");
         setTile(TileRepository.PLAYER);
         setAttributes(List.of(
-                new HealthAttr(10),
+                new HealthAttr(100),
                 new StrengthAttr(5),
                 new SpeedAttr(5),
                 StaticBlockOccupier.getInstance()
         ));
-        setActions(List.of(AttackingAction.getInstance()));
+        setActions(List.of(AttackAction.getInstance()));
     }
 
 
@@ -57,7 +57,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
             for (AbstractEntity entity : block.getEntities()) {
                 if (entity.findAttribute(StaticBlockOccupier.class).isEmpty() ||
-                        entity.findAction(AttackingAction.class).isPresent())
+                        entity.findAction(AttackAction.class).isPresent())
                     return false;
             }
         }
