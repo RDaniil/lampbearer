@@ -16,4 +16,5 @@ public class GameCharacterConstants {
     public static final char BL_CORNER = '╚';
     public static final char V_WALL_THICK = '║';
     public static final char H_WALL_THICK = '═';
+    public static final char FIRST_AID_KIT = '┼';
 }

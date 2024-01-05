@@ -2,10 +2,12 @@ package com.vdn.lampbearer.entites;
 
 import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
+import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
+import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.TileRepository;
@@ -29,11 +31,17 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
     public Player() {
         setName("Lampbearer");
         setTile(TileRepository.PLAYER);
+        InventoryAttr inventoryAttr = new InventoryAttr();
+        inventoryAttr.putItem(new FirstAidKit());
+        inventoryAttr.putItem(new FirstAidKit());
+        inventoryAttr.putItem(new FirstAidKit());
+
         setAttributes(List.of(
                 new HealthAttr(100),
                 new StrengthAttr(5),
                 new SpeedAttr(5),
-                StaticBlockOccupier.getInstance()
+                StaticBlockOccupier.getInstance(),
+                inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
     }

@@ -4,10 +4,13 @@ import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameBuilder;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.GameComponents;
 import org.hexworks.zircon.api.component.ComponentAlignment;
 import org.hexworks.zircon.api.component.LogArea;
+import org.hexworks.zircon.api.component.Panel;
 import org.hexworks.zircon.api.component.renderer.ComponentRenderer;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.grid.TileGrid;
@@ -26,21 +29,25 @@ import static org.hexworks.zircon.api.game.ProjectionMode.TOP_DOWN;
  */
 @Component
 @Getter
+@Slf4j
 public class PlayView extends BaseView {
 
     public final Game game;
     private final LogArea logArea;
+    private final Panel sidePanel;
 
 
+    @SneakyThrows
     public PlayView(@NotNull TileGrid playViewTileGrid, GameBuilder gameBuilder) {
         super(playViewTileGrid, GameConfig.THEME);
         this.game = gameBuilder.buildGame(Size3D.create(100, 100, 1));
 
         var screen = getScreen();
-        var panel = Components.panel()
+        this.sidePanel = Components.panel()
                 .withPreferredSize(SIDEBAR_WIDTH, GameConfig.SIDEBAR_HEIGHT)
                 .withDecorations(box())
                 .build();
+
         this.logArea = Components.logArea()
                 .withDecorations(box())
                 .withPreferredSize(WINDOW_WIDTH - SIDEBAR_WIDTH, GameConfig.LOG_AREA_HEIGHT)
@@ -53,7 +60,7 @@ public class PlayView extends BaseView {
                 .withAlignmentWithin(screen, ComponentAlignment.TOP_RIGHT)
                 .build();
 
-        screen.addComponent(panel);
+        screen.addComponent(sidePanel);
         screen.addComponent(logArea);
         screen.addComponent(gameComponent);
     }
