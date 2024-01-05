@@ -12,7 +12,7 @@ public class GameConfig {
     public static final int WINDOW_HEIGHT = 50;
     public static final int SIDEBAR_WIDTH = 20;
     public static final int SIDEBAR_HEIGHT = 50;
-    public static final int LOG_AREA_HEIGHT = 5;
+    public static final int LOG_AREA_HEIGHT = 10;
 
     public static AppConfig getAppConfig() {
         return AppConfig.newBuilder()

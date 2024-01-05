@@ -89,4 +89,10 @@ public class TileRepository {
             .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
             .withForegroundColor(GameColorConstants.FLOOR_FOREGROUND)
             .buildCharacterTile();
+
+    public static Tile FIRST_AID_KIT = Tile.newBuilder()
+            .withCharacter(GameCharacterConstants.FIRST_AID_KIT)
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.FIRST_AID_KIT)
+            .buildCharacterTile();
 }

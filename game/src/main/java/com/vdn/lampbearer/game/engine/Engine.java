@@ -9,4 +9,6 @@ public interface Engine {
     void removeEntity(AbstractEntity entity);
 
     void executeTurn(GameContext gameContext);
+
+    void updateUI(GameContext gameContext);
 }

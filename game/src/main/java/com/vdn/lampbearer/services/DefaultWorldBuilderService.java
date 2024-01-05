@@ -43,6 +43,7 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
                 blocks.put(pos, gameBlockFactory.createGround());
             }
         }
+
         Map<Position3D, GameBlock> building = null;
         try {
             building = getBuilding(Position3D.create(10, 10, 0));

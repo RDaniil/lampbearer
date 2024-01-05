@@ -1,11 +1,13 @@
 package com.vdn.lampbearer.game.engine;
 
+import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.Schedulable;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.views.fragments.InventoryFragment;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
@@ -61,7 +63,7 @@ public class ScheduledEngine implements Engine {
 
                 while (nextSchedulable instanceof Actor) {
                     boolean isActionDone = ((Actor) nextSchedulable).makeAction(gameContext);
-                    Thread.sleep(55);
+                    Thread.sleep(20);
                     log.info(nextSchedulable + " makes a move");
                     if (!isActionDone && nextSchedulable instanceof Player) break;
 
@@ -73,5 +75,15 @@ public class ScheduledEngine implements Engine {
                 }
             }
         }
+    }
+
+
+    @Override
+    public void updateUI(GameContext gameContext) {
+        gameContext.getSidePanel().detachAllComponents();
+        gameContext.getSidePanel().addFragment(
+                new InventoryFragment(
+                        gameContext.getPlayer().findAttribute(InventoryAttr.class).get())
+        );
     }
 }

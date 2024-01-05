@@ -5,6 +5,7 @@ import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.entites.Door;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
+import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class GameBuilder {
         world.addEntity(new SimpleZombie(new SpeedAttr(2)), Position3D.create(5, 4, 0));
         world.addEntity(new Door(VerticalArrangement.getInstance()), Position3D.create(10, 12, 0));
 
+        world.addEntity(new FirstAidKit(), Position3D.create(5, 4, 0));
         return new Game(world, player);
     }
 }
