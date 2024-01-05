@@ -13,9 +13,9 @@ import org.hexworks.zircon.api.uievent.UIEvent;
 @Setter
 @AllArgsConstructor
 public class GameContext {
-    World world;
-    Screen screen;
-    UIEvent event;
-    Player player;
-    LogArea logArea;
+    private World world;
+    private Screen screen;
+    private UIEvent event;
+    private Player player;
+    private LogArea logArea;
 }

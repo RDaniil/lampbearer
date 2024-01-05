@@ -5,13 +5,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DoorOpeningAction implements Interaction<DoorOpeningReaction> {
+public class DoorOpenAction implements Interaction<DoorOpeningReaction> {
 
-    private static DoorOpeningAction INSTANCE;
+    private static DoorOpenAction INSTANCE;
 
 
-    public static DoorOpeningAction getInstance() {
-        return INSTANCE != null ? INSTANCE : (INSTANCE = new DoorOpeningAction());
+    public static DoorOpenAction getInstance() {
+        return INSTANCE != null ? INSTANCE : (INSTANCE = new DoorOpenAction());
     }
 
 

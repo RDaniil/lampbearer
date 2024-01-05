@@ -1,11 +1,11 @@
 package com.vdn.lampbearer.action;
 
-import com.vdn.lampbearer.reactions.AttackReaction;
+import com.vdn.lampbearer.reactions.AttackingReaction;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AttackAction implements Action<AttackReaction> {
+public class AttackAction implements Action<AttackingReaction> {
 
     private static AttackAction INSTANCE;
 
@@ -16,7 +16,7 @@ public class AttackAction implements Action<AttackReaction> {
 
 
     @Override
-    public Class<AttackReaction> getReactionClass() {
-        return AttackReaction.class;
+    public Class<AttackingReaction> getReactionClass() {
+        return AttackingReaction.class;
     }
 }

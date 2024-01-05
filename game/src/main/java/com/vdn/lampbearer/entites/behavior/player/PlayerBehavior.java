@@ -1,14 +1,13 @@
-package com.vdn.lampbearer.entites.behavior;
+package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.action.interaction.Interaction;
-import com.vdn.lampbearer.attributes.BlockOccupier;
+import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
-import com.vdn.lampbearer.reactions.AttackReaction;
 import com.vdn.lampbearer.reactions.Reaction;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
@@ -16,23 +15,36 @@ import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.*;
 
-public class PlayerBehavior implements Behavior {
+public class PlayerBehavior extends Behavior<Player> {
 
     private static final Set<KeyCode> MOVEMENT_KEYS = new HashSet<>(
             List.of(KeyCode.KEY_W, KeyCode.KEY_A, KeyCode.KEY_S, KeyCode.KEY_D)
     );
 
     private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
+    private static final KeyCode WAITING_KEY = KeyCode.SPACE;
+
+
+    public static boolean isValidEvent(KeyboardEvent keyboardEvent) {
+        //TODO: Нерасширяемое
+        return isMovement(keyboardEvent)
+                || isInteraction(keyboardEvent)
+                || isWaiting(keyboardEvent);
+    }
 
 
     @Override
-    public boolean act(AbstractEntity entity, GameContext context) {
+    public boolean act(Player player, GameContext context) {
         //TODO: Разделить действия на тратящие время и не тратящие
         var event = context.getEvent();
         if (event instanceof KeyboardEvent) {
+            if (player.isStuck(context))
+                throw new RuntimeException(String.format("%s is stuck!", player.getName()));
+
             KeyboardEvent keyboardEvent = (KeyboardEvent) event;
             if (isMovement(keyboardEvent)) return move(context, keyboardEvent);
             if (isInteraction(keyboardEvent)) return interact(context);
+            if (isWaiting(keyboardEvent)) return true;
 
             return false;
         }
@@ -49,10 +61,9 @@ public class PlayerBehavior implements Behavior {
      */
     private boolean interact(GameContext context) {
         Player player = context.getPlayer();
-        var currentPos = player.getPosition();
 
         Map<KeyCode, AbstractEntity> keyToInteractableMap =
-                getKeyToInteractableMap(context, currentPos);
+                getKeyToInteractableMap(player, context);
         if (keyToInteractableMap.isEmpty()) return false;
 
         AbstractEntity target = null;
@@ -65,20 +76,20 @@ public class PlayerBehavior implements Behavior {
 
         if (target == null) throw new RuntimeException("No target's been found!");
 
-        Reaction reaction = getReactionToInteraction(target.getActions());
+        Reaction reaction = getReactionToInteraction(target);
         if (reaction == null) return false;
 
         return reaction.execute(player, target, context);
     }
 
 
-    private static Reaction getReactionToInteraction(List<Action<?>> actions) {
-        Optional<Action<?>> action = actions.stream()
-                .filter(Interaction.class::isInstance).findFirst();
-        if (action.isEmpty()) throw new RuntimeException("No interaction's been found!");
+    private static Reaction getReactionToInteraction(AbstractEntity target) {
+        var interactionAction = target.findAction(Interaction.class);
+
+        if (interactionAction.isEmpty()) throw new RuntimeException("No interaction's been found!");
 
         try {
-            return action.get().createReaction();
+            return interactionAction.get().createReaction();
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
@@ -86,17 +97,13 @@ public class PlayerBehavior implements Behavior {
 
 
     /**
-     * @param context  GameContext
-     * @param position player's position
+     * @param player  Player
+     * @param context GameContext
      * @return map of surrounding objects which player can interact with, max 4 objects
      */
-    private Map<KeyCode, AbstractEntity> getKeyToInteractableMap(GameContext context,
-                                                                 Position3D position) {
-        Map<KeyCode, Position3D> keyToPositionMap = new HashMap<>();
-        keyToPositionMap.put(KeyCode.KEY_W, position.withRelativeY(-1));
-        keyToPositionMap.put(KeyCode.KEY_A, position.withRelativeX(-1));
-        keyToPositionMap.put(KeyCode.KEY_S, position.withRelativeY(1));
-        keyToPositionMap.put(KeyCode.KEY_D, position.withRelativeX(1));
+    private Map<KeyCode, AbstractEntity> getKeyToInteractableMap(Player player,
+                                                                 GameContext context) {
+        Map<KeyCode, Position3D> keyToPositionMap = player.getKeyToSurroundingPositionMap();
 
         Map<KeyCode, AbstractEntity> keyToInteractableMap = new HashMap<>();
         for (Map.Entry<KeyCode, Position3D> keyCodePosition : keyToPositionMap.entrySet()) {
@@ -121,16 +128,13 @@ public class PlayerBehavior implements Behavior {
     private boolean move(GameContext context, KeyboardEvent event) {
         Player player = context.getPlayer();
         var currentPos = player.getPosition();
-        var newPos = getNewPosition(event, currentPos);
+        var newPos = getNewPosition(player, event);
 
         var blockOccupier = context.getWorld().getByAttribute(newPos, BlockOccupier.class);
         if (blockOccupier.isPresent()) {
             AbstractEntity target = blockOccupier.get();
 
-            if (target.findAction(AttackAction.class).isPresent())
-                return new AttackReaction().execute(player, target, context);
-
-            return false;
+            return tryAttack(player, target, context);
         }
 
         if (context.getWorld().isBlockWalkable(newPos)) {
@@ -141,6 +145,19 @@ public class PlayerBehavior implements Behavior {
         }
 
         return false;
+    }
+
+
+    private boolean tryAttack(Player player, AbstractEntity target, GameContext context) {
+        Optional<AttackAction> attackAction = target.findAction(AttackAction.class);
+        if (attackAction.isPresent()) {
+            try {
+                return attackAction.get().createReaction().execute(player, target, context);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 
 
@@ -175,31 +192,13 @@ public class PlayerBehavior implements Behavior {
     /**
      * Get new player's position according to pressed key
      *
-     * @param event      KeyboardEvent
-     * @param currentPos current player's position
+     * @param player Player
+     * @param event  KeyboardEvent
      * @return new player's position
      */
-    private static Position3D getNewPosition(KeyboardEvent event, Position3D currentPos) {
-        Position3D newPosition;
-        switch (event.getCode()) {
-            case KEY_W:
-                newPosition = currentPos.withRelativeY(-1);
-                break;
-            case KEY_A:
-                newPosition = currentPos.withRelativeX(-1);
-                break;
-            case KEY_S:
-                newPosition = currentPos.withRelativeY(1);
-                break;
-            case KEY_D:
-                newPosition = currentPos.withRelativeX(1);
-                break;
-            default:
-                newPosition = currentPos;
-                break;
-        }
-
-        return newPosition;
+    private static Position3D getNewPosition(Player player, KeyboardEvent event) {
+        Position3D newPosition = player.getKeyToSurroundingPositionMap().get(event.getCode());
+        return newPosition != null ? newPosition : player.getPosition();
     }
 
 
@@ -210,5 +209,10 @@ public class PlayerBehavior implements Behavior {
 
     public static boolean isInteraction(KeyboardEvent event) {
         return event != null && INTERACTION_KEY.equals(event.getCode());
+    }
+
+
+    private static boolean isWaiting(KeyboardEvent event) {
+        return event != null && WAITING_KEY.equals(event.getCode());
     }
 }
