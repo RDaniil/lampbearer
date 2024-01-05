@@ -3,14 +3,14 @@ package com.vdn.lampbearer.views;
 import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameBuilder;
+import lombok.Getter;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.GameComponents;
 import org.hexworks.zircon.api.component.ComponentAlignment;
+import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.component.renderer.ComponentRenderer;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.grid.TileGrid;
-import org.hexworks.zircon.api.uievent.KeyboardEventType;
-import org.hexworks.zircon.api.uievent.Processed;
 import org.hexworks.zircon.api.view.base.BaseView;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -25,18 +25,23 @@ import static org.hexworks.zircon.api.game.ProjectionMode.TOP_DOWN;
  * Обрабатывает события ввода (с клавиатуры\мышки)
  */
 @Component
+@Getter
 public class PlayView extends BaseView {
+
+    public final Game game;
+    private final LogArea logArea;
+
 
     public PlayView(@NotNull TileGrid playViewTileGrid, GameBuilder gameBuilder) {
         super(playViewTileGrid, GameConfig.THEME);
-        var game = gameBuilder.buildGame(Size3D.create(100, 100, 1));
+        this.game = gameBuilder.buildGame(Size3D.create(100, 100, 1));
 
         var screen = getScreen();
         var panel = Components.panel()
                 .withPreferredSize(SIDEBAR_WIDTH, GameConfig.SIDEBAR_HEIGHT)
                 .withDecorations(box())
                 .build();
-        var logArea = Components.logArea()
+        this.logArea = Components.logArea()
                 .withDecorations(box())
                 .withPreferredSize(WINDOW_WIDTH - SIDEBAR_WIDTH, GameConfig.LOG_AREA_HEIGHT)
                 .withAlignmentWithin(screen, ComponentAlignment.BOTTOM_RIGHT)
@@ -51,11 +56,6 @@ public class PlayView extends BaseView {
         screen.addComponent(panel);
         screen.addComponent(logArea);
         screen.addComponent(gameComponent);
-
-        screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (event, uiEventPhase) -> {
-            game.getWorld().update(screen, event, game, logArea);
-            return Processed.INSTANCE;
-        });
     }
 
     @NotNull
