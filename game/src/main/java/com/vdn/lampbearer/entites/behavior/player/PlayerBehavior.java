@@ -2,13 +2,17 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.action.interaction.Interaction;
+import com.vdn.lampbearer.action.interaction.PickUpItemAction;
+import com.vdn.lampbearer.action.reactions.DropItemReaction;
+import com.vdn.lampbearer.action.reactions.PickUpItemReaction;
+import com.vdn.lampbearer.action.reactions.Reaction;
+import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
-import com.vdn.lampbearer.reactions.Reaction;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
@@ -23,14 +27,18 @@ public class PlayerBehavior extends Behavior<Player> {
 
     private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
     private static final KeyCode WAITING_KEY = KeyCode.SPACE;
-
+    private static final Set<KeyCode> INVENTORY_KEYS = new HashSet<>(
+            List.of(KeyCode.KEY_D, KeyCode.KEY_P)
+    );
 
     public static boolean isValidEvent(KeyboardEvent keyboardEvent) {
         //TODO: Нерасширяемое
         return isMovement(keyboardEvent)
                 || isInteraction(keyboardEvent)
-                || isWaiting(keyboardEvent);
+                || isWaiting(keyboardEvent)
+                || isInventoryAction(keyboardEvent);
     }
+
 
 
     @Override
@@ -42,14 +50,38 @@ public class PlayerBehavior extends Behavior<Player> {
                 throw new RuntimeException(String.format("%s is stuck!", player.getName()));
 
             KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+            //TODO: Плохая система
             if (isMovement(keyboardEvent)) return move(context, keyboardEvent);
             if (isInteraction(keyboardEvent)) return interact(context);
+            if (isInventoryAction(keyboardEvent)) return interactWithInventory(
+                    context,
+                    keyboardEvent);
             if (isWaiting(keyboardEvent)) return true;
 
             return false;
         }
 
         return false;
+    }
+
+
+    private boolean interactWithInventory(GameContext context, KeyboardEvent keyboardEvent) {
+        Player player = context.getPlayer();
+        if (keyboardEvent.getCtrlDown() && keyboardEvent.getCode().equals(KeyCode.KEY_D)) {
+            InventoryAttr inventoryAttr = player.findAttribute(InventoryAttr.class).get();
+            if (inventoryAttr.getItems().isEmpty()) return false;
+
+            new DropItemReaction().execute(player, inventoryAttr.getItems().get(0), context);
+        } else if (keyboardEvent.getCode().equals(KeyCode.KEY_P)) {
+            var pickupableItem = context.getWorld().getByAction(player.getPosition(),
+                    PickUpItemAction.class);
+            if (pickupableItem.isEmpty()) return false;
+
+            //TODO: Выбор поднимаемого предмета
+            new PickUpItemReaction().execute(player, pickupableItem.get(), context);
+        }
+
+        return true;
     }
 
 
@@ -203,16 +235,27 @@ public class PlayerBehavior extends Behavior<Player> {
 
 
     public static boolean isMovement(KeyboardEvent event) {
-        return event != null && MOVEMENT_KEYS.contains(event.getCode());
+        return event != null && MOVEMENT_KEYS.contains(event.getCode())
+                && !event.getCtrlDown()
+                && !event.getAltDown()
+                && !event.getShiftDown();
     }
 
 
     public static boolean isInteraction(KeyboardEvent event) {
-        return event != null && INTERACTION_KEY.equals(event.getCode());
+        return event != null && INTERACTION_KEY.equals(event.getCode())
+                && !event.getCtrlDown()
+                && !event.getAltDown()
+                && !event.getShiftDown();
     }
 
 
     private static boolean isWaiting(KeyboardEvent event) {
         return event != null && WAITING_KEY.equals(event.getCode());
+    }
+
+
+    private static boolean isInventoryAction(KeyboardEvent event) {
+        return event != null && INVENTORY_KEYS.contains(event.getCode());
     }
 }

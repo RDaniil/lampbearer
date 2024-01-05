@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.action;
 
-import com.vdn.lampbearer.reactions.Reaction;
+import com.vdn.lampbearer.action.reactions.Reaction;
 
 /**
  * An action which can be made on something/someone

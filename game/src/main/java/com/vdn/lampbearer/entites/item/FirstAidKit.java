@@ -8,6 +8,7 @@ import java.util.List;
 
 public class FirstAidKit extends AbstractItem {
     public FirstAidKit() {
+        super();
         setTile(TileRepository.FIRST_AID_KIT);
         setName("First aid kit");
         setAttributes(List.of(
