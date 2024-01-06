@@ -1,13 +1,13 @@
 package com.vdn.lampbearer.config;
 
 import org.hexworks.zircon.api.CP437TilesetResources;
-import org.hexworks.zircon.api.ColorThemes;
 import org.hexworks.zircon.api.application.AppConfig;
+import org.hexworks.zircon.api.application.DebugConfig;
 import org.hexworks.zircon.api.component.ColorTheme;
 
 public class GameConfig {
 
-    public static final ColorTheme THEME = ColorThemes.hexworks();
+    public static final ColorTheme THEME = GameTheme.getTheme();
     public static final int WINDOW_WIDTH = 80;
     public static final int WINDOW_HEIGHT = 50;
     public static final int SIDEBAR_WIDTH = 20;
@@ -18,6 +18,10 @@ public class GameConfig {
         return AppConfig.newBuilder()
                 .withDefaultTileset(CP437TilesetResources.anikki16x16())
                 .withSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+                .withDebugMode(true)
+                .withDebugConfig(DebugConfig.newBuilder()
+                        .withRelaxBoundsCheck(false)
+                        .build())
                 .build();
     }
 }

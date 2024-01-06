@@ -16,6 +16,12 @@ public class PickUpItemAction implements Interaction<PickUpItemReaction> {
 
 
     @Override
+    public String getName() {
+        return "Pick up";
+    }
+
+
+    @Override
     public Class<PickUpItemReaction> getReactionClass() {
         return PickUpItemReaction.class;
     }

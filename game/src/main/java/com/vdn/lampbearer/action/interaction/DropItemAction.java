@@ -16,6 +16,12 @@ public class DropItemAction implements Interaction<DropItemReaction> {
 
 
     @Override
+    public String getName() {
+        return "Drop";
+    }
+
+
+    @Override
     public Class<DropItemReaction> getReactionClass() {
         return DropItemReaction.class;
     }
