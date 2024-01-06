@@ -15,6 +15,7 @@ import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
+import org.hexworks.zircon.api.screen.Screen;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.Map;
@@ -127,8 +128,9 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public void update(Panel sidePanel, KeyboardEvent event, Game game, LogArea logArea) {
-        GameContext gameContext = new GameContext(this, sidePanel, event, game.getPlayer(), logArea);
+    public void update(Panel sidePanel, KeyboardEvent event, Game game, LogArea logArea, Screen screen) {
+        GameContext gameContext = new GameContext(this, sidePanel, event, game.getPlayer(),
+                logArea, screen);
         engine.executeTurn(gameContext);
         engine.updateUI(gameContext);
     }

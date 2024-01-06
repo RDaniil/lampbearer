@@ -11,7 +11,21 @@ public interface Action<T extends Reaction> {
 
     Class<T> getReactionClass();
 
-    default Reaction createReaction() throws ReflectiveOperationException {
-        return getReactionClass().getDeclaredConstructor().newInstance();
+    default String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    /**
+     * Возвращает реакцию на действие
+     *
+     * @return соответсвующая реакция
+     * @throws RuntimeException если не удалось создать реакцию
+     */
+    default Reaction createReaction() {
+        try {
+            return getReactionClass().getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

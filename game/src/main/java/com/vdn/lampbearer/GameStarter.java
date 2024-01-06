@@ -33,7 +33,7 @@ public class GameStarter {
 
         while (true) {
             if (event != null) {
-                game.getWorld().update(playView.getSidePanel(), event, game, logArea);
+                game.getWorld().update(playView.getSidePanel(), event, game, logArea, screen);
                 event = null;
             }
             //TODO: Переделать на poll
