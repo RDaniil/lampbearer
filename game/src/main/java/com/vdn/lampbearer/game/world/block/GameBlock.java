@@ -1,7 +1,8 @@
 package com.vdn.lampbearer.game.world.block;
 
 import com.vdn.lampbearer.entites.AbstractEntity;
-import com.vdn.lampbearer.views.TileRepository;
+import com.vdn.lampbearer.entites.Actor;
+import com.vdn.lampbearer.entites.Player;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import org.hexworks.zircon.api.data.base.BaseBlock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
@@ -48,15 +50,28 @@ public class GameBlock extends BaseBlock<Tile> {
 
 
     public void updateContent() {
-        List<Tile> tiles = entities.stream()
-                .map(AbstractEntity::getTile)
-                .collect(Collectors.toList());
 
+        List<AbstractEntity> actors = entities.stream()
+                .filter(entity -> entity instanceof Actor)
+                .collect(Collectors.toList());
         Tile newContent = getEmptyTile();
-        if (tiles.contains(TileRepository.PLAYER)) {
-            newContent = TileRepository.PLAYER;
-        } else if (!tiles.isEmpty()) {
-            newContent = tiles.get(0);
+
+        if (actors.isEmpty()) {
+            List<Tile> allEntitiesTiles = entities.stream()
+                    .map(AbstractEntity::getTile)
+                    .collect(Collectors.toList());
+            if (!allEntitiesTiles.isEmpty()) {
+                newContent = allEntitiesTiles.get(0);
+            }
+        } else {
+            Optional<AbstractEntity> player = actors.stream()
+                    .filter(entity -> entity instanceof Player)
+                    .findFirst();
+            if (player.isPresent()) {
+                newContent = player.get().getTile();
+            } else {
+                newContent = actors.get(0).getTile();
+            }
         }
 
         setContent(newContent);

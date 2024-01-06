@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.reactions;
+package com.vdn.lampbearer.action.reactions;
 
 import com.vdn.lampbearer.action.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
@@ -36,16 +36,16 @@ public class AttackingReaction implements Reaction {
                         strengthAttr.get().getValue()
                 ),
                 false,
-                10
+                0
         );
 
         if (remainingHealth <= 0) {
             context.getLogArea()
-                    .addParagraph(String.format("%s's died!", target.getName()), false, 10);
+                    .addParagraph(String.format("%s's died!", target.getName()), false, 0);
             context.getWorld().removeEntity(target, target.getPosition());
 
             if (target instanceof Player) {
-                context.getLogArea().addParagraph("GAME IS OVER", false, 10);
+                context.getLogArea().addParagraph("GAME IS OVER", false, 0);
                 throw new RuntimeException("GAME IS OVER");
             }
         }

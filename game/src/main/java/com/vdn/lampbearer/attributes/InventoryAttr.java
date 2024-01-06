@@ -39,4 +39,9 @@ public class InventoryAttr implements Attribute {
 
         return items.add(item);
     }
+
+
+    public boolean removeItem(AbstractItem item) {
+        return items.remove(item);
+    }
 }

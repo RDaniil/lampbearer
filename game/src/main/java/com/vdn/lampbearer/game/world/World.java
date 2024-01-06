@@ -97,6 +97,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
                 );
             });
 
+            //TODO: Если мы хотим поднять предмет и их несколько - это не работает
             return block.getEntities().stream()
                     .filter(entity -> entity.findAction(actionType).isPresent())
                     .findFirst();

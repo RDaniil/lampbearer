@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.reactions;
+package com.vdn.lampbearer.action.reactions;
 
 import com.vdn.lampbearer.action.interaction.DoorCloseAction;
 import com.vdn.lampbearer.action.interaction.DoorOpenAction;
@@ -24,7 +24,7 @@ public class DoorClosingReaction implements Reaction {
         context.getWorld().updateBlockContent(target.getPosition());
 
         context.getLogArea()
-                .addParagraph(String.format("%s's been closed", target.getName()), false, 10);
+                .addParagraph(String.format("%s's been closed", target.getName()), false, 0);
 
         return true;
     }
