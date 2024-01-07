@@ -66,8 +66,7 @@ public class ItemUseFragment implements Fragment {
                 .withText(remainingLetters)
                 .withDecorations(noDecoration())
                 .build());
-        //TODO: Обрабатывать нажатия кнопок (но скорее всего это не здесь, потому
-        // что без фокуса обработка нажатия кнопок не происходит
+
         actionButton.handleMouseEvents(
                 MouseEventType.MOUSE_PRESSED,
                 (mouseEvent, uiEventPhase) -> {

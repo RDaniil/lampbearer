@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 @Slf4j
-public class AttackingReaction implements Reaction {
+public class AttackReaction implements Reaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {

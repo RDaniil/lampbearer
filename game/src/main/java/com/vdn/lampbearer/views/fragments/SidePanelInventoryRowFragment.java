@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * UI-компонент строки инвенторя (отображение одного предмета
  */
 @RequiredArgsConstructor
-public class InventoryRowFragment implements Fragment {
+public class SidePanelInventoryRowFragment implements Fragment {
 
     private final AbstractItem item;
 

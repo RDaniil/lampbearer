@@ -14,6 +14,8 @@ import org.hexworks.zircon.api.uievent.UIEventPhase;
 import org.hexworks.zircon.api.uievent.UIEventResponse;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Consumer;
+
 import static com.vdn.lampbearer.config.GameConfig.SIDEBAR_WIDTH;
 import static org.hexworks.zircon.api.ComponentDecorations.box;
 
@@ -22,9 +24,10 @@ import static org.hexworks.zircon.api.ComponentDecorations.box;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class InventoryFragment implements Fragment {
+public class SidePanelInventoryFragment implements Fragment {
 
     private final InventoryAttr inventory;
+    private final Consumer<AbstractItem> itemUseFunction;
 
 
     @NotNull
@@ -36,10 +39,10 @@ public class InventoryFragment implements Fragment {
                 .build();
 
         for (AbstractItem item : inventory.getItems()) {
-            inventoryRow.addFragment(new InventoryRowFragment(item))
+            inventoryRow.addFragment(new SidePanelInventoryRowFragment(item))
                     .handleMouseEvents(MouseEventType.MOUSE_PRESSED, (mouseEvent, uiEventPhase) -> {
                         if (uiEventPhase.equals(UIEventPhase.CAPTURE)) {
-                            log.info("TEST Activated " + item.getName());
+                            itemUseFunction.accept(item);
                         }
                         return UIEventResponse.processed();
                     });

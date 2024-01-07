@@ -30,7 +30,7 @@ public abstract class AbstractItem extends AbstractEntity implements Printable {
 
         var itemComponent = Components.button()
                 .withDecorations(noDecoration())
-                .withText(getName())
+                .withText(" " + getName())
                 .build();
 
         inventoryRow.addComponent(itemIcon);

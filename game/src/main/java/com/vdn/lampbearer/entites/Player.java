@@ -35,9 +35,11 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         inventoryAttr.putItem(new FirstAidKit());
         inventoryAttr.putItem(new FirstAidKit());
         inventoryAttr.putItem(new FirstAidKit());
+        HealthAttr healthAttr = new HealthAttr(100);
+        healthAttr.reduceHealth(40);
 
         setAttributes(List.of(
-                new HealthAttr(100),
+                healthAttr,
                 new StrengthAttr(5),
                 new SpeedAttr(5),
                 StaticBlockOccupier.getInstance(),

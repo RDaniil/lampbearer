@@ -8,33 +8,19 @@ import com.vdn.lampbearer.action.reactions.PickUpItemReaction;
 import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
-import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
-import com.vdn.lampbearer.views.fragments.ItemUseFragment;
-import kotlin.Unit;
+import com.vdn.lampbearer.views.inventory.InventoryItemSelectModalView;
 import lombok.SneakyThrows;
-import org.hexworks.zircon.api.Components;
-import org.hexworks.zircon.api.builder.component.ModalBuilder;
-import org.hexworks.zircon.api.component.Button;
-import org.hexworks.zircon.api.component.ComponentAlignment;
 import org.hexworks.zircon.api.data.Position3D;
-import org.hexworks.zircon.api.fragment.menu.SelectionCancelled;
-import org.hexworks.zircon.api.graphics.BoxType;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
-import org.hexworks.zircon.internal.component.modal.EmptyModalResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static org.hexworks.zircon.api.ComponentDecorations.box;
-import static org.hexworks.zircon.api.ComponentDecorations.noDecoration;
 
 public class PlayerBehavior extends Behavior<Player> {
 
@@ -98,7 +84,7 @@ public class PlayerBehavior extends Behavior<Player> {
             //TODO: Выбор поднимаемого предмета
             new PickUpItemReaction().execute(player, pickupableItem.get(), context);
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_U)) {
-            return showItemActionModal(context, player);
+            return showItemActionModal(context);
         }
 
         return true;
@@ -106,66 +92,9 @@ public class PlayerBehavior extends Behavior<Player> {
 
 
     @NotNull
-    private static Boolean showItemActionModal(GameContext context, Player player) {
-        //TODO: Страшно
-        InventoryAttr inventoryAttr = player.findAttribute(InventoryAttr.class).get();
-        if (inventoryAttr.getItems().isEmpty()) return null;
-        var panel = Components.panel()
-                .withPreferredSize(27, inventoryAttr.getItems().get(0)
-                        .getActions().size() + 3)
-                .withDecorations(box(BoxType.SINGLE, "Use item"))
-                .build();
-
-        var modal = ModalBuilder.newBuilder()
-                .withPreferredSize(panel.getSize())
-                .withComponent(panel)
-                .withAlignmentWithin(context.getScreen(), ComponentAlignment.CENTER)
-                .withTileset(GameConfig.getAppConfig().getDefaultTileset())
-                .withColorTheme(GameConfig.THEME)
-                .build();
-
-        ItemUseFragment itemUseFragment = new ItemUseFragment(
-                inventoryAttr.getItems().get(0),
-                context,
-                modal);
-
-        panel.addFragment(itemUseFragment);
-
-        Button close = Components.button()
-                .withText("Close")
-                .withDecorations(noDecoration())
-                .withAlignmentWithin(panel, ComponentAlignment.BOTTOM_RIGHT)
-                .build();
-
-        close.onActivated(componentEvent -> {
-            modal.close(SelectionCancelled.INSTANCE);
-            return Unit.INSTANCE;
-        });
-
-        panel.addComponent(close);
-
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        AtomicReference<Boolean> isSelectedItemAction = new AtomicReference<>(false);
-        modal.onClosed(modalResult -> {
-            if (modalResult instanceof EmptyModalResult) {
-                isSelectedItemAction.set(true);
-            } else {
-                isSelectedItemAction.set(false);
-            }
-            countDownLatch.countDown();
-            return Unit.INSTANCE;
-        });
-
-        context.getScreen().openModal(modal);
-
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return isSelectedItemAction.get();
+    public Boolean showItemActionModal(GameContext context) {
+        return InventoryItemSelectModalView.showItemActionModal(context,
+                context.getPlayer().findAttribute(InventoryAttr.class).get());
     }
 
 

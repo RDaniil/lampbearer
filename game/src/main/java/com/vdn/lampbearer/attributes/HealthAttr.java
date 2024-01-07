@@ -16,4 +16,13 @@ public class HealthAttr implements Attribute {
         health -= reduceAmount;
         return health;
     }
+
+
+    public int increaseHealth(int amount) {
+        health += amount;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+        return health;
+    }
 }

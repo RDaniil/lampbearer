@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.npc.general;
 
-import com.vdn.lampbearer.action.reactions.AttackingReaction;
+import com.vdn.lampbearer.action.reactions.AttackReaction;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
@@ -15,7 +15,7 @@ public class AttackingBehavior extends NonPlayerCharacterBehavior {
     @Override
     public boolean act(NonPlayerCharacter npc, GameContext context) {
         if (npc.isStuck(context)) return true;
-        return new AttackingReaction().execute(npc, context.getPlayer(), context);
+        return new AttackReaction().execute(npc, context.getPlayer(), context);
     }
 
 
