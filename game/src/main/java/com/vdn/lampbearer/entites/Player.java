@@ -32,9 +32,9 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setName("Lampbearer");
         setTile(TileRepository.PLAYER);
         InventoryAttr inventoryAttr = new InventoryAttr();
-        inventoryAttr.putItem(new FirstAidKit());
-        inventoryAttr.putItem(new FirstAidKit());
-        inventoryAttr.putItem(new FirstAidKit());
+        inventoryAttr.putItem(FirstAidKit.createForInventory());
+        inventoryAttr.putItem(FirstAidKit.createForInventory());
+        inventoryAttr.putItem(FirstAidKit.createForInventory());
         HealthAttr healthAttr = new HealthAttr(100);
         healthAttr.reduceHealth(40);
 

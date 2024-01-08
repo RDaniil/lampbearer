@@ -87,6 +87,6 @@ public class InventoryItemSelectModalView {
             return ItemActionModalView.showItemActionModal(context, selectedItem.get());
         }
 
-        return true;
+        return false;
     }
 }

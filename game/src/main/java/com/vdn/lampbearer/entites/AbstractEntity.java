@@ -7,9 +7,10 @@ import lombok.Setter;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Tile;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ public abstract class AbstractEntity {
     private String description;
     private Tile tile;
     protected Position3D position;
-    private List<Attribute> attributes = new ArrayList<>();
-    private List<Action<?>> actions = new ArrayList<>();
+    private Set<Attribute> attributes = new HashSet<>();
+    private Set<Action<?>> actions = new HashSet<>();
 
 
     public <T extends Attribute> Optional<T> findAttribute(Class<T> attributeType) {

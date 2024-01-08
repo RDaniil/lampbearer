@@ -1,6 +1,8 @@
 package com.vdn.lampbearer.entites.item;
 
 import com.vdn.lampbearer.action.HealAction;
+import com.vdn.lampbearer.action.interaction.DropItemAction;
+import com.vdn.lampbearer.action.interaction.PickUpItemAction;
 import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
 import com.vdn.lampbearer.services.DiceBuilder;
@@ -20,5 +22,19 @@ public class FirstAidKit extends AbstractItem {
         );
 
         getActions().add(HealAction.getInstance());
+    }
+
+
+    public static FirstAidKit createForInventory() {
+        FirstAidKit firstAidKit = new FirstAidKit();
+        firstAidKit.getActions().add(DropItemAction.getInstance());
+        return firstAidKit;
+    }
+
+
+    public static FirstAidKit createForWorld() {
+        FirstAidKit firstAidKit = new FirstAidKit();
+        firstAidKit.getActions().add(PickUpItemAction.getInstance());
+        return firstAidKit;
     }
 }

@@ -14,12 +14,14 @@ import org.hexworks.zircon.api.component.VBox;
 import org.hexworks.zircon.api.component.modal.Modal;
 import org.hexworks.zircon.api.component.modal.ModalResult;
 import org.hexworks.zircon.api.data.Tile;
-import org.hexworks.zircon.api.uievent.KeyboardEventType;
-import org.hexworks.zircon.api.uievent.MouseEventType;
-import org.hexworks.zircon.api.uievent.UIEventPhase;
-import org.hexworks.zircon.api.uievent.UIEventResponse;
+import org.hexworks.zircon.api.fragment.menu.SelectionCancelled;
+import org.hexworks.zircon.api.uievent.*;
 import org.hexworks.zircon.internal.component.modal.EmptyModalResult;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hexworks.zircon.api.ComponentDecorations.noDecoration;
 
@@ -41,7 +43,12 @@ public class ItemUseFragment implements Fragment {
         VBox actionsList = Components.vbox()
                 .withPreferredSize(25, item.getActions().size())
                 .build();
-        for (Action<?> action : item.getActions()) {
+
+        List<Action<?>> sortedActions = item.getActions().stream()
+                .sorted(Comparator.comparing(Action::getName))
+                .collect(Collectors.toList());
+
+        for (Action<?> action : sortedActions) {
             var actionButton = getActionButton(action);
             actionsList.addComponent(actionButton);
         }
@@ -84,6 +91,8 @@ public class ItemUseFragment implements Fragment {
                         if (event.getKey().toUpperCase().charAt(0) == firstLetter) {
                             action.createReaction().execute(context.getPlayer(), item, context);
                             containingModal.close(EmptyModalResult.INSTANCE);
+                        } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+                            containingModal.close(SelectionCancelled.INSTANCE);
                         }
                     }
                     return UIEventResponse.processed();
