@@ -1,6 +1,7 @@
 package com.vdn.lampbearer;
 
 import com.vdn.lampbearer.game.Game;
+import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.PlayView;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -30,10 +31,17 @@ public class GameStarter {
             this.event = event;
             return Processed.INSTANCE;
         });
+        GameContext gameContext = new GameContext(game.getWorld(), playView.getSidePanel(), event,
+                game.getPlayer(),
+                logArea, screen);
+        game.getWorld().updateUI(gameContext);
 
         while (true) {
             if (event != null) {
-                game.getWorld().update(playView.getSidePanel(), event, game, logArea, screen);
+                gameContext.setEvent(event);
+                game.getWorld().update(gameContext);
+                game.getWorld().updateUI(gameContext);
+
                 event = null;
             }
             //TODO: Переделать на poll

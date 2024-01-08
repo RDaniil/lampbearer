@@ -20,7 +20,7 @@ public class GameConfig {
                 .withSize(WINDOW_WIDTH, WINDOW_HEIGHT)
                 .withDebugMode(true)
                 .withDebugConfig(DebugConfig.newBuilder()
-                        .withRelaxBoundsCheck(false)
+                        .withRelaxBoundsCheck(true)
                         .build())
                 .build();
     }

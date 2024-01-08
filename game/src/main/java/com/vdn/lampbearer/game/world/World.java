@@ -4,19 +4,14 @@ import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
-import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
-import org.hexworks.zircon.api.component.LogArea;
-import org.hexworks.zircon.api.component.Panel;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
-import org.hexworks.zircon.api.screen.Screen;
-import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.Map;
 import java.util.Optional;
@@ -128,10 +123,12 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public void update(Panel sidePanel, KeyboardEvent event, Game game, LogArea logArea, Screen screen) {
-        GameContext gameContext = new GameContext(this, sidePanel, event, game.getPlayer(),
-                logArea, screen);
+    public void update(GameContext gameContext) {
         engine.executeTurn(gameContext);
+    }
+
+
+    public void updateUI(GameContext gameContext) {
         engine.updateUI(gameContext);
     }
 

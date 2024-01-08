@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.entites;
 
+import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
@@ -25,9 +26,13 @@ public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getName()).append(" ");
-        Optional<SpeedAttr> attribute = findAttribute(SpeedAttr.class);
-        attribute.ifPresent(speedAttr -> sb.append("Speed is: ").append(speedAttr.getValue()));
-        attribute.ifPresent(speedAttr -> sb.append(", pos is: ").append(getPosition()));
+        Optional<SpeedAttr> speed = findAttribute(SpeedAttr.class);
+        Optional<HealthAttr> health = findAttribute(HealthAttr.class);
+        speed.ifPresent(speedAttr -> sb.append("S:").append(speedAttr.getValue()));
+        sb.append(", P:").append(getPosition());
+        health.ifPresent(healthAttr -> sb.append(
+                String.format(", H:%s/%s", healthAttr.getHealth(), healthAttr.getMaxHealth())
+        ));
         return sb.toString();
     }
 
