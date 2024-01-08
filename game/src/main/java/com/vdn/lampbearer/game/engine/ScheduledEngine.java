@@ -46,6 +46,12 @@ public class ScheduledEngine implements Engine {
     }
 
 
+    private void updateSchedule(Schedulable schedulable) {
+        removeFromSchedule(schedulable);
+        addToSchedule(schedulable);
+    }
+
+
     public Schedulable peekNextSchedulable() {
         return Scheduler.peek();
     }
@@ -56,25 +62,37 @@ public class ScheduledEngine implements Engine {
     public void executeTurn(GameContext gameContext) {
         var event = gameContext.getEvent();
 
-        if (event instanceof KeyboardEvent) {
-            KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-            if (PlayerBehavior.isValidEvent(keyboardEvent)) {
+        if (!(event instanceof KeyboardEvent)) {
+            return;
+        }
 
-                Schedulable nextSchedulable = peekNextSchedulable();
+        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
 
-                while (nextSchedulable instanceof Actor) {
-                    boolean isActionDone = ((Actor) nextSchedulable).makeAction(gameContext);
-                    Thread.sleep(20);
-                    log.info(nextSchedulable + " makes a move");
-                    if (!isActionDone && nextSchedulable instanceof Player) break;
+        if (!PlayerBehavior.isValidEvent(keyboardEvent)) {
+            return;
+        }
 
-                    removeFromSchedule(nextSchedulable);
-                    addToSchedule(nextSchedulable);
-                    if (nextSchedulable instanceof Player) break;
+        Schedulable nextSchedulable = peekNextSchedulable();
+        boolean isPlayerActed = false;
 
-                    nextSchedulable = peekNextSchedulable();
+        while (nextSchedulable instanceof Actor) {
+            boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
+            Thread.sleep(50);
+            log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
+            if (nextSchedulable instanceof Player) {
+                //Если игрок ничего не сделал - не нужно давать ход всем остальным. Нужно снова дать
+                // ход игроку
+                if (!isActionDone) {
+                    break;
+                } else {
+                    isPlayerActed = true;
                 }
             }
+
+            updateSchedule(nextSchedulable);
+
+            nextSchedulable = peekNextSchedulable();
+            if (nextSchedulable instanceof Player && isPlayerActed) break;
         }
     }
 
