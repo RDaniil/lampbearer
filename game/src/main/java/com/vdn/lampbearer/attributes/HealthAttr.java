@@ -1,9 +1,12 @@
 package com.vdn.lampbearer.attributes;
 
+import com.vdn.lampbearer.entites.Printable;
 import lombok.Getter;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.component.Component;
 
 @Getter
-public class HealthAttr implements Attribute {
+public class HealthAttr implements Attribute, Printable {
     private final int maxHealth;
     private int health;
 
@@ -24,5 +27,13 @@ public class HealthAttr implements Attribute {
             health = maxHealth;
         }
         return health;
+    }
+
+
+    @Override
+    public Component toComponent() {
+        return Components.label()
+                .withText(String.format("HP: %s/%s", health, maxHealth))
+                .build();
     }
 }

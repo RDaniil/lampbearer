@@ -38,7 +38,7 @@ public class GameBuilder {
         world.addEntity(new SimpleZombie(new SpeedAttr(2)), Position3D.create(5, 4, 0));
         world.addEntity(new Door(VerticalArrangement.getInstance()), Position3D.create(10, 12, 0));
 
-        world.addEntity(new FirstAidKit(), Position3D.create(5, 4, 0));
+        world.addEntity(FirstAidKit.createForWorld(), Position3D.create(5, 4, 0));
         return new Game(world, player);
     }
 }

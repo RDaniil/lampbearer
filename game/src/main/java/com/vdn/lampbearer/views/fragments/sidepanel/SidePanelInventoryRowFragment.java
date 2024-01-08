@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.views.fragments;
+package com.vdn.lampbearer.views.fragments.sidepanel;
 
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import lombok.RequiredArgsConstructor;

@@ -3,6 +3,7 @@ package com.vdn.lampbearer.views.fragments;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.entites.item.AbstractItem;
+import com.vdn.lampbearer.views.fragments.sidepanel.SidePanelInventoryRowFragment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
@@ -14,10 +15,8 @@ import org.hexworks.zircon.api.component.modal.Modal;
 import org.hexworks.zircon.api.component.modal.ModalResult;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.fragment.menu.MenuItemSelected;
-import org.hexworks.zircon.api.uievent.KeyboardEventType;
-import org.hexworks.zircon.api.uievent.MouseEventType;
-import org.hexworks.zircon.api.uievent.UIEventPhase;
-import org.hexworks.zircon.api.uievent.UIEventResponse;
+import org.hexworks.zircon.api.uievent.*;
+import org.hexworks.zircon.internal.component.modal.EmptyModalResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -84,6 +83,8 @@ public class ModalInventoryFragment implements Fragment {
                         if (uiEventPhase.equals(UIEventPhase.TARGET)) {
                             if (event.getKey().toLowerCase().charAt(0) == itemLabels.charAt(finalI)) {
                                 containingModal.close(new MenuItemSelected<>(item));
+                            } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+                                containingModal.close(EmptyModalResult.INSTANCE);
                             }
                         }
                         return UIEventResponse.processed();

@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.views.fragments;
+package com.vdn.lampbearer.views.fragments.sidepanel;
 
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.entites.item.AbstractItem;
@@ -34,7 +34,7 @@ public class SidePanelInventoryFragment implements Fragment {
     @Override
     public Component getRoot() {
         VBox inventoryRow = Components.vbox()
-                .withPreferredSize(SIDEBAR_WIDTH - 2, inventory.getMaxSize())
+                .withPreferredSize(SIDEBAR_WIDTH - 2, inventory.getMaxSize() + 2)
                 .withDecorations(box(BoxType.SINGLE, "Inventory"))
                 .build();
 
