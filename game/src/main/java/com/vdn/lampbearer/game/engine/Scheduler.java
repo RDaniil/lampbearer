@@ -13,7 +13,7 @@ import java.util.TreeMap;
 public class Scheduler {
     private static final TreeMap<Integer, List<Schedulable>> timeToSchedulablesMap =
             new TreeMap<>();
-    private static int currentTime = 0;
+    public static int currentTime = 0;
 
 
     public static void add(Schedulable schedulable) {
