@@ -4,16 +4,19 @@ import com.vdn.lampbearer.entites.Printable;
 import lombok.Getter;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.Component;
+import org.hexworks.zircon.api.component.HBox;
 
 @Getter
 public class HealthAttr implements Attribute, Printable {
     private final int maxHealth;
     private int health;
 
+
     public HealthAttr(int maxHealth) {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
     }
+
 
     public int reduceHealth(int reduceAmount) {
         health -= reduceAmount;
@@ -32,8 +35,15 @@ public class HealthAttr implements Attribute, Printable {
 
     @Override
     public Component toComponent() {
-        return Components.label()
-                .withText(String.format("HP: %s/%s", health, maxHealth))
-                .build();
+        HBox attrBox = Components.hbox().withPreferredSize(15, 1).build();
+
+        attrBox.addComponent(Components.label().withText("HP: ")
+                .build());
+
+        attrBox.addComponent(Components.label().withText(String.format("%s/%s", health, maxHealth)).build());
+
+        return attrBox;
     }
 }
+
+

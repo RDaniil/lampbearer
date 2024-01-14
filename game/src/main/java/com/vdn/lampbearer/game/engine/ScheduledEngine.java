@@ -6,7 +6,7 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.Schedulable;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.game.GameContext;
-import com.vdn.lampbearer.views.fragments.sidepanel.SidePanelFragment;
+import com.vdn.lampbearer.views.SidePanelView;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 @Slf4j
 public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
+    private SidePanelView sidePanelView;
 
 
     public void addEntity(AbstractEntity entity) {
@@ -96,8 +97,12 @@ public class ScheduledEngine implements Engine {
 
 
     @Override
-    public void updateUI(GameContext gameContext) {
-        gameContext.getSidePanel().detachAllComponents();
-        gameContext.getSidePanel().addFragment(new SidePanelFragment(gameContext));
+    public void initUi(GameContext gameContext) {
+        sidePanelView = new SidePanelView(gameContext);
+    }
+
+    @Override
+    public void updateUI() {
+        sidePanelView.updateUI();
     }
 }
