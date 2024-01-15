@@ -128,10 +128,14 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public void updateUI(GameContext gameContext) {
-        engine.updateUI(gameContext);
+    public void updateUI() {
+        engine.updateUI();
     }
 
+
+    public void initUi(GameContext gameContext) {
+        engine.initUi(gameContext);
+    }
 
     /**
      * Checks if a block at the position is walkable and there's no BlockOccupier

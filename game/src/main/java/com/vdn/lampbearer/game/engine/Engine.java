@@ -10,5 +10,7 @@ public interface Engine {
 
     void executeTurn(GameContext gameContext);
 
-    void updateUI(GameContext gameContext);
+    void initUi(GameContext gameContext);
+
+    void updateUI();
 }

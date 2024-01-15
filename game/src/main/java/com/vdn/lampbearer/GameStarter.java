@@ -29,23 +29,32 @@ public class GameStarter {
 
         screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (event, uiEventPhase) -> {
             this.event = event;
+            notifyMainLoop();
             return Processed.INSTANCE;
         });
+
         GameContext gameContext = new GameContext(game.getWorld(), playView.getSidePanel(), event,
                 game.getPlayer(),
                 logArea, screen);
-        game.getWorld().updateUI(gameContext);
+        game.getWorld().initUi(gameContext);
+        game.getWorld().updateUI();
 
+        doMainLoop(gameContext, game);
+    }
+
+
+    private synchronized void notifyMainLoop() {
+        notifyAll();
+    }
+
+
+    private synchronized void doMainLoop(GameContext gameContext, Game game) throws InterruptedException {
         while (true) {
-            if (event != null) {
-                gameContext.setEvent(event);
-                game.getWorld().update(gameContext);
-                game.getWorld().updateUI(gameContext);
+            wait();
 
-                event = null;
-            }
-            //TODO: Переделать на poll
-            Thread.sleep(10);
+            gameContext.setEvent(event);
+            game.getWorld().update(gameContext);
+            game.getWorld().updateUI();
         }
     }
 }
