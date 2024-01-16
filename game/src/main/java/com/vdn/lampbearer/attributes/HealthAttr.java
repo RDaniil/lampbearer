@@ -36,7 +36,6 @@ public class HealthAttr implements Attribute, Printable {
     @Override
     public Component toComponent() {
         HBox attrBox = Components.hbox().withPreferredSize(15, 1).build();
-
         attrBox.addComponent(Components.label().withText("HP: ")
                 .build());
 

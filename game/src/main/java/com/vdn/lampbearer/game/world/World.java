@@ -8,6 +8,8 @@ import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.light.LightingService;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
@@ -19,14 +21,17 @@ import java.util.Optional;
 /**
  * Содержит всю карту из блоков
  */
+@Slf4j
 public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     private final Engine engine;
+    private final LightingService lightingService;
 
 
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
         engine = new ScheduledEngine();
+        lightingService = new LightingService(this, startingBlocks);
     }
 
 
@@ -125,6 +130,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     public void update(GameContext gameContext) {
         engine.executeTurn(gameContext);
+        long startTime = System.nanoTime();
+        lightingService.updateLighting(gameContext);
+        long endTime = System.nanoTime();
+
+        log.info("LIGHTING TIME: 0." + (endTime - startTime) / (1000));
     }
 
 
@@ -178,4 +188,5 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             return false;
         }
     }
+
 }
