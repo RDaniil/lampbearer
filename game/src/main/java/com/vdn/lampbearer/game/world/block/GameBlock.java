@@ -59,6 +59,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public void updateContent() {
         Tile newContent = getDisplayedTile();
         setContent(newContent);
+        updateLighting();
     }
 
 
@@ -95,15 +96,19 @@ public class GameBlock extends BaseBlock<Tile> {
             setTop(TileRepository.getTile(BlockTypes.EMPTY));
         } else if (lightingState == BlockLightingState.SEEN) {
             //TODO: Понять как не отображать сущности вне радиуса игрока
-            newContent = newContent.withForegroundColor(
-                    newContent.getForegroundColor().darkenByPercent(0.5).desaturate(0.2));
+
+            newContent = getDisplayedTile().withForegroundColor(
+                    newContent.getForegroundColor()
+                            .darkenByPercent(0.4)
+                            .desaturate(0.3));
+
         }
         setContent(newContent);
     }
 
 
     public void updateTileColor(TileColor tileColor) {
-        setContent(getContent().withForegroundColor(tileColor));
+        setContent(getDisplayedTile().withForegroundColor(tileColor));
     }
 
 

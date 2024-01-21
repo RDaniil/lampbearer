@@ -2,7 +2,6 @@ package com.vdn.lampbearer.services.light;
 
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.utils.PositionUtils;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import org.springframework.lang.Nullable;
 
 @Getter
 @AllArgsConstructor
-@Setter(AccessLevel.PROTECTED)
+@Setter
 public abstract class Light {
     private Position position;
     private final int radius;
@@ -39,8 +38,10 @@ public abstract class Light {
 
 
     /**
-     * Вычисляет цвет тайла сущности, нужно потому что цвет будет переходить в цвет
-     * источника света. И в близи не понятно какого цвета монстр перед тобой находится
+     * Вычисляет цвет тайла сущности. От освещения блока отличается тем, что блок можно полностью
+     * окрасить в цвет света, а сущность красим только частично, чтобы читался ее исходный цвет.
+     * И в близи было понятно на кого мы смотрим
+     *
      *
      * @param distance дистанция до сущности
      * @param block    блок на котором стоит монстр
@@ -54,12 +55,19 @@ public abstract class Light {
 
         float brightness = (float) (distance / radius) - 0.3f;
         if (brightness < 0) brightness = 0;
-        return displayedTile.getForegroundColor().darkenByPercent(brightness);
+        var colorInterpolator = color.interpolateTo(displayedTile.getForegroundColor());
+        /*При нахождении монстра в упор не нужно окрашивать
+        его полностью в цвет света*/
+        TileColor halfLightedEntityTile = colorInterpolator.getColorAtRatio(0.6);
+
+        colorInterpolator = halfLightedEntityTile
+                .interpolateTo(displayedTile.getForegroundColor());
+        return colorInterpolator.getColorAtRatio(brightness);
     }
 
 
     private TileColor getColorForBlock(double distance, GameBlock block) {
-        TileColor foregroundColor = block.getContent().getForegroundColor();
+        TileColor foregroundColor = block.getDisplayedTile().getForegroundColor();
 
         if (distance > radius) {
             return foregroundColor;

@@ -24,7 +24,6 @@ public class TileRepository {
         blockTypesTileMap.put(BlockTypes.EMPTY, Tile.empty());
     }
 
-
     private static Tile createTileFromConfigBlock(ConfigBlock tile) {
         return Tile.newBuilder().withCharacter(tile.getTile())
                 .withBackgroundColor(TileColor.fromString(tile.getBackground()))

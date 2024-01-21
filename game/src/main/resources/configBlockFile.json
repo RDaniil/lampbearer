@@ -145,6 +145,12 @@
       "tile": " ",
       "background": "#111111",
       "foreground": "#111111"
+    },
+    {
+      "blockType": "LAMPPOST",
+      "tile": "⌠",
+      "background": "#111111",
+      "foreground": "#ffba37"
     }
   ]
 }

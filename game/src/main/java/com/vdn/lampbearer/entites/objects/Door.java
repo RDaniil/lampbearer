@@ -1,9 +1,10 @@
-package com.vdn.lampbearer.entites;
+package com.vdn.lampbearer.entites.objects;
 
 import com.vdn.lampbearer.action.interaction.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.Arrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
+import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 
