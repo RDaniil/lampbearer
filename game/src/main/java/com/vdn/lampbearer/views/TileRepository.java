@@ -22,6 +22,11 @@ public class TileRepository {
             .buildCharacterTile();
 
     public static Tile EMPTY = Tile.empty();
+    public static Tile UNSEEN = Tile.newBuilder()
+            .withCharacter(' ')
+            .withBackgroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .withForegroundColor(GameColorConstants.DEFAULT_BACKGROUND)
+            .buildCharacterTile();
 
     public static Tile GROUND = Tile.newBuilder()
             .withCharacter(GameCharacterConstants.GROUND)

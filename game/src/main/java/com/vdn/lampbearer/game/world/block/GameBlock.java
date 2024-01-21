@@ -1,11 +1,14 @@
 package com.vdn.lampbearer.game.world.block;
 
+import com.vdn.lampbearer.constants.BlockLightingState;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.views.TileRepository;
 import kotlin.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.BlockTileType;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.data.base.BaseBlock;
@@ -28,9 +31,12 @@ import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
 public class GameBlock extends BaseBlock<Tile> {
     public GameBlock(Tile tile) {
         super(tile, persistentMapOf(new Pair<>(BlockTileType.CONTENT, tile)));
+        lightingState = BlockLightingState.UNSEEN;
+        setTop(TileRepository.UNSEEN);
     }
 
 
+    private BlockLightingState lightingState;
     private boolean isWalkable;
     private boolean isTransparent;
 
@@ -50,7 +56,12 @@ public class GameBlock extends BaseBlock<Tile> {
 
 
     public void updateContent() {
+        Tile newContent = getDisplayedTile();
+        setContent(newContent);
+    }
 
+
+    public Tile getDisplayedTile() {
         List<AbstractEntity> actors = entities.stream()
                 .filter(entity -> entity instanceof Actor)
                 .collect(Collectors.toList());
@@ -73,7 +84,29 @@ public class GameBlock extends BaseBlock<Tile> {
                 newContent = actors.get(0).getTile();
             }
         }
+        return newContent;
+    }
 
+
+    public void updateLighting() {
+        var newContent = getContent();
+        if (lightingState == BlockLightingState.IN_LIGHT) {
+            setTop(TileRepository.EMPTY);
+        } else if (lightingState == BlockLightingState.SEEN) {
+            //TODO: Понять как не отображать сущности вне радиуса игрока
+            newContent = newContent.withForegroundColor(
+                    newContent.getForegroundColor().darkenByPercent(0.5).desaturate(0.2));
+        }
         setContent(newContent);
+    }
+
+
+    public void updateTileColor(TileColor tileColor) {
+        setContent(getContent().withForegroundColor(tileColor));
+    }
+
+
+    public boolean hasEntities() {
+        return !entities.isEmpty();
     }
 }

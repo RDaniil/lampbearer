@@ -58,7 +58,7 @@ public class GameBlockFactory {
         //TODO енам с типами блоков? сюда передать
         GameBlock block = new GameBlock(TileRepository.ROCK);
         block.setWalkable(false);
-        block.setTransparent(true);
+        block.setTransparent(false);
         return block;
     }
 

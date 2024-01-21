@@ -1,16 +1,16 @@
 package com.vdn.lampbearer.entites;
 
 import com.vdn.lampbearer.action.AttackAction;
-import com.vdn.lampbearer.attributes.HealthAttr;
-import com.vdn.lampbearer.attributes.InventoryAttr;
-import com.vdn.lampbearer.attributes.SpeedAttr;
-import com.vdn.lampbearer.attributes.StrengthAttr;
+import com.vdn.lampbearer.attributes.*;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.light.PlayerFOWSight;
 import com.vdn.lampbearer.views.TileRepository;
+import org.hexworks.zircon.api.color.TileColor;
+import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 
@@ -24,6 +24,17 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
     //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
     private final PlayerBehavior behavior = new PlayerBehavior();
+
+    /**
+     * Зрение игрока без фонарей в тумане войны
+     */
+    private final PlayerFOWSight fowLight;
+
+
+    public PlayerFOWSight getFowLight() {
+        fowLight.setPosition(getPosition().to2DPosition());
+        return fowLight;
+    }
 
     private final Map<KeyCode, Position3D> keyToSurroundingPositionMap = new HashMap<>();
 
@@ -42,10 +53,13 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
                 healthAttr,
                 new StrengthAttr(5),
                 new SpeedAttr(5),
+                new PerceptionAttr(5),
                 StaticBlockOccupier.getInstance(),
                 inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
+        fowLight = new PlayerFOWSight(Position.create(0, 0), 3,
+                TileColor.fromString("#fafaed"));
     }
 
 

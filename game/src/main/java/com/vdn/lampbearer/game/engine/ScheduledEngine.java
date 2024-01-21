@@ -76,7 +76,7 @@ public class ScheduledEngine implements Engine {
 
         while (nextSchedulable instanceof Actor) {
             boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
-            Thread.sleep(50);
+//            Thread.sleep(50);
             log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
             if (nextSchedulable instanceof Player) {
                 //Если игрок ничего не сделал - не нужно давать ход всем остальным. Нужно снова дать
