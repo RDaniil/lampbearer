@@ -47,7 +47,7 @@ public class GameBuilder {
 
         world.addEntity(new Door(VerticalArrangement.getInstance()), Position3D.create(10, 12, 0));
 
-        LampPost lampPost = new LampPost(Position3D.create(14, 13, 0));
+        LampPost lampPost = new LampPost(Position3D.create(13, 13, 0));
         world.addEntity(lampPost, lampPost.getPosition());
         world.addStaticLight(lampPost.getLight());
 
