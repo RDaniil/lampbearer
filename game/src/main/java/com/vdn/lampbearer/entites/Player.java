@@ -8,6 +8,7 @@ import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
+import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
@@ -41,7 +42,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
     public Player() {
         setName("Lampbearer");
-        setTile(TileRepository.PLAYER);
+        setTile(TileRepository.getTile(BlockTypes.PLAYER));
         InventoryAttr inventoryAttr = new InventoryAttr();
         inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(FirstAidKit.createForInventory());

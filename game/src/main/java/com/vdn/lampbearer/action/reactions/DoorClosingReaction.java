@@ -6,6 +6,7 @@ import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,8 @@ public class DoorClosingReaction implements Reaction {
         if (target.findAction(DoorCloseAction.class).isEmpty()) return false;
 
         boolean isVertical = target.findAttribute(VerticalArrangement.class).isPresent();
-        target.setTile(isVertical ? TileRepository.V_CLOSED_DOOR : TileRepository.H_CLOSED_DOOR);
+        target.setTile(isVertical ? TileRepository.getTile(BlockTypes.V_CLOSED_DOOR) :
+                TileRepository.getTile(BlockTypes.H_CLOSED_DOOR));
         target.getAttributes().add(DynamicBlockOccupier.getInstance());
         target.removeAction(DoorCloseAction.class);
         target.getActions().add(DoorOpenAction.getInstance());
