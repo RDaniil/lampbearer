@@ -51,6 +51,11 @@ public class LightingService {
     }
 
 
+    public void removeStaticLight(Light staticLight) {
+        staticLights.remove(staticLight);
+    }
+
+
     public boolean isEntityContainsLight(AbstractEntity entity) {
         return entityToDynamicLight.containsKey(entity);
     }

@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.action.interaction;
+package com.vdn.lampbearer.action.actions;
 
 import com.vdn.lampbearer.action.reactions.DropItemReaction;
 import lombok.AccessLevel;

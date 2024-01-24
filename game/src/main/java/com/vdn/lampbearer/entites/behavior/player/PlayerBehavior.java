@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.AttackAction;
-import com.vdn.lampbearer.action.interaction.Interaction;
-import com.vdn.lampbearer.action.interaction.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.AttackAction;
+import com.vdn.lampbearer.action.actions.Interaction;
+import com.vdn.lampbearer.action.actions.PickUpItemAction;
 import com.vdn.lampbearer.action.reactions.DropItemReaction;
 import com.vdn.lampbearer.action.reactions.PickUpItemReaction;
 import com.vdn.lampbearer.action.reactions.Reaction;

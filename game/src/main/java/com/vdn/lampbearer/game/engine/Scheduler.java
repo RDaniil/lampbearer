@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.game.engine;
 
-import com.vdn.lampbearer.entites.Schedulable;
+import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

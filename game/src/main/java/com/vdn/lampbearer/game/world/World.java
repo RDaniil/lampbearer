@@ -40,9 +40,13 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         lightingService.addDynamicLight(entity, dynamicLight);
     }
 
-
     public void addStaticLight(Light staticLight) {
         lightingService.addStaticLight(staticLight);
+    }
+
+
+    public void removeStaticLight(Light staticLight) {
+        lightingService.removeStaticLight(staticLight);
     }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {

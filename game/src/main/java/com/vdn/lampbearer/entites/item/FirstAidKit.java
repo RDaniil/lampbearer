@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.item;
 
-import com.vdn.lampbearer.action.HealAction;
-import com.vdn.lampbearer.action.interaction.DropItemAction;
-import com.vdn.lampbearer.action.interaction.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.DropItemAction;
+import com.vdn.lampbearer.action.actions.HealAction;
+import com.vdn.lampbearer.action.actions.PickUpItemAction;
 import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
 import com.vdn.lampbearer.services.DiceBuilder;

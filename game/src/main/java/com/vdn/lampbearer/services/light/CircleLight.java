@@ -13,4 +13,9 @@ public class CircleLight extends Light {
     public CircleLight(Position3D position, int radius, TileColor color) {
         super(position.to2DPosition(), radius, color);
     }
+
+
+    public CircleLight(int radius, TileColor color) {
+        super(radius, color);
+    }
 }

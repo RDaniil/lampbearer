@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.objects;
 
-import com.vdn.lampbearer.action.interaction.DoorOpenAction;
+import com.vdn.lampbearer.action.actions.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.Arrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
