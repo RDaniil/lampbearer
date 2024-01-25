@@ -73,6 +73,8 @@ public class ScheduledEngine implements Engine {
 
         Schedulable nextSchedulable = peekNextSchedulable();
         boolean isPlayerActed = false;
+        //Источники света здесь отдельно обрабатываются (тратим бензин каждый ход),
+        // либо делать лежащие на полу фонари актерами
 
         while (nextSchedulable instanceof Actor) {
             boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);

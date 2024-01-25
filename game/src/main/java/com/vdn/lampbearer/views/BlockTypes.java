@@ -21,5 +21,6 @@ public enum BlockTypes {
     V_GLASS,
     UNSEEN,
     EMPTY,
-    V_WALL_THICK_R_JOINT
+    V_WALL_THICK_R_JOINT,
+    LAMPPOST,
 }

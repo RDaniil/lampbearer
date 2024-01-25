@@ -24,7 +24,7 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
         setTile(TileRepository.getTile(BlockTypes.SIMPLE_ZOMBIE));
         setAttributes(List.of(
                 new HealthAttr(20),
-                new StrengthAttr(5),
+                new StrengthAttr(0),
                 new PerceptionAttr(10),
                 speedAttr,
                 StaticBlockOccupier.getInstance()

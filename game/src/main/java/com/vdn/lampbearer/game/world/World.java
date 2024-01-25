@@ -8,6 +8,7 @@ import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.light.Light;
 import com.vdn.lampbearer.services.light.LightingService;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
@@ -34,6 +35,15 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         lightingService = new LightingService(this, startingBlocks);
     }
 
+
+    public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
+        lightingService.addDynamicLight(entity, dynamicLight);
+    }
+
+
+    public void addStaticLight(Light staticLight) {
+        lightingService.addStaticLight(staticLight);
+    }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
@@ -124,14 +134,32 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         oldBlock.removeEntity(entity);
         entity.setPosition(targetPos);
         newBlock.addEntity(entity);
+
+        if (isEntityContainsLight(entity)) {
+            moveDynamicLightWithEntity(entity);
+            //TODO: Оптимизировать, сейчас отрисовываем весь свет сразу после каждого движения +
+            // после того как все сделали ход
+
+            lightingService.updateLighting();
+        }
         return true;
+    }
+
+
+    private boolean isEntityContainsLight(AbstractEntity entity) {
+        return lightingService.isEntityContainsLight(entity);
+    }
+
+
+    private void moveDynamicLightWithEntity(AbstractEntity entity) {
+        lightingService.moveDynamicLightWithEntity(entity);
     }
 
 
     public void update(GameContext gameContext) {
         engine.executeTurn(gameContext);
         long startTime = System.nanoTime();
-        lightingService.updateLighting(gameContext);
+        lightingService.updateLighting();
         long endTime = System.nanoTime();
 
         log.info("LIGHTING TIME: 0." + (endTime - startTime) / (1000));

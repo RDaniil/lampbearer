@@ -1,8 +1,7 @@
 package com.vdn.lampbearer.services.light;
 
 import com.vdn.lampbearer.constants.BlockLightingState;
-import com.vdn.lampbearer.entites.Player;
-import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.strategy.LightingStrategy;
@@ -12,14 +11,24 @@ import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LightingService {
 
     private final Map<Position3D, GameBlock> worldBlocks;
     private final World world;
     private final LightingStrategy lightingStrategy;
+    /**
+     * Мапка для хранения динамического света. Динамический свет может двигаться вместе с
+     * какой-то сущностью.
+     * Соответственно мапка сущнось-свет
+     */
+    private final HashMap<AbstractEntity, Set<Light>> entityToDynamicLight = new HashMap<>();
 
+    private final HashSet<Light> staticLights = new HashSet<>();
 
     public LightingService(World world, Map<Position3D, GameBlock> worldBlocks) {
         this.worldBlocks = worldBlocks;
@@ -29,14 +38,45 @@ public class LightingService {
     }
 
 
-    public void updateLighting(GameContext context) {
-        resetLightedBlocks();
-        Player player = context.getPlayer();
+    public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
+        if (!entityToDynamicLight.containsKey(entity)) {
+            entityToDynamicLight.put(entity, new HashSet<>());
+        }
+        entityToDynamicLight.get(entity).add(dynamicLight);
+    }
 
-        HashMap<Position, TileColor> positionToColorMap = lightingStrategy.lightBlocks(
-                player.getFowLight());
-        for (var posToColor : positionToColorMap.entrySet()) {
-            updateLighting(posToColor.getKey(), posToColor.getValue());
+
+    public void addStaticLight(Light staticLight) {
+        staticLights.add(staticLight);
+    }
+
+
+    public boolean isEntityContainsLight(AbstractEntity entity) {
+        return entityToDynamicLight.containsKey(entity);
+    }
+
+
+    public void moveDynamicLightWithEntity(AbstractEntity entity) {
+        for (Light light : entityToDynamicLight.get(entity)) {
+            light.setPosition(entity.getPosition().to2DPosition());
+        }
+    }
+
+
+    public void updateLighting() {
+        resetLightedBlocks();
+
+        var lights = entityToDynamicLight.values().stream()
+                .flatMap(Set::stream).collect(Collectors.toSet());
+        lights.addAll(staticLights);
+
+        //TODO: Смешивать цвет пересекающихся источников света
+        for (Light light : lights) {
+            HashMap<Position, TileColor> positionToColorMap = lightingStrategy
+                    .lightBlocks(light);
+            for (var posToColor : positionToColorMap.entrySet()) {
+                updateLighting(posToColor.getKey(), posToColor.getValue());
+            }
         }
     }
 
@@ -54,6 +94,7 @@ public class LightingService {
             if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
                 block.setLightingState(BlockLightingState.SEEN);
                 block.updateContent();
+                block.updateLighting();
             }
         }
     }
