@@ -1,0 +1,153 @@
+{
+  "configTileList": [
+    {
+      "blockType": "PLAYER",
+      "tile": "@",
+      "background": "#111111",
+      "foreground": "#FF9922"
+    },
+    {
+      "blockType": "GROUND",
+      "tile": ".",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": true,
+      "transparent": true
+    },
+    {
+      "blockType": "ROCK",
+      "tile": "▲",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": true
+    },
+    {
+      "blockType": "GRASS",
+      "tile": "\"",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": true,
+      "transparent": true
+    },
+    {
+      "blockType": "SIMPLE_ZOMBIE",
+      "tile": "Z",
+      "background": "#111111",
+      "foreground": "#6F0A1F"
+    },
+    {
+      "blockType": "H_CLOSED_DOOR",
+      "tile": "─",
+      "background": "#111111",
+      "foreground": "#964B00"
+    },
+    {
+      "blockType": "V_CLOSED_DOOR",
+      "tile": "│",
+      "background": "#111111",
+      "foreground": "#964B00"
+    },
+    {
+      "blockType": "OPENED_DOOR",
+      "tile": "/",
+      "background": "#111111",
+      "foreground": "#964B00"
+    },
+    {
+      "blockType": "UR_CORNER",
+      "tile": "╗",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "BR_CORNER",
+      "tile": "╝",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "UL_CORNER",
+      "tile": "╔",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "BL_CORNER",
+      "tile": "╚",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": true,
+      "transparent": true
+    },
+    {
+      "blockType": "H_WALL_THICK",
+      "tile": "═",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": true,
+      "transparent": true
+    },
+    {
+      "blockType": "H_WALL",
+      "tile": "─",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "V_WALL_THICK",
+      "tile": "║",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "FIRST_AID_KIT",
+      "tile": "┼",
+      "background": "#111111",
+      "foreground": "#DA2C22"
+    },
+    {
+      "blockType": "H_GLASS",
+      "tile": "─",
+      "background": "#111111",
+      "foreground": "#4DA0FF",
+      "walkable": false,
+      "transparent": true
+    },
+    {
+      "blockType": "V_GLASS",
+      "tile": "│",
+      "background": "#111111",
+      "foreground": "#4DA0FF",
+      "walkable": false,
+      "transparent": true
+    },
+    {
+      "blockType": "V_WALL_THICK_R_JOINT",
+      "tile": "╟",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false
+    },
+    {
+      "blockType": "UNSEEN",
+      "tile": " ",
+      "background": "#111111",
+      "foreground": "#111111"
+    }
+  ]
+}
+
+
+

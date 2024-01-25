@@ -4,6 +4,7 @@ import com.vdn.lampbearer.constants.BlockLightingState;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 import kotlin.Pair;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public GameBlock(Tile tile) {
         super(tile, persistentMapOf(new Pair<>(BlockTileType.CONTENT, tile)));
         lightingState = BlockLightingState.UNSEEN;
-        setTop(TileRepository.UNSEEN);
+        setTop(TileRepository.getTile(BlockTypes.UNSEEN));
     }
 
 
@@ -91,7 +92,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public void updateLighting() {
         var newContent = getContent();
         if (lightingState == BlockLightingState.IN_LIGHT) {
-            setTop(TileRepository.EMPTY);
+            setTop(TileRepository.getTile(BlockTypes.EMPTY));
         } else if (lightingState == BlockLightingState.SEEN) {
             //TODO: Понять как не отображать сущности вне радиуса игрока
             newContent = newContent.withForegroundColor(

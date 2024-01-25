@@ -10,6 +10,7 @@ import com.vdn.lampbearer.entites.behavior.npc.SimpleZombieBehavior;
 import com.vdn.lampbearer.entites.behavior.npc.general.NonPlayerCharacterBehavior;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
 
     public SimpleZombie(SpeedAttr speedAttr) {
         setName("Zombie");
-        setTile(TileRepository.SIMPLE_ZOMBIE);
+        setTile(TileRepository.getTile(BlockTypes.SIMPLE_ZOMBIE));
         setAttributes(List.of(
                 new HealthAttr(20),
                 new StrengthAttr(5),

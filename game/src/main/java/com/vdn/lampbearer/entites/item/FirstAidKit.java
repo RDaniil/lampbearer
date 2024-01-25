@@ -6,6 +6,7 @@ import com.vdn.lampbearer.action.interaction.PickUpItemAction;
 import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
 import com.vdn.lampbearer.services.DiceBuilder;
+import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class FirstAidKit extends AbstractItem {
     public FirstAidKit() {
         super();
-        setTile(TileRepository.FIRST_AID_KIT);
+        setTile(TileRepository.getTile(BlockTypes.FIRST_AID_KIT));
         setName("First aid kit");
         setAttributes(List.of(
                         new HealingItemAttribute(new DiceBuilder().dice(2, 6).plus(1).roll()),

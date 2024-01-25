@@ -3,7 +3,11 @@ package com.vdn.lampbearer.services;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.config.ConfigFileParser;
+import com.vdn.lampbearer.services.config.TileGameBlockConfig;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
+import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.TileRepository;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
@@ -32,15 +36,25 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
 
 
     public World buildWorld(Size3D worldSize, Size3D visibleSize) {
+        TileGameBlockConfig tileGameBlockConfig;
+        try {
+            tileGameBlockConfig = ConfigFileParser.parseConfigFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        TileRepository.fillTileMap(tileGameBlockConfig);
+        GameBlockFactory.fillGameBlockMap(tileGameBlockConfig);
+
         Iterator<Position3D> it = worldSize.fetchPositions().iterator();
         while (it.hasNext()) {
             Position3D pos = it.next();
-            blocks.put(pos, gameBlockFactory.createGround());
 
             if (RandomService.getRandom(0, 20) % 4 == 0) {
-                blocks.put(pos, gameBlockFactory.createGrass());
+                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.GRASS));
             } else if (RandomService.getRandom(0, 30) % 29 == 0) {
-                blocks.put(pos, gameBlockFactory.createRock());
+                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.ROCK));
+            } else {
+                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.GROUND));
             }
         }
 
@@ -64,9 +78,7 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
 
         for (Map.Entry<Position, Tile> positionTileEntry : tiles.entrySet()) {
             positionToBlock.put(positionTileEntry.getKey().toPosition3D(0).withRelative(offset),
-                    getBlockByChar(positionTileEntry.getValue()
-                            .asCharacterTileOrElse((Tile t) -> Tile.defaultTile()
-                                    .withCharacter('.')).getCharacter()));
+                    getBlockByTile(positionTileEntry.getValue()));
         }
 
         return positionToBlock;
@@ -82,11 +94,17 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
             throw new RuntimeException(e);
         }
 
-        return rex.toLayerList().get(0).getTiles();
+        Map<Position, Tile> positionTileMap = rex.toLayerList().get(0).getTiles();
+        HashMap<Position, Tile> positionTileHashMap = new HashMap<>(positionTileMap);
+        for (Map.Entry<Position, Tile> positionTileEntry : positionTileHashMap.entrySet()) {
+            positionTileEntry.setValue(TileRepository.getTile(positionTileEntry.getValue()));
+        }
+
+        return positionTileMap;
     }
 
 
-    private GameBlock getBlockByChar(char c) {
-        return gameBlockFactory.getBlockByChar(c);
+    private GameBlock getBlockByTile(Tile tile) {
+        return gameBlockFactory.returnGameBlock(TileRepository.getBlockType(tile));
     }
 }
