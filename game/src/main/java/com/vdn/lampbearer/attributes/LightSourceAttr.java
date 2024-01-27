@@ -1,11 +1,14 @@
 package com.vdn.lampbearer.attributes;
 
 import com.vdn.lampbearer.services.light.Light;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
+@RequiredArgsConstructor
 public class LightSourceAttr implements Attribute {
-    private Light light;
+    private boolean isOn = false;
+    private final Light light;
 }

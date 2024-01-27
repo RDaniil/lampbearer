@@ -60,7 +60,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
                 inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
-        fowLight = new PlayerFOWSight(Position.create(0, 0), 3,
+        fowLight = new PlayerFOWSight(Position.create(0, 0), 2,
                 TileColor.fromString("#fafaed"));
     }
 

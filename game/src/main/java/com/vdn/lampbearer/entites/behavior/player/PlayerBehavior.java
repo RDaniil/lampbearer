@@ -1,10 +1,9 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
+import com.vdn.lampbearer.action.actions.AbstractPickUpItemAction;
 import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.action.actions.Interaction;
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
 import com.vdn.lampbearer.action.reactions.DropItemReaction;
-import com.vdn.lampbearer.action.reactions.PickUpItemReaction;
 import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
@@ -78,11 +77,13 @@ public class PlayerBehavior extends Behavior<Player> {
             new DropItemReaction().execute(player, inventoryAttr.getItems().get(0), context);
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_P)) {
             var pickupableItem = context.getWorld().getByAction(player.getPosition(),
-                    PickUpItemAction.class);
+                    AbstractPickUpItemAction.class);
             if (pickupableItem.isEmpty()) return false;
 
             //TODO: Выбор поднимаемого предмета
-            new PickUpItemReaction().execute(player, pickupableItem.get(), context);
+            pickupableItem.get().findAction(AbstractPickUpItemAction.class).get()
+                    .createReaction().execute(player, pickupableItem.get(), context);
+
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_U)) {
             return showItemActionModal(context);
         }

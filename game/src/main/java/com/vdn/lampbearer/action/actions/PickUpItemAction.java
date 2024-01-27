@@ -5,19 +5,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PickUpItemAction implements Interaction<PickUpItemReaction> {
+public class PickUpItemAction extends AbstractPickUpItemAction<PickUpItemReaction> {
 
     private static PickUpItemAction INSTANCE;
 
 
     public static PickUpItemAction getInstance() {
         return INSTANCE != null ? INSTANCE : (INSTANCE = new PickUpItemAction());
-    }
-
-
-    @Override
-    public String getName() {
-        return "Pick up";
     }
 
 

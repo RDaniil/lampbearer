@@ -52,6 +52,9 @@ public class GameStarter {
         while (true) {
             wait();
 
+            //TODO: У org.hexworks.zircon.internal.game.impl.GameAreaComponentRenderer.render есть
+            // публичный метод рендера, мб он как-то спасет
+            // Если убрать мнгопоточку в GameStarter, модальные окна почему-то не отображаются.
             gameContext.setEvent(event);
             game.getWorld().update(gameContext);
             game.getWorld().updateUI();

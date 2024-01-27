@@ -18,15 +18,15 @@
       "blockType": "ROCK",
       "tile": "▲",
       "background": "#111111",
-      "foreground": "#75715E",
+      "foreground": "#D3D5DC",
       "walkable": false,
-      "transparent": true
+      "transparent": false
     },
     {
       "blockType": "GRASS",
       "tile": "\"",
       "background": "#111111",
-      "foreground": "#75715E",
+      "foreground": "#9ca942",
       "walkable": true,
       "transparent": true
     },
@@ -83,16 +83,16 @@
       "tile": "╚",
       "background": "#111111",
       "foreground": "#75715E",
-      "walkable": true,
-      "transparent": true
+      "walkable": false,
+      "transparent": false
     },
     {
       "blockType": "H_WALL_THICK",
       "tile": "═",
       "background": "#111111",
       "foreground": "#75715E",
-      "walkable": true,
-      "transparent": true
+      "walkable": false,
+      "transparent": false
     },
     {
       "blockType": "H_WALL",
@@ -149,6 +149,12 @@
     {
       "blockType": "LAMPPOST",
       "tile": "⌠",
+      "background": "#111111",
+      "foreground": "#ffba37"
+    },
+    {
+      "blockType": "LANTERN",
+      "tile": "Ω",
       "background": "#111111",
       "foreground": "#ffba37"
     }
