@@ -157,6 +157,12 @@
       "tile": "Ω",
       "background": "#111111",
       "foreground": "#ffba37"
+    },
+    {
+      "blockType": "OIL_BOTTLE",
+      "tile": "b",
+      "background": "#111111",
+      "foreground": "#4DA0FF"
     }
   ]
 }

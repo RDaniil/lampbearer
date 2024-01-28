@@ -1,7 +1,4 @@
-package com.vdn.lampbearer.action.actions;
-
-import com.vdn.lampbearer.action.Action;
-import com.vdn.lampbearer.action.reactions.Reaction;
+package com.vdn.lampbearer.action;
 
 /**
  * An Action which has to be initialized by special interaction KEY

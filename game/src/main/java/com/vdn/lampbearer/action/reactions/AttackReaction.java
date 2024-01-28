@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
@@ -42,7 +43,7 @@ public class AttackReaction implements Reaction {
         if (remainingHealth <= 0) {
             context.getLogArea()
                     .addParagraph(String.format("%s's died!", target.getName()), false, 0);
-            context.getWorld().removeEntity(target, target.getPosition());
+            context.getWorld().deleteEntity(target, target.getPosition());
 
             if (target instanceof Player) {
                 context.getLogArea().addParagraph("GAME IS OVER", false, 0);

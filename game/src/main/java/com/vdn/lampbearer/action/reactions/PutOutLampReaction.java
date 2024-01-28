@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.LightLampAction;
 import com.vdn.lampbearer.action.actions.PutOutLampAction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
@@ -21,12 +22,12 @@ public class PutOutLampReaction implements Reaction {
 
         World world = context.getWorld();
         lightAttr.get().setOn(false);
-        world.removeDynamicLight(target, lightAttr.get().getLight());
+        world.removeLight(lightAttr.get().getLight());
 
         lamp.removeAction(PutOutLampAction.class);
         lamp.getActions().add(LightLampAction.getInstance());
 
-        log.info(String.format("%s's put out %s", target.getName(), lamp.getName()));
+        log.info(String.format("%s has been put out", lamp.getName()));
 
         return true;
     }

@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.DoorCloseAction;
 import com.vdn.lampbearer.action.actions.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;

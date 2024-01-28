@@ -87,6 +87,24 @@ public class LightingService {
     }
 
 
+    public void removeLight(Light light) {
+        if (!staticLights.remove(light)) {
+            for (Set<Light> lightsByEntity : entityToDynamicLight.values()) {
+                lightsByEntity.remove(light);
+            }
+        }
+    }
+
+
+    public AbstractEntity getEntityByLight(Light light) {
+        for (Map.Entry<AbstractEntity, Set<Light>> entityToLights : entityToDynamicLight.entrySet()) {
+            if (entityToLights.getValue().contains(light)) {
+                return entityToLights.getKey();
+            }
+        }
+        return null;
+    }
+
     public boolean isEntityContainsLight(AbstractEntity entity) {
         return entityToDynamicLight.containsKey(entity);
     }

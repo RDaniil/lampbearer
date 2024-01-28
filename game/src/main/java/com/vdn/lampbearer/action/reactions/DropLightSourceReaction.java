@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.DropLightSourceAction;
 import com.vdn.lampbearer.action.actions.PickUpLightSourceAction;
 import com.vdn.lampbearer.attributes.InventoryAttr;

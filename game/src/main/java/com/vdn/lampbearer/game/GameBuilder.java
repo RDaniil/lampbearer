@@ -6,6 +6,7 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.entites.item.Lantern;
+import com.vdn.lampbearer.entites.item.OilBottle;
 import com.vdn.lampbearer.entites.objects.Door;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
@@ -52,6 +53,7 @@ public class GameBuilder {
 
         world.addEntity(FirstAidKit.createForWorld(), Position3D.create(5, 4, 0));
         world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
+        world.addEntity(new OilBottle(Position3D.create(23, 23, 0)), Position3D.create(23, 23, 0));
         return new Game(world, player);
     }
 }

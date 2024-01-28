@@ -24,4 +24,5 @@ public enum BlockTypes {
     V_WALL_THICK_R_JOINT,
     LAMPPOST,
     LANTERN,
+    OIL_BOTTLE,
 }
