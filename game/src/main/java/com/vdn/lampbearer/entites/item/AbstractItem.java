@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.entites.item;
 
 import com.vdn.lampbearer.entites.AbstractEntity;
-import com.vdn.lampbearer.entites.Printable;
+import com.vdn.lampbearer.entites.interfaces.Printable;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.Component;
 import org.hexworks.zircon.api.component.HBox;

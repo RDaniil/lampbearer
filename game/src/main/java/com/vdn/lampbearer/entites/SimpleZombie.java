@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.AttackAction;
+import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
@@ -8,6 +8,7 @@ import com.vdn.lampbearer.attributes.StrengthAttr;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.npc.SimpleZombieBehavior;
 import com.vdn.lampbearer.entites.behavior.npc.general.NonPlayerCharacterBehavior;
+import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.BlockTypes;

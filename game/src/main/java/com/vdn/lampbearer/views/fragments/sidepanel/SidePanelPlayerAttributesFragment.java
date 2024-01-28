@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.views.fragments.sidepanel;
 
 import com.vdn.lampbearer.attributes.Attribute;
-import com.vdn.lampbearer.entites.Printable;
+import com.vdn.lampbearer.entites.interfaces.Printable;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.AttachedComponent;

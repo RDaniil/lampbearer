@@ -1,9 +1,10 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.AttackAction;
+import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.*;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
+import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -59,7 +60,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
                 inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
-        fowLight = new PlayerFOWSight(Position.create(0, 0), 3,
+        fowLight = new PlayerFOWSight(Position.create(0, 0), 2,
                 TileColor.fromString("#fafaed"));
     }
 

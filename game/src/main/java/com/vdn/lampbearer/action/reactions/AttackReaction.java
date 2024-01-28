@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
-import com.vdn.lampbearer.action.AttackAction;
+import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;

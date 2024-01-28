@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.action.reactions;
 
-import com.vdn.lampbearer.action.interaction.DropItemAction;
-import com.vdn.lampbearer.action.interaction.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.DropItemAction;
+import com.vdn.lampbearer.action.actions.PickUpItemAction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;

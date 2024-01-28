@@ -38,31 +38,6 @@ public class LightingService {
     }
 
 
-    public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
-        if (!entityToDynamicLight.containsKey(entity)) {
-            entityToDynamicLight.put(entity, new HashSet<>());
-        }
-        entityToDynamicLight.get(entity).add(dynamicLight);
-    }
-
-
-    public void addStaticLight(Light staticLight) {
-        staticLights.add(staticLight);
-    }
-
-
-    public boolean isEntityContainsLight(AbstractEntity entity) {
-        return entityToDynamicLight.containsKey(entity);
-    }
-
-
-    public void moveDynamicLightWithEntity(AbstractEntity entity) {
-        for (Light light : entityToDynamicLight.get(entity)) {
-            light.setPosition(entity.getPosition().to2DPosition());
-        }
-    }
-
-
     public void updateLighting() {
         resetLightedBlocks();
 
@@ -77,6 +52,49 @@ public class LightingService {
             for (var posToColor : positionToColorMap.entrySet()) {
                 updateLighting(posToColor.getKey(), posToColor.getValue());
             }
+        }
+    }
+
+
+    public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
+        if (!entityToDynamicLight.containsKey(entity)) {
+            entityToDynamicLight.put(entity, new HashSet<>());
+        }
+        entityToDynamicLight.get(entity).add(dynamicLight);
+    }
+
+
+    public void removeDynamicLight(AbstractEntity entity, Light dynamicLight) {
+        if (entityToDynamicLight.containsKey(entity)) {
+            entityToDynamicLight.get(entity).remove(dynamicLight);
+        }
+    }
+
+
+    public void removeDynamicLight(AbstractEntity entity) {
+        if (entityToDynamicLight.containsKey(entity)) {
+            entityToDynamicLight.get(entity).clear();
+        }
+    }
+
+    public void addStaticLight(Light staticLight) {
+        staticLights.add(staticLight);
+    }
+
+
+    public void removeStaticLight(Light staticLight) {
+        staticLights.remove(staticLight);
+    }
+
+
+    public boolean isEntityContainsLight(AbstractEntity entity) {
+        return entityToDynamicLight.containsKey(entity);
+    }
+
+
+    public void moveDynamicLightWithEntity(AbstractEntity entity) {
+        for (Light light : entityToDynamicLight.get(entity)) {
+            light.setPosition(entity.getPosition().to2DPosition());
         }
     }
 

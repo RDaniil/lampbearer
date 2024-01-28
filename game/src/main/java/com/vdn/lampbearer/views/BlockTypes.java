@@ -23,4 +23,5 @@ public enum BlockTypes {
     EMPTY,
     V_WALL_THICK_R_JOINT,
     LAMPPOST,
+    LANTERN,
 }

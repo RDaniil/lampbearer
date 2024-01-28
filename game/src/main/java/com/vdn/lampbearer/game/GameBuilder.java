@@ -5,13 +5,12 @@ import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
+import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.entites.objects.Door;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
-import com.vdn.lampbearer.services.light.CircleLight;
 import lombok.RequiredArgsConstructor;
-import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.springframework.stereotype.Component;
@@ -42,16 +41,17 @@ public class GameBuilder {
 
         SimpleZombie zombie = new SimpleZombie(new SpeedAttr(2));
         world.addEntity(zombie, Position3D.create(5, 4, 0));
-        CircleLight zombieLight = new CircleLight(zombie.getPosition(), 4, TileColor.fromString("#FF4200"));
-        world.addDynamicLight(zombie, zombieLight);
+//        CircleLight zombieLight = new CircleLight(zombie.getPosition(), 4, TileColor.fromString("#FF4200"));
+//        world.addDynamicLight(zombie, zombieLight);
 
         world.addEntity(new Door(VerticalArrangement.getInstance()), Position3D.create(10, 12, 0));
 
-        LampPost lampPost = new LampPost(Position3D.create(14, 13, 0));
+        LampPost lampPost = new LampPost(Position3D.create(13, 13, 0));
         world.addEntity(lampPost, lampPost.getPosition());
         world.addStaticLight(lampPost.getLight());
 
         world.addEntity(FirstAidKit.createForWorld(), Position3D.create(5, 4, 0));
+        world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
         return new Game(world, player);
     }
 }

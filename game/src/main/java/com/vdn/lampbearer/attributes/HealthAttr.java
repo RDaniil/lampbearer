@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.attributes;
 
-import com.vdn.lampbearer.entites.Printable;
+import com.vdn.lampbearer.entites.interfaces.Printable;
 import lombok.Getter;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.Component;

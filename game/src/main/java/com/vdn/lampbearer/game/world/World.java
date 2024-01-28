@@ -16,8 +16,10 @@ import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Содержит всю карту из блоков
@@ -41,8 +43,31 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
+    public void removeDynamicLight(AbstractEntity entity, Light dynamicLight) {
+        lightingService.removeDynamicLight(entity, dynamicLight);
+    }
+
+
+    public void removeDynamicLightByEntity(AbstractEntity entity) {
+        lightingService.removeDynamicLight(entity);
+    }
+
     public void addStaticLight(Light staticLight) {
         lightingService.addStaticLight(staticLight);
+    }
+
+    public void removeStaticLight(Light staticLight) {
+        lightingService.removeStaticLight(staticLight);
+    }
+
+
+    private boolean isEntityContainsLight(AbstractEntity entity) {
+        return lightingService.isEntityContainsLight(entity);
+    }
+
+
+    private void moveDynamicLightWithEntity(AbstractEntity entity) {
+        lightingService.moveDynamicLightWithEntity(entity);
     }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {
@@ -78,6 +103,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
         block.removeEntity(entity);
         engine.removeEntity(entity);
+        removeDynamicLightByEntity(entity);
     }
 
 
@@ -109,9 +135,15 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             });
 
             //TODO: Если мы хотим поднять предмет и их несколько - это не работает
-            return block.getEntities().stream()
+            List<AbstractEntity> entitiesByAction = block.getEntities().stream()
                     .filter(entity -> entity.findAction(actionType).isPresent())
-                    .findFirst();
+                    .collect(Collectors.toList());
+            if (entitiesByAction.size() > 1) {
+                throw new IllegalArgumentException(
+                        "Ожидали найти 1 сущность по Action " + actionType.getSimpleName());
+            }
+            return entitiesByAction.isEmpty() ? Optional.empty() :
+                    Optional.of(entitiesByAction.get(0));
         } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
@@ -140,31 +172,25 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             //TODO: Оптимизировать, сейчас отрисовываем весь свет сразу после каждого движения +
             // после того как все сделали ход
 
-            lightingService.updateLighting();
+            updateLighting();
         }
         return true;
     }
 
 
-    private boolean isEntityContainsLight(AbstractEntity entity) {
-        return lightingService.isEntityContainsLight(entity);
-    }
-
-
-    private void moveDynamicLightWithEntity(AbstractEntity entity) {
-        lightingService.moveDynamicLightWithEntity(entity);
+    public void updateLighting() {
+        lightingService.updateLighting();
     }
 
 
     public void update(GameContext gameContext) {
         engine.executeTurn(gameContext);
         long startTime = System.nanoTime();
-        lightingService.updateLighting();
+        updateLighting();
         long endTime = System.nanoTime();
 
         log.info("LIGHTING TIME: 0." + (endTime - startTime) / (1000));
     }
-
 
     public void updateUI() {
         engine.updateUI();
@@ -216,5 +242,4 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             return false;
         }
     }
-
 }

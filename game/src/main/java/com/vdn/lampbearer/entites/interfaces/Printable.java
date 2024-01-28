@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.entites;
+package com.vdn.lampbearer.entites.interfaces;
 
 import org.hexworks.zircon.api.component.Component;
 
