@@ -4,6 +4,7 @@ import com.vdn.lampbearer.constants.BlockLightingState;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.ColorBlender;
 import com.vdn.lampbearer.services.light.strategy.LightingStrategy;
 import com.vdn.lampbearer.services.light.strategy.ShadowCastingLightingStrategy;
 import org.hexworks.zircon.api.color.TileColor;
@@ -45,16 +46,24 @@ public class LightingService {
                 .flatMap(Set::stream).collect(Collectors.toSet());
         lights.addAll(staticLights);
 
-        //TODO: Смешивать цвет пересекающихся источников света
         for (Light light : lights) {
             HashMap<Position, TileColor> positionToColorMap = lightingStrategy
                     .lightBlocks(light);
             for (var posToColor : positionToColorMap.entrySet()) {
-                updateLighting(posToColor.getKey(), posToColor.getValue());
+                GameBlock block = worldBlocks.get(posToColor.getKey().toPosition3D(0));
+                if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
+                    updateLightningWithMixingColor(block, posToColor.getKey(), posToColor.getValue());
+                } else {
+                    updateLighting(posToColor.getKey(), posToColor.getValue());
+                }
             }
         }
     }
 
+    public void updateLightningWithMixingColor(GameBlock block, Position position, TileColor color){
+        updateLighting(position, ColorBlender.mixLightColors(color,
+                            block.getContent().getForegroundColor()));
+    }
 
     public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
         if (!entityToDynamicLight.containsKey(entity)) {
