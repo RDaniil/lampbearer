@@ -5,6 +5,7 @@ import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
+import com.vdn.lampbearer.entites.interfaces.Updateable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.SidePanelView;
 import lombok.SneakyThrows;
@@ -73,26 +74,31 @@ public class ScheduledEngine implements Engine {
 
         Schedulable nextSchedulable = peekNextSchedulable();
         boolean isPlayerActed = false;
-        //Источники света здесь отдельно обрабатываются (тратим бензин каждый ход),
-        // либо делать лежащие на полу фонари актерами
 
-        while (nextSchedulable instanceof Actor) {
-            boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
+        while (true) {
+            if (nextSchedulable instanceof Actor) {
+                boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
 //            Thread.sleep(50);
-            log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
-            if (nextSchedulable instanceof Player) {
-                //Если игрок ничего не сделал - не нужно давать ход всем остальным. Нужно снова дать
-                // ход игроку
-                if (!isActionDone) {
-                    break;
-                } else {
-                    isPlayerActed = true;
+                log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
+                if (nextSchedulable instanceof Player) {
+                    //Если игрок ничего не сделал - не нужно давать ход всем остальным. Нужно снова дать
+                    // ход игроку
+                    if (!isActionDone) {
+                        break;
+                    } else {
+                        isPlayerActed = true;
+                    }
                 }
+
+                updateSchedule(nextSchedulable);
+
+                nextSchedulable = peekNextSchedulable();
+            } else if (nextSchedulable instanceof Updateable) {
+                updateSchedule(nextSchedulable);
+                ((Updateable) nextSchedulable).update(gameContext);
+                log.info(Scheduler.currentTime + ": " + nextSchedulable + " updated");
+                nextSchedulable = peekNextSchedulable();
             }
-
-            updateSchedule(nextSchedulable);
-
-            nextSchedulable = peekNextSchedulable();
             if (nextSchedulable instanceof Player && isPlayerActed) break;
         }
     }

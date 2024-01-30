@@ -78,8 +78,13 @@ public class ItemUseFragment implements Fragment {
                 MouseEventType.MOUSE_PRESSED,
                 (mouseEvent, uiEventPhase) -> {
                     if (uiEventPhase.equals(UIEventPhase.CAPTURE)) {
-                        action.createReaction().execute(context.getPlayer(), item, context);
-                        containingModal.close(EmptyModalResult.INSTANCE);
+                        var actionExecuted = action.createReaction().execute(
+                                context.getPlayer(), item, context);
+                        if (actionExecuted) {
+                            containingModal.close(EmptyModalResult.INSTANCE);
+                        } else {
+                            containingModal.close(SelectionCancelled.INSTANCE);
+                        }
                     }
                     return UIEventResponse.processed();
                 });
@@ -89,8 +94,13 @@ public class ItemUseFragment implements Fragment {
                 (event, uiEventPhase) -> {
                     if (uiEventPhase.equals(UIEventPhase.TARGET)) {
                         if (event.getKey().toUpperCase().charAt(0) == firstLetter) {
-                            action.createReaction().execute(context.getPlayer(), item, context);
-                            containingModal.close(EmptyModalResult.INSTANCE);
+                            var actionExecuted = action.createReaction().execute(
+                                    context.getPlayer(), item, context);
+                            if (actionExecuted) {
+                                containingModal.close(EmptyModalResult.INSTANCE);
+                            } else {
+                                containingModal.close(SelectionCancelled.INSTANCE);
+                            }
                         } else if (event.getCode().equals(KeyCode.ESCAPE)) {
                             containingModal.close(SelectionCancelled.INSTANCE);
                         }

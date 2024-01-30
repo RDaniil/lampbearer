@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.LightLampAction;
 import com.vdn.lampbearer.action.actions.PutOutLampAction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;

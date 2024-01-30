@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.action.actions;
 
 import com.vdn.lampbearer.action.Action;
-import com.vdn.lampbearer.action.reactions.Reaction;
+import com.vdn.lampbearer.action.Reaction;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor()

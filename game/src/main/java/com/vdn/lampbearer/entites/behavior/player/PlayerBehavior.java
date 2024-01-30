@@ -1,10 +1,10 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
+import com.vdn.lampbearer.action.Interaction;
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.action.actions.AbstractPickUpItemAction;
 import com.vdn.lampbearer.action.actions.AttackAction;
-import com.vdn.lampbearer.action.actions.Interaction;
 import com.vdn.lampbearer.action.reactions.DropItemReaction;
-import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;

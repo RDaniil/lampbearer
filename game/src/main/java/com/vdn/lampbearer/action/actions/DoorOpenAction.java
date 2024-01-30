@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.actions;
 
+import com.vdn.lampbearer.action.Interaction;
 import com.vdn.lampbearer.action.reactions.DoorOpeningReaction;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

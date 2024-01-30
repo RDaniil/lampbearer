@@ -30,7 +30,7 @@ public class InventoryItemSelectModalView {
                 .max(Integer::compareTo).orElse(23);
 
         var panel = Components.panel()
-                .withPreferredSize(maxItemNameLength + 7, inventoryAttr.getMaxSize() + 3)
+                .withPreferredSize(maxItemNameLength + 12, inventoryAttr.getMaxSize() + 3)
                 .withDecorations(box(BoxType.SINGLE, "Select item"))
                 .build();
 

@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.attributes;
 
+import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor
@@ -29,6 +31,20 @@ public class InventoryAttr implements Attribute {
         return items.stream()
                 .filter(itemType::isInstance)
                 .findFirst();
+    }
+
+
+    public <T extends Action<?>> List<AbstractItem> findItemByAction(Class<T> itemAction) {
+        return items.stream()
+                .filter(item -> item.findAction(itemAction).isPresent())
+                .collect(Collectors.toList());
+    }
+
+
+    public <T extends Attribute> List<AbstractItem> findByAttribute(Class<T> itemAttribute) {
+        return items.stream()
+                .filter(item -> item.findAttribute(itemAttribute).isPresent())
+                .collect(Collectors.toList());
     }
 
 

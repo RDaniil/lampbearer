@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.attributes.HealthAttr;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.UsableAttr;
@@ -37,7 +38,7 @@ public class HealReaction implements Reaction {
         Optional<InventoryAttr> inventoryOpt = target.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
 
-        if (!usableAttribute.get().use()) {
+        if (usableAttribute.get().useOnce() == 0) {
             //TODO: 1) Если будет возможность хилять не только себя - это не сработает, т.к. надо
             // удалять из чужого инвентаря а не из нашего. 2) Наверное не очень хорошо, что
             // действие лечения заботится о том чтобы удалить используемый предмет...

@@ -48,6 +48,10 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
+    public void removeLight(Light light) {
+        lightingService.removeLight(light);
+    }
+
     public void removeDynamicLightByEntity(AbstractEntity entity) {
         lightingService.removeDynamicLight(entity);
     }
@@ -68,6 +72,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     private void moveDynamicLightWithEntity(AbstractEntity entity) {
         lightingService.moveDynamicLightWithEntity(entity);
+    }
+
+
+    public AbstractEntity getEntityByLight(Light light) {
+        return lightingService.getEntityByLight(light);
     }
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {
@@ -94,7 +103,32 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
+    /**
+     * Удаляет сущность с карты мира. Сущность все еще может существовать (например перемещена с
+     * карты в инвентарь)
+     *
+     * @param entity     Удаляемая сущность
+     * @param position3D Позиция удаляемой сущности
+     */
     public void removeEntity(AbstractEntity entity, Position3D position3D) {
+        GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
+            throw new IllegalArgumentException(
+                    String.format("Position %s does not contain any blocks", pos)
+            );
+        });
+
+        block.removeEntity(entity);
+        removeDynamicLightByEntity(entity);
+    }
+
+
+    /**
+     * Удаляет сущность и из движка и с карты. Сущность больше не может нигде существовать
+     *
+     * @param entity     Удаляемая сущность
+     * @param position3D Позиция удаляемой сущности
+     */
+    public void deleteEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
             throw new IllegalArgumentException(
                     String.format("Position %s does not contain any blocks", pos)

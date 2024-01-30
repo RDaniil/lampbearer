@@ -20,7 +20,7 @@ public abstract class AbstractItem extends AbstractEntity implements Printable {
                 .withIcon(getTile())
                 .build();
 
-        var itemComponent = Components.button()
+        var itemComponent = Components.label()
                 .withDecorations(noDecoration())
                 .withText(" " + getName())
                 .build();

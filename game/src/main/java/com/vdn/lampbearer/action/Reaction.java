@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.action.reactions;
+package com.vdn.lampbearer.action;
 
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
