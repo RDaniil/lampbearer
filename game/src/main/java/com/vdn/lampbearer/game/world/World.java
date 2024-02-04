@@ -218,12 +218,14 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
 
     public void update(GameContext gameContext) {
+        double startTime = (double) System.nanoTime();
         engine.executeTurn(gameContext);
-        long startTime = System.nanoTime();
+        double executeTurn = (double) System.nanoTime();
+        log.info("executeTurn TIME: " + (executeTurn - startTime) / (1000_000));
         updateLighting();
-        long endTime = System.nanoTime();
+        double endTime = (double) System.nanoTime();
 
-        log.info("LIGHTING TIME: 0." + (endTime - startTime) / (1000));
+        log.info("LIGHTING TIME: " + (endTime - executeTurn) / (1000_000));
     }
 
     public void updateUI() {

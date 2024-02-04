@@ -1,7 +1,9 @@
 package com.vdn.lampbearer.views.fragments;
 
 import com.vdn.lampbearer.action.Action;
+import com.vdn.lampbearer.action.Reaction;
 import com.vdn.lampbearer.config.GameConfig;
+import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +16,9 @@ import org.hexworks.zircon.api.component.VBox;
 import org.hexworks.zircon.api.component.modal.Modal;
 import org.hexworks.zircon.api.component.modal.ModalResult;
 import org.hexworks.zircon.api.data.Tile;
+import org.hexworks.zircon.api.fragment.menu.MenuItemSelected;
 import org.hexworks.zircon.api.fragment.menu.SelectionCancelled;
 import org.hexworks.zircon.api.uievent.*;
-import org.hexworks.zircon.internal.component.modal.EmptyModalResult;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -78,13 +80,7 @@ public class ItemUseFragment implements Fragment {
                 MouseEventType.MOUSE_PRESSED,
                 (mouseEvent, uiEventPhase) -> {
                     if (uiEventPhase.equals(UIEventPhase.CAPTURE)) {
-                        var actionExecuted = action.createReaction().execute(
-                                context.getPlayer(), item, context);
-                        if (actionExecuted) {
-                            containingModal.close(EmptyModalResult.INSTANCE);
-                        } else {
-                            containingModal.close(SelectionCancelled.INSTANCE);
-                        }
+                        sendSelectedActionToModal(action.createReaction());
                     }
                     return UIEventResponse.processed();
                 });
@@ -94,13 +90,7 @@ public class ItemUseFragment implements Fragment {
                 (event, uiEventPhase) -> {
                     if (uiEventPhase.equals(UIEventPhase.TARGET)) {
                         if (event.getKey().toUpperCase().charAt(0) == firstLetter) {
-                            var actionExecuted = action.createReaction().execute(
-                                    context.getPlayer(), item, context);
-                            if (actionExecuted) {
-                                containingModal.close(EmptyModalResult.INSTANCE);
-                            } else {
-                                containingModal.close(SelectionCancelled.INSTANCE);
-                            }
+                            sendSelectedActionToModal(action.createReaction());
                         } else if (event.getCode().equals(KeyCode.ESCAPE)) {
                             containingModal.close(SelectionCancelled.INSTANCE);
                         }
@@ -109,5 +99,13 @@ public class ItemUseFragment implements Fragment {
                 });
 
         return actionButton;
+    }
+
+
+    private void sendSelectedActionToModal(Reaction action) {
+        ItemUseReactionContextDto reactionContext =
+                new ItemUseReactionContextDto(context.getPlayer(), item,
+                        context, action);
+        containingModal.close(new MenuItemSelected<>(reactionContext));
     }
 }

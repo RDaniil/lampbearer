@@ -47,7 +47,7 @@ public class PlayView extends BaseView {
         super(playViewTileGrid, GameConfig.THEME);
         this.game = gameBuilder.buildGame(Size3D.create(100, 100, 1));
 
-        //Нужен чтобы скрывать артефакт библиотеки: при вызове detach() копонента на один кадр
+        //Нужен, чтобы скрывать артефакт библиотеки: при вызове detach() копонента на один кадр
         // переносится в левый верхний угол экрана. Проблема связана с многопоточкой, пока не
         // понятнок как ее нормально решать, оставив при этом "анимации" передвижения
         Layer firstLineLayer = LayerBuilder.newBuilder()
@@ -63,7 +63,7 @@ public class PlayView extends BaseView {
         screen.addLayer(firstLineLayer);
         this.sidePanel = Components.panel()
                 .withPosition(0, 1)
-                .withPreferredSize(SIDEBAR_WIDTH, GameConfig.SIDEBAR_HEIGHT - 1)
+                .withPreferredSize(SIDEBAR_WIDTH, GameConfig.SIDEBAR_HEIGHT)
                 .withDecorations(box())
                 .withUpdateOnAttach(true)
                 .build();

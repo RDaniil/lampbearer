@@ -4,6 +4,7 @@ import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.*;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
+import com.vdn.lampbearer.entites.behavior.player.PlayerBehaviorManager;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.game.GameContext;
@@ -22,10 +23,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Player extends Actor<PlayerBehavior> implements Schedulable {
+public class Player extends Actor<PlayerBehaviorManager> implements Schedulable {
 
     //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
-    private final PlayerBehavior behavior = new PlayerBehavior();
+    private final PlayerBehaviorManager behaviorManager = new PlayerBehaviorManager();
 
     /**
      * Зрение игрока без фонарей в тумане войны
@@ -67,7 +68,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
     @Override
     public boolean makeAction(GameContext context) {
-        return behavior.act(this, context);
+        return behaviorManager.act(this, context);
     }
 
 
@@ -108,5 +109,10 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         keyToSurroundingPositionMap.put(KeyCode.KEY_S, position.withRelativeY(1));
         keyToSurroundingPositionMap.put(KeyCode.KEY_D, position.withRelativeX(1));
         return keyToSurroundingPositionMap;
+    }
+
+
+    public void changeBehavior(PlayerBehavior playerTargetBehavior) {
+        behaviorManager.changeBehavior(playerTargetBehavior);
     }
 }
