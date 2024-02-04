@@ -2,6 +2,7 @@ package com.vdn.lampbearer.views.inventory;
 
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.config.GameConfig;
+import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.fragments.ModalInventoryFragment;
@@ -14,7 +15,6 @@ import org.hexworks.zircon.api.fragment.menu.MenuItemSelected;
 import org.hexworks.zircon.api.fragment.menu.SelectionCancelled;
 import org.hexworks.zircon.api.graphics.BoxType;
 import org.hexworks.zircon.internal.component.modal.EmptyModalResult;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,8 +23,7 @@ import static org.hexworks.zircon.api.ComponentDecorations.box;
 import static org.hexworks.zircon.api.ComponentDecorations.noDecoration;
 
 public class InventoryItemSelectModalView {
-    @NotNull
-    public static Boolean showItemActionModal(GameContext context, InventoryAttr inventoryAttr) {
+    public static ItemUseReactionContextDto showItemActionModal(GameContext context, InventoryAttr inventoryAttr) {
         Integer maxItemNameLength = inventoryAttr.getItems().stream()
                 .map(i -> i.getName().length())
                 .max(Integer::compareTo).orElse(23);
@@ -87,6 +86,6 @@ public class InventoryItemSelectModalView {
             return ItemActionModalView.showItemActionModal(context, selectedItem.get());
         }
 
-        return false;
+        return null;
     }
 }

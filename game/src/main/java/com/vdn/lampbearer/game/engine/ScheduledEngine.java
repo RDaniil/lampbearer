@@ -3,7 +3,7 @@ package com.vdn.lampbearer.game.engine;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
-import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
+import com.vdn.lampbearer.entites.behavior.player.PlayerBehaviorManager;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.interfaces.Updateable;
 import com.vdn.lampbearer.game.GameContext;
@@ -68,7 +68,7 @@ public class ScheduledEngine implements Engine {
 
         KeyboardEvent keyboardEvent = (KeyboardEvent) event;
 
-        if (!PlayerBehavior.isValidEvent(keyboardEvent)) {
+        if (!PlayerBehaviorManager.isValidEvent(keyboardEvent)) {
             return;
         }
 

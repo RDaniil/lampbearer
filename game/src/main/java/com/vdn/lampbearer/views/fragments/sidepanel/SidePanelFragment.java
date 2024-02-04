@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.Component;
+import org.hexworks.zircon.api.component.ComponentAlignment;
 import org.hexworks.zircon.api.component.Fragment;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,10 +29,10 @@ public class SidePanelFragment implements Fragment {
     @NotNull
     @Override
     public Component getRoot() {
-
         var sidePanel = Components.vbox()
-                .withPreferredSize(SIDEBAR_WIDTH - 2, SIDEBAR_HEIGHT)
+                .withPreferredSize(SIDEBAR_WIDTH - 2, SIDEBAR_HEIGHT - 2)
                 .withSpacing(1)
+                .withAlignmentWithin(context.getSidePanel(), ComponentAlignment.TOP_RIGHT)
                 .build();
 
         playerAttributesFragment =
