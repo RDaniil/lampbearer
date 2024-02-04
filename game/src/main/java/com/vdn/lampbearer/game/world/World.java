@@ -4,13 +4,16 @@ import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.entites.BlockEntity;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
+import com.vdn.lampbearer.game.engine.EngineState;
 import com.vdn.lampbearer.game.engine.ScheduledEngine;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.Light;
 import com.vdn.lampbearer.services.light.LightingService;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
@@ -52,13 +55,16 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         lightingService.removeLight(light);
     }
 
+
     public void removeDynamicLightByEntity(AbstractEntity entity) {
         lightingService.removeDynamicLight(entity);
     }
 
+
     public void addStaticLight(Light staticLight) {
         lightingService.addStaticLight(staticLight);
     }
+
 
     public void removeStaticLight(Light staticLight) {
         lightingService.removeStaticLight(staticLight);
@@ -78,6 +84,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     public AbstractEntity getEntityByLight(Light light) {
         return lightingService.getEntityByLight(light);
     }
+
 
     public void addEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
@@ -228,6 +235,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         log.info("LIGHTING TIME: " + (endTime - executeTurn) / (1000_000));
     }
 
+
     public void updateUI() {
         engine.updateUI();
     }
@@ -236,6 +244,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     public void initUi(GameContext gameContext) {
         engine.initUi(gameContext);
     }
+
 
     /**
      * Checks if a block at the position is walkable and there's no BlockOccupier
@@ -276,6 +285,31 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             return block.isTransparent();
         } catch (IllegalArgumentException e) {
             return false;
+        }
+    }
+
+
+    public void setState(EngineState engineState) {
+        engine.setState(engineState);
+    }
+
+
+    public AbstractEntity getEntityAt(Position selectedPosition) {
+        try {
+            GameBlock block = fetchBlockAtOrElse(selectedPosition.toPosition3D(0),
+                    (pos) -> {
+                        throw new IllegalArgumentException(
+                                String.format("Position %s does not contains any blocks", pos)
+                        );
+                    });
+
+            if (block.getEntities().isEmpty()) {
+                return new BlockEntity(selectedPosition, block);
+            }
+            //TODO: Если на одной клеточке больше 1 сущности - не работает
+            return block.getEntities().get(0);
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 }

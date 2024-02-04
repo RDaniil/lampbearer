@@ -15,9 +15,9 @@ import java.util.Set;
 @Getter
 @Setter
 public abstract class AbstractEntity {
-    private String name;
-    private String description;
-    private Tile tile;
+    private String name = "";
+    private String description = "";
+    private Tile tile = Tile.empty();
     protected Position3D position;
     private Set<Attribute> attributes = new HashSet<>();
     private Set<Action<?>> actions = new HashSet<>();

@@ -7,14 +7,16 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
+import org.hexworks.zircon.api.uievent.KeyboardEvent;
 import org.hexworks.zircon.api.uievent.UIEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class PlayerInteractionBehavior extends PlayerBehavior {
 
+    private static final Set<KeyCode> INTERACTION_KEY = new HashSet<>(
+            List.of(KeyCode.KEY_E)
+    );
     @Override
     public boolean act(Player actor, GameContext context) {
         var event = context.getEvent();
@@ -85,6 +87,11 @@ public class PlayerInteractionBehavior extends PlayerBehavior {
 
     @Override
     public boolean isUiEventApplicable(UIEvent event) {
+        ;
+        if (event instanceof KeyboardEvent) {
+            KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+            return INTERACTION_KEY.contains(keyboardEvent.getCode());
+        }
         return false;
     }
 }

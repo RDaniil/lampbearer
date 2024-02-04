@@ -42,13 +42,15 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
      * @return true if a move has been made
      */
     private boolean move(GameContext context, KeyboardEvent event) {
-        if (event.getCode().equals(KeyCode.SPACE)) {
-            return true;
-        }
-
         Player player = context.getPlayer();
         var currentPos = player.getPosition();
         var newPos = getNewPosition(player, event);
+        if (currentPos == newPos) {
+            if (event.getCode().equals(KeyCode.SPACE)) {
+                return true;
+            }
+            return false;
+        }
 
         var blockOccupier = context.getWorld().getByAttribute(newPos, BlockOccupier.class);
         if (blockOccupier.isPresent()) {

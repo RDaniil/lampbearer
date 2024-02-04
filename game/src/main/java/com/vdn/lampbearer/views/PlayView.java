@@ -59,8 +59,19 @@ public class PlayView extends BaseView {
                         .build())
                 .build();
 
+        Layer interactionLayer = LayerBuilder.newBuilder()
+                .withOffset(SIDEBAR_WIDTH, 0)
+                .withSize(Size.create(game.getWorld().getVisibleSize().to2DSize().getWidth(),
+                        game.getWorld().getVisibleSize().to2DSize().getHeight() - 1))
+                .withFiller(Tile.newBuilder()
+                        .withBackgroundColor(TileColor.create(0, 0, 0, 0))
+                        .withCharacter(' ')
+                        .build())
+                .build();
+
         var screen = getScreen();
         screen.addLayer(firstLineLayer);
+        screen.addLayer(interactionLayer);
         this.sidePanel = Components.panel()
                 .withPosition(0, 1)
                 .withPreferredSize(SIDEBAR_WIDTH, GameConfig.SIDEBAR_HEIGHT)
