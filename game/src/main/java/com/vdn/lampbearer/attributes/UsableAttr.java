@@ -75,19 +75,19 @@ public class UsableAttr implements Attribute {
         int percentageLeft = getPercentageLeft();
         String getStringPercentageLeft;
         if (percentageLeft > 85) {
-            getStringPercentageLeft = "seems full";
+            getStringPercentageLeft = "Seems full";
         } else if (percentageLeft > 60) {
-            getStringPercentageLeft = "more than half left";
+            getStringPercentageLeft = "More than half left";
         } else if (percentageLeft > 40) {
-            getStringPercentageLeft = "about half left";
+            getStringPercentageLeft = "About half left";
         } else if (percentageLeft > 25) {
-            getStringPercentageLeft = "less than half left";
+            getStringPercentageLeft = "Less than half left";
         } else if (percentageLeft > 10) {
-            getStringPercentageLeft = "almost empty";
+            getStringPercentageLeft = "Almost empty";
         } else if (percentageLeft > 1) {
-            getStringPercentageLeft = "on it's last breath";
+            getStringPercentageLeft = "On it's last breath";
         } else {
-            getStringPercentageLeft = "completely empty";
+            getStringPercentageLeft = "Completely empty";
         }
         return getStringPercentageLeft;
     }

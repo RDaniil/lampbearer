@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.entites.objects;
 
 import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.services.light.CircleLight;
 import com.vdn.lampbearer.services.light.Light;
 import com.vdn.lampbearer.views.BlockTypes;
@@ -16,7 +17,8 @@ public class LampPost extends AbstractEntity {
 
 
     public LampPost(Position3D position) {
-        setName("Lamp post");
+        setName(GameBlockFactory.returnGameBlock(BlockTypes.LAMPPOST).getName());
+        setDescription(GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getDescription());
         setTile(TileRepository.getTile(BlockTypes.LAMPPOST));
         setPosition(position);
         light = new CircleLight(position, 14, TileColor.fromString("#ffba37"));

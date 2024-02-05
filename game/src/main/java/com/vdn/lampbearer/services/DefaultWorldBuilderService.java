@@ -30,8 +30,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class DefaultWorldBuilderService implements WorldBuilderService {
-
-    private final GameBlockFactory gameBlockFactory;
     private final HashMap<Position3D, GameBlock> blocks = new HashMap<>();
 
 
@@ -50,11 +48,11 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
             Position3D pos = it.next();
 
             if (RandomService.getRandom(0, 20) % 4 == 0) {
-                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.GRASS));
+                blocks.put(pos, GameBlockFactory.returnGameBlock(BlockTypes.GRASS));
             } else if (RandomService.getRandom(0, 30) % 29 == 0) {
-                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.ROCK));
+                blocks.put(pos, GameBlockFactory.returnGameBlock(BlockTypes.ROCK));
             } else {
-                blocks.put(pos, gameBlockFactory.returnGameBlock(BlockTypes.GROUND));
+                blocks.put(pos, GameBlockFactory.returnGameBlock(BlockTypes.GROUND));
             }
         }
 
@@ -105,6 +103,6 @@ public class DefaultWorldBuilderService implements WorldBuilderService {
 
 
     private GameBlock getBlockByTile(Tile tile) {
-        return gameBlockFactory.returnGameBlock(TileRepository.getBlockType(tile));
+        return GameBlockFactory.returnGameBlock(TileRepository.getBlockType(tile));
     }
 }

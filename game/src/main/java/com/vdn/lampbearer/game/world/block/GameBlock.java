@@ -40,6 +40,9 @@ public class GameBlock extends BaseBlock<Tile> {
     private BlockLightingState lightingState;
     private boolean isWalkable;
     private boolean isTransparent;
+    private String name;
+    private String description;
+
 
     private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
 
@@ -114,5 +117,10 @@ public class GameBlock extends BaseBlock<Tile> {
 
     public boolean hasEntities() {
         return !entities.isEmpty();
+    }
+
+
+    public boolean isUnseen() {
+        return getLightingState().equals(BlockLightingState.UNSEEN);
     }
 }

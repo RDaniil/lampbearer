@@ -7,6 +7,7 @@ import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehaviorManager;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
+import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
@@ -43,7 +44,8 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
 
 
     public Player() {
-        setName("Lampbearer");
+        setName(GameBlockFactory.returnGameBlock(BlockTypes.PLAYER).getName());
+        setDescription(GameBlockFactory.returnGameBlock(BlockTypes.PLAYER).getDescription());
         setTile(TileRepository.getTile(BlockTypes.PLAYER));
         InventoryAttr inventoryAttr = new InventoryAttr();
         inventoryAttr.putItem(FirstAidKit.createForInventory());

@@ -302,7 +302,10 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
                                 String.format("Position %s does not contains any blocks", pos)
                         );
                     });
-
+            if (block.isUnseen()) {
+                return new BlockEntity(selectedPosition,
+                        "It's dark", "I can't see there");
+            }
             if (block.getEntities().isEmpty()) {
                 return new BlockEntity(selectedPosition, block);
             }

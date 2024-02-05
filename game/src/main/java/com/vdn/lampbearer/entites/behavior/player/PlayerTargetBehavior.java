@@ -73,7 +73,8 @@ public class PlayerTargetBehavior extends PlayerBehavior {
             return false;
         } else if (keyboardEvent.getCode().equals(KeyCode.ENTER)) {
             return reactionToExecute.execute(context.getPlayer(),
-                    context.getWorld().getEntityAt(selectedPosition), context);
+                    context.getWorld().getEntityAt(
+                            convertToWorldPosition(context, selectedPosition)), context);
         }
         selectPosition(context, selectedPosition);
         return true;
@@ -89,6 +90,10 @@ public class PlayerTargetBehavior extends PlayerBehavior {
         context.getScreen().getLayerAtOrNull(2).draw(selectTile, position);
     }
 
+
+    private Position convertToWorldPosition(GameContext context, Position position) {
+        return position.plus(context.getWorld().getVisibleOffset().to2DPosition());
+    }
 
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
         context.getLogArea()
