@@ -112,7 +112,7 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
     }
 
 
-    public void changeBehavior(PlayerBehavior playerTargetBehavior) {
-        behaviorManager.changeBehavior(playerTargetBehavior);
+    public void changeBehavior(PlayerBehavior playerTargetBehavior, GameContext context) {
+        behaviorManager.changeBehavior(playerTargetBehavior, context);
     }
 }

@@ -13,4 +13,6 @@ public interface Engine {
     void initUi(GameContext gameContext);
 
     void updateUI();
+
+    void setState(EngineState engineState);
 }

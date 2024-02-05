@@ -8,6 +8,7 @@ import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.interfaces.Updateable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.SidePanelView;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
@@ -18,6 +19,13 @@ import java.util.ArrayList;
 public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
     private SidePanelView sidePanelView;
+    @Setter
+    private EngineState state;
+
+
+    public ScheduledEngine() {
+        state = EngineState.GAME_LOOP;
+    }
 
 
     public void addEntity(AbstractEntity entity) {
@@ -72,6 +80,20 @@ public class ScheduledEngine implements Engine {
             return;
         }
 
+        if (state == EngineState.GAME_LOOP) {
+            executeMainLoop(gameContext);
+        } else if (state == EngineState.PAUSE) {
+            executePausedPlayerAction(gameContext);
+        }
+    }
+
+
+    private void executePausedPlayerAction(GameContext gameContext) {
+        gameContext.getPlayer().makeAction(gameContext);
+    }
+
+
+    private void executeMainLoop(GameContext gameContext) {
         Schedulable nextSchedulable = peekNextSchedulable();
         boolean isPlayerActed = false;
 
