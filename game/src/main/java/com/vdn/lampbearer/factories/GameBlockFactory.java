@@ -22,21 +22,29 @@ public class GameBlockFactory {
         for (ConfigBlock tile : tileGameBlockConfig.configTileList) {
             blockTypesGameBlockMap.put(tile.getBlockType(),
                     createGameBlock(TileRepository.getTile(tile.getBlockType()),
-                            tile.isTransparent(), tile.isWalkable()));
+                            tile.isTransparent(), tile.isWalkable(),
+                            tile.getName(), tile.getDescription()));
         }
     }
 
-    public GameBlock returnGameBlock(BlockTypes blockTypes){
+
+    public static GameBlock returnGameBlock(BlockTypes blockTypes) {
         GameBlock gameBlock = new GameBlock(blockTypesGameBlockMap.get(blockTypes).getEmptyTile());
         gameBlock.setWalkable(blockTypesGameBlockMap.get(blockTypes).isWalkable());
         gameBlock.setTransparent(blockTypesGameBlockMap.get(blockTypes).isTransparent());
+        gameBlock.setName(blockTypesGameBlockMap.get(blockTypes).getName());
+        gameBlock.setDescription(blockTypesGameBlockMap.get(blockTypes).getDescription());
         return gameBlock;
     }
 
-    private static GameBlock createGameBlock(Tile tile, boolean isTransparent, boolean isWalkable) {
+
+    private static GameBlock createGameBlock(Tile tile, boolean isTransparent, boolean isWalkable
+            , String blockName, String blockDescription) {
         GameBlock block = new GameBlock(tile);
         block.setWalkable(isWalkable);
         block.setTransparent(isTransparent);
+        block.setName(blockName);
+        block.setDescription(blockDescription);
         return block;
     }
 

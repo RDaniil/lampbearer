@@ -22,4 +22,8 @@ public class ConfigBlock {
     private boolean walkable;
 
     private boolean transparent;
+
+    private String name;
+
+    private String description;
 }

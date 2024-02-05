@@ -9,6 +9,7 @@ import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.interfaces.Updateable;
+import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.services.light.CircleLight;
 import com.vdn.lampbearer.views.BlockTypes;
@@ -34,7 +35,7 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
         super();
         setPosition(position3D);
         setTile(TileRepository.getTile(BlockTypes.LANTERN));
-        setName("Lantern");
+        setName(GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getName());
 
         usableAttr = new UsableAttr(100, 70);
         lightSource = new LightSourceAttr(new CircleLight(position3D, 6, TileColor.fromString(
@@ -54,7 +55,9 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
 
     @Override
     public String getDescription() {
-        return usableAttr.getStringPercentageLeft();
+        return String.format("%s. %s",
+                GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getDescription(),
+                usableAttr.getStringPercentageLeft());
     }
 
 

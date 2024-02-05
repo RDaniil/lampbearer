@@ -102,7 +102,7 @@ public class PlayerBehaviorManager extends PlayerBehavior {
         }
 
         log.error("CANNOT PROCESS INPUT: " + keyboardEvent.getCode());
-        return new PlayerMoveAndAttackBehavior();
+        return currentBehavior;
     }
 
 
