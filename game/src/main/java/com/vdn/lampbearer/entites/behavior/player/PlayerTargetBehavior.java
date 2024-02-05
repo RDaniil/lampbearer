@@ -24,7 +24,7 @@ public class PlayerTargetBehavior extends PlayerBehavior {
 
     private static final Set<KeyCode> MOVEMENT_KEYS = new HashSet<>(
             List.of(KeyCode.KEY_W, KeyCode.KEY_A, KeyCode.KEY_S, KeyCode.KEY_D, KeyCode.ENTER,
-                    KeyCode.SPACE, KeyCode.ESCAPE, KeyCode.KEY_C)
+                    KeyCode.SPACE, KeyCode.ESCAPE, KeyCode.KEY_C, KeyCode.KEY_L)
     );
     private LookReaction reactionToExecute;
     private Position selectedPosition;

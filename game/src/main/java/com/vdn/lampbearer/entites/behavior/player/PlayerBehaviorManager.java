@@ -36,11 +36,6 @@ public class PlayerBehaviorManager extends PlayerBehavior {
     );
 
     private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
-    private static final KeyCode WAITING_KEY = KeyCode.SPACE;
-    private static final Set<KeyCode> SPECIAL_KEYS = new HashSet<>(
-            List.of(KeyCode.KEY_L, KeyCode.KEY_C, KeyCode.ESCAPE, KeyCode.ENTER)
-    );
-
 
     public static boolean isValidEvent(KeyboardEvent keyboardEvent) {
         for (PlayerBehavior behavior : POSSIBLE_BEHAVIORS) {
