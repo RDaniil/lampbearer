@@ -33,6 +33,12 @@ public abstract class AbstractEntity {
     }
 
 
+    public <T extends Attribute> boolean hasAttribute(Class<T> attributeType) {
+        return attributes.stream()
+                .anyMatch(attributeType::isInstance);
+    }
+
+
     public <T extends Attribute> void removeAttribute(Class<T> attributeType) {
         attributes.removeIf(attributeType::isInstance);
     }

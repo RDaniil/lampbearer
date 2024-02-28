@@ -2,6 +2,7 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
+import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
@@ -48,8 +49,10 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
         if (isMovement(keyboardEvent)) return this;
         if (isInventoryAction(keyboardEvent)) return new PlayerInventoryInteractionBehavior();
         if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
-        if (keyboardEvent.getCode().equals(KeyCode.KEY_L))
+        if (isLookAction(keyboardEvent))
             return new PlayerTargetBehavior(new LookReaction());
+        if (isThrowAction(keyboardEvent))
+            return new PlayerTargetBehavior(new ThrowReaction());
 
         return this;
     }

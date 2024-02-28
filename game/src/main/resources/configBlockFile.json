@@ -207,6 +207,14 @@
       "foreground": "#4DA0FF",
       "name": "Oil bottle",
       "description": "Fuel for lantern"
+    },
+    {
+      "blockType": "STONE",
+      "tile": "v",
+      "background": "#111111",
+      "foreground": "#fc8403",
+      "name": "Stone",
+      "description": "You can throw it"
     }
   ]
 }

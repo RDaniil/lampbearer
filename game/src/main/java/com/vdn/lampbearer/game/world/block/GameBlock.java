@@ -57,7 +57,10 @@ public class GameBlock extends BaseBlock<Tile> {
 
 
     public void removeEntity(AbstractEntity entity) {
-        entities.remove(entity);
+        if (!entities.remove(entity)) {
+            throw new RuntimeException("Сущность " + entity.toString() +
+                    " не существует на блоке" + this);
+        }
         updateContent();
     }
 
@@ -121,6 +124,6 @@ public class GameBlock extends BaseBlock<Tile> {
 
 
     public boolean isUnseen() {
-        return getLightingState().equals(BlockLightingState.UNSEEN);
+        return BlockLightingState.UNSEEN.equals(getLightingState());
     }
 }

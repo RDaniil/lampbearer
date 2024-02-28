@@ -20,6 +20,7 @@ import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -155,6 +156,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         block.removeEntity(entity);
         engine.removeEntity(entity);
         removeDynamicLightByEntity(entity);
+    }
+
+
+    public void removeFromSchedule(AbstractEntity entity) {
+        engine.removeEntity(entity);
     }
 
 
@@ -304,7 +310,36 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public AbstractEntity getEntityAt(Position selectedPosition) {
+    /**
+     * Возвращает сущность(и) по указанной позиции.
+     *
+     * @param selectedPosition позиция, с которой запрашивается сущность(и)
+     * @return List<AbstractEntity>, пустой если сущность(и) нет
+     */
+    public List<AbstractEntity> getEntitiesAt(Position selectedPosition) {
+        try {
+            GameBlock block = fetchBlockAtOrElse(selectedPosition.toPosition3D(0),
+                    (pos) -> {
+                        throw new IllegalArgumentException(
+                                String.format("Position %s does not contains any blocks", pos)
+                        );
+                    });
+            return block.getEntities();
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
+        }
+    }
+
+
+    /**
+     * Возвращает сущность по указанной позиции. Если на указанной позиции сущности не существует -
+     * создается BlockEntity - информация о блоке в виде сущности
+     *
+     * @param selectedPosition позиция, с которой запрашивается сущность
+     * @return сущность, реальная или сущность-блок. null, если переданна позция, по которой не
+     * существует блоков
+     */
+    public AbstractEntity getEntityOrBlockEntityAt(Position selectedPosition) {
         try {
             GameBlock block = fetchBlockAtOrElse(selectedPosition.toPosition3D(0),
                     (pos) -> {
