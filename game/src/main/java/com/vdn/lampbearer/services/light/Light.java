@@ -2,7 +2,6 @@ package com.vdn.lampbearer.services.light;
 
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.utils.PositionUtils;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,13 +11,21 @@ import org.hexworks.zircon.api.data.Tile;
 import org.springframework.lang.Nullable;
 
 @Getter
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Setter
+@RequiredArgsConstructor
 public abstract class Light {
+
     private Position position;
+    protected PositionUtils.Direction direction = PositionUtils.Direction.RIGHT;
     private final int radius;
     private final TileColor color;
+
+
+    public Light(Position position, int radius, TileColor color) {
+        this.position = position;
+        this.radius = radius;
+        this.color = color;
+    }
 
 
     /**
@@ -43,7 +50,6 @@ public abstract class Light {
      * Вычисляет цвет тайла сущности. От освещения блока отличается тем, что блок можно полностью
      * окрасить в цвет света, а сущность красим только частично, чтобы читался ее исходный цвет.
      * И в близи было понятно на кого мы смотрим
-     *
      *
      * @param distance дистанция до сущности
      * @param block    блок на котором стоит монстр

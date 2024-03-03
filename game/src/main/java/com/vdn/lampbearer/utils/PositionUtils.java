@@ -1,7 +1,11 @@
 package com.vdn.lampbearer.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.hexworks.zircon.api.data.Position;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PositionUtils {
 
@@ -13,17 +17,29 @@ public class PositionUtils {
 
 
     @Getter
+    @AllArgsConstructor
     public enum Direction {
-        UP_LEFT(Position.create(1, 1)),
-        DOWN_LEFT(Position.create(1, -1)),
-        DOWN_RIGHT(Position.create(-1, -1)),
-        UP_RIGHT(Position.create(-1, 1));
+        ALL(Arrays.asList(Octant.values())),
+        DOWN(Arrays.asList(Octant.SIXTH, Octant.SEVENTH)),
+        LEFT(Arrays.asList(Octant.FOURTH, Octant.FIFTH)),
+        RIGHT(Arrays.asList(Octant.FIRST, Octant.EIGHTH)),
+        UP(Arrays.asList(Octant.SECOND, Octant.THIRD)),
+        UP_LEFT(Arrays.asList(Octant.FIRST, Octant.SECOND)),
+        DOWN_LEFT(Arrays.asList(Octant.SEVENTH, Octant.EIGHTH)),
+        DOWN_RIGHT(Arrays.asList(Octant.FIFTH, Octant.SIXTH)),
+        UP_RIGHT(Arrays.asList(Octant.THIRD, Octant.FOURTH));
 
-        private final Position position;
+        private final List<Octant> octants;
+    }
 
-
-        Direction(Position position) {
-            this.position = position;
-        }
+    public enum Octant {
+        FIRST,
+        SECOND,
+        THIRD,
+        FOURTH,
+        FIFTH,
+        SIXTH,
+        SEVENTH,
+        EIGHTH
     }
 }

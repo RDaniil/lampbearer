@@ -11,7 +11,6 @@ import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -24,12 +23,6 @@ public class ShadowCastingLightingStrategy implements LightingStrategy {
     private HashMap<Position, TileColor> lightMap;
     private Light light;
 
-    public static final List<PositionUtils.Direction> DIRECTIONS = List.of(
-            PositionUtils.Direction.UP_LEFT,
-            PositionUtils.Direction.DOWN_LEFT,
-            PositionUtils.Direction.DOWN_RIGHT,
-            PositionUtils.Direction.UP_RIGHT);
-
 
     /**
      * {@inheritDoc}
@@ -39,12 +32,41 @@ public class ShadowCastingLightingStrategy implements LightingStrategy {
         this.lightMap = new HashMap<>();
         this.light = light;
 
-        lightMap.put(light.getPosition(), light.getColorOfTile(
-                blocks.get(light.getPosition().toPosition3D(0)),
-                light.getPosition()));
-        for (PositionUtils.Direction d : DIRECTIONS) {
-            castLight(1, 1.0f, 0.0f, 0, d.getPosition().getX(), d.getPosition().getY(), 0);
-            castLight(1, 1.0f, 0.0f, d.getPosition().getX(), 0, 0, d.getPosition().getY());
+        lightMap.put(
+                light.getPosition(),
+                light.getColorOfTile(
+                        blocks.get(light.getPosition().toPosition3D(0)),
+                        light.getPosition()
+                )
+        );
+
+        for (PositionUtils.Octant octant : light.getDirection().getOctants()) {
+            switch (octant) {
+                case FIRST:
+                    castLight(1, 1.0f, 0.0f, 0, -1, 1, 0);
+                    break;
+                case SECOND:
+                    castLight(1, 1.0f, 0.0f, -1, 0, 0, 1);
+                    break;
+                case THIRD:
+                    castLight(1, 1.0f, 0.0f, 1, 0, 0, 1);
+                    break;
+                case FOURTH:
+                    castLight(1, 1.0f, 0.0f, 0, 1, 1, 0);
+                    break;
+                case FIFTH:
+                    castLight(1, 1.0f, 0.0f, 0, 1, -1, 0);
+                    break;
+                case SIXTH:
+                    castLight(1, 1.0f, 0.0f, 1, 0, 0, -1);
+                    break;
+                case SEVENTH:
+                    castLight(1, 1.0f, 0.0f, -1, 0, 0, -1);
+                    break;
+                case EIGHTH:
+                    castLight(1, 1.0f, 0.0f, 0, -1, -1, 0);
+                    break;
+            }
         }
 
         return lightMap;
@@ -52,18 +74,19 @@ public class ShadowCastingLightingStrategy implements LightingStrategy {
 
 
     private void castLight(int row, float start, float end, int xx, int xy, int yx, int yy) {
+        if (start < end) return;
+
         float newStart = 0.0f;
-        if (start < end) {
-            return;
-        }
 
         boolean blocked = false;
         var currentPos = Position.create(0, 0);
         for (int distance = row; distance <= light.getRadius() && !blocked; distance++) {
             int deltaY = -distance;
             for (int deltaX = -distance; deltaX <= 0; deltaX++) {
-                currentPos = currentPos.withX(light.getPosition().getX() + deltaX * xx + deltaY * xy)
+                currentPos = currentPos
+                        .withX(light.getPosition().getX() + deltaX * xx + deltaY * xy)
                         .withY(light.getPosition().getY() + deltaX * yx + deltaY * yy);
+
                 float leftSlope = (deltaX - 0.5f) / (deltaY + 0.5f);
                 float rightSlope = (deltaX + 0.5f) / (deltaY - 0.5f);
 
@@ -75,9 +98,13 @@ public class ShadowCastingLightingStrategy implements LightingStrategy {
 
                 //check if it's within the lightable area and light if needed
                 if (getDistance(currentPos) <= light.getRadius()) {
-                    lightMap.put(currentPos, light.getColorOfTile(
-                            blocks.get(currentPos.toPosition3D(0)),
-                            currentPos));
+                    lightMap.put(
+                            currentPos,
+                            light.getColorOfTile(
+                                    blocks.get(currentPos.toPosition3D(0)),
+                                    currentPos
+                            )
+                    );
                 }
 
                 if (blocked) { //previous cell was a blocking one
