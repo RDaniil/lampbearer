@@ -11,6 +11,7 @@ import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
+import com.vdn.lampbearer.utils.PositionUtils;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
 import org.hexworks.zircon.api.color.TileColor;
@@ -39,6 +40,7 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
         fowLight.setPosition(getPosition().to2DPosition());
         return fowLight;
     }
+
 
     private final Map<KeyCode, Position3D> keyToSurroundingPositionMap = new HashMap<>();
 
@@ -116,5 +118,21 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
 
     public void changeBehavior(PlayerBehavior playerTargetBehavior, GameContext context) {
         behaviorManager.changeBehavior(playerTargetBehavior, context);
+    }
+
+
+    public PositionUtils.Direction getDirection(KeyCode keyCode) {
+        switch (keyCode) {
+            case KEY_W:
+                return PositionUtils.Direction.UP;
+            case KEY_A:
+                return PositionUtils.Direction.LEFT;
+            case KEY_S:
+                return PositionUtils.Direction.DOWN;
+            case KEY_D:
+                return PositionUtils.Direction.RIGHT;
+        }
+
+        return null;
     }
 }

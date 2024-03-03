@@ -1,11 +1,15 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.AttackAction;
+import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.attributes.LightSourceAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
+import com.vdn.lampbearer.utils.PositionUtils;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
@@ -28,7 +32,12 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
         var event = context.getEvent();
         if (event instanceof KeyboardEvent) {
             KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-            return move(context, keyboardEvent);
+            boolean isMoved = move(context, keyboardEvent);
+            if (isMoved) {
+                changeLightDirection(context, keyboardEvent);
+            }
+
+            return isMoved;
         }
         return false;
     }
@@ -67,6 +76,28 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
         }
 
         return false;
+    }
+
+
+    private static void changeLightDirection(GameContext context,
+                                             KeyboardEvent event) {
+        Player player = context.getPlayer();
+        PositionUtils.Direction direction = player.getDirection(event.getCode());
+
+        Optional<InventoryAttr> inventory = player.findAttribute(InventoryAttr.class);
+        if (inventory.isPresent()) {
+            List<AbstractItem> lightSources = inventory.get()
+                    .findByAttribute(LightSourceAttr.class);
+            lightSources.forEach(lightSource -> changeLightDirection(lightSource, direction));
+        }
+    }
+
+
+    private static void changeLightDirection(AbstractEntity lightSource,
+                                             PositionUtils.Direction direction) {
+
+        Optional<LightSourceAttr> attr = lightSource.findAttribute(LightSourceAttr.class);
+        attr.ifPresent(a -> a.getLight().setDirection(direction));
     }
 
 
