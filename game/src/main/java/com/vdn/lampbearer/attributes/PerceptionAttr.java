@@ -12,13 +12,4 @@ public class PerceptionAttr implements Attribute {
         if (value < 1) throw new RuntimeException("Perception value is less that 1");
         this.value = value;
     }
-
-
-    /**
-     * Guaranteed, value > 0
-     * @return value
-     */
-    public int getValue() {
-        return value;
-    }
 }
