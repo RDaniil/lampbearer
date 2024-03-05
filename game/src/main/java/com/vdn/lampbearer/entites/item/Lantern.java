@@ -22,6 +22,10 @@ import java.util.List;
 
 @Slf4j
 public class Lantern extends AbstractItem implements Updateable, Schedulable {
+
+    private static final int MAX_LIGHT_RADIUS = 6;
+    private static final float START_FADING_PERCENTAGE = 20;
+
     private final UsableAttr usableAttr;
     private final LightSourceAttr lightSource;
 
@@ -31,6 +35,7 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
         return 1;
     }
 
+
     public Lantern(Position3D position3D) {
         super();
         setPosition(position3D);
@@ -38,8 +43,9 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
         setName(GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getName());
 
         usableAttr = new UsableAttr(100, 70);
-        lightSource = new LightSourceAttr(new CircleLight(position3D, 6, TileColor.fromString(
-                "#cba731")));
+        lightSource = new LightSourceAttr(
+                new CircleLight(position3D, MAX_LIGHT_RADIUS, TileColor.fromString("#cba731"))
+        );
 
         setAttributes(List.of(
                 this.lightSource,
@@ -69,6 +75,16 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
 
         if (usableAttr.useOnce() == 0) {
             new PutOutLampReaction().execute(null, this, context);
+            return;
         }
+
+        int percentageLeft = usableAttr.getPercentageLeft();
+        if (percentageLeft > START_FADING_PERCENTAGE) {
+            lightSource.getLight().setRadius(MAX_LIGHT_RADIUS);
+            return;
+        }
+
+        float newRadius = percentageLeft * (MAX_LIGHT_RADIUS - 1) / START_FADING_PERCENTAGE;
+        lightSource.getLight().setRadius((int) (Math.max(newRadius, 1)));
     }
 }

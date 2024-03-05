@@ -3,7 +3,6 @@ package com.vdn.lampbearer.services.light;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.utils.PositionUtils;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
@@ -12,12 +11,11 @@ import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public abstract class Light {
 
     private Position position;
     protected PositionUtils.Direction direction = PositionUtils.Direction.RIGHT;
-    private final int radius;
+    private int radius;
     private final TileColor color;
 
 
