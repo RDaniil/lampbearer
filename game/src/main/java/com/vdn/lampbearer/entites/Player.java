@@ -11,6 +11,7 @@ import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
+import com.vdn.lampbearer.services.light.PlayerSight;
 import com.vdn.lampbearer.utils.PositionUtils;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
@@ -35,6 +36,11 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
      */
     private final PlayerFOWSight fowLight;
 
+    /**
+     * Зрение игрока
+     */
+    private final PlayerSight sight;
+
 
     public PlayerFOWSight getFowLight() {
         fowLight.setPosition(getPosition().to2DPosition());
@@ -56,17 +62,20 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
         HealthAttr healthAttr = new HealthAttr(100);
         healthAttr.reduceHealth(40);
 
+        PerceptionAttr perceptionAttr = new PerceptionAttr(8);
+
         setAttributes(List.of(
                 healthAttr,
                 new StrengthAttr(5),
                 new SpeedAttr(5),
-                new PerceptionAttr(5),
+                perceptionAttr,
                 StaticBlockOccupier.getInstance(),
                 inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
         fowLight = new PlayerFOWSight(Position.create(0, 0), 2,
                 TileColor.fromString("#fafaed"));
+        sight = new PlayerSight(perceptionAttr);
     }
 
 
@@ -100,6 +109,12 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
     @Override
     public int getTime() {
         return findAttribute(SpeedAttr.class).get().getValue();
+    }
+
+
+    public PlayerSight getSight() {
+        sight.setPosition(getPosition().to2DPosition());
+        return sight;
     }
 
 

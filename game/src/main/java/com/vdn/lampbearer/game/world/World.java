@@ -5,6 +5,7 @@ import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.BlockEntity;
+import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.EngineState;
@@ -32,11 +33,13 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     private final Engine engine;
     private final LightingService lightingService;
+    private Player player;
 
 
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
         engine = new ScheduledEngine();
+
         lightingService = new LightingService(this, startingBlocks);
     }
 
@@ -83,6 +86,12 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     public AbstractEntity getEntityByLight(Light light) {
         return lightingService.getEntityByLight(light);
+    }
+
+
+    public void addPlayer(Player player, Position3D position3D) {
+        this.player = player;
+        addEntity(player, position3D);
     }
 
 
@@ -220,7 +229,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
 
     public void updateLighting() {
-        lightingService.updateLighting();
+        lightingService.updateLighting(player);
     }
 
 

@@ -16,7 +16,6 @@ import org.hexworks.zircon.api.data.base.BaseBlock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
@@ -42,7 +41,6 @@ public class GameBlock extends BaseBlock<Tile> {
     private boolean isTransparent;
     private String name;
     private String description;
-
 
     private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
 
@@ -72,23 +70,23 @@ public class GameBlock extends BaseBlock<Tile> {
                 .collect(Collectors.toList());
         Tile newContent = getEmptyTile();
 
-        if (actors.isEmpty()) {
-            List<Tile> allEntitiesTiles = entities.stream()
+        Player player = (Player) actors.stream()
+                .filter(entity -> entity instanceof Player)
+                .findFirst().orElse(null);
+
+        if (actors.isEmpty() ||
+                (player == null && !BlockLightingState.IN_LIGHT.equals(lightingState))) {
+            List<Tile> notActorTiles = entities.stream()
+                    .filter(entity -> !(entity instanceof Actor))
                     .map(AbstractEntity::getTile)
                     .collect(Collectors.toList());
-            if (!allEntitiesTiles.isEmpty()) {
-                newContent = allEntitiesTiles.get(0);
+            if (!notActorTiles.isEmpty()) {
+                newContent = notActorTiles.get(0);
             }
         } else {
-            Optional<AbstractEntity> player = actors.stream()
-                    .filter(entity -> entity instanceof Player)
-                    .findFirst();
-            if (player.isPresent()) {
-                newContent = player.get().getTile();
-            } else {
-                newContent = actors.get(0).getTile();
-            }
+            newContent = player != null ? player.getTile() : actors.get(0).getTile();
         }
+
         return newContent;
     }
 
@@ -98,13 +96,10 @@ public class GameBlock extends BaseBlock<Tile> {
         if (lightingState == BlockLightingState.IN_LIGHT) {
             setTop(TileRepository.getTile(BlockTypes.EMPTY));
         } else if (lightingState == BlockLightingState.SEEN) {
-            //TODO: Понять как не отображать сущности вне радиуса игрока
-
             newContent = getDisplayedTile().withForegroundColor(
                     newContent.getForegroundColor()
                             .darkenByPercent(0.4)
                             .desaturate(0.3));
-
         }
         setContent(newContent);
     }
