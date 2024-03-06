@@ -6,9 +6,7 @@ import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * An actor who can make some actions
@@ -17,7 +15,10 @@ import java.util.Optional;
  */
 public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
 
-    protected final ArrayList<B> behaviors = new ArrayList<>();
+    /**
+     * Доступные поведения
+     */
+    protected final Set<B> behaviors = new HashSet<>();
 
     private final List<Position3D> surroundingPositions = new ArrayList<>();
 
@@ -36,6 +37,7 @@ public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
         return sb.toString();
     }
 
+
     /**
      * Makes an action
      *
@@ -51,6 +53,16 @@ public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
      * @return true if an actor is stuck
      */
     public abstract boolean isStuck(GameContext context);
+
+
+    /**
+     * @param behaviorClass класс поведения
+     * @return экземпляр поведения, если оно доступно, иначе null
+     */
+    public B findBehavior(Class<? extends B> behaviorClass) {
+        return behaviors.stream().filter(b -> (b.getClass().equals(behaviorClass)))
+                .findFirst().orElse(null);
+    }
 
 
     /**
