@@ -4,21 +4,25 @@ import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.attributes.*;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
-import com.vdn.lampbearer.entites.behavior.player.PlayerBehaviorManager;
+import com.vdn.lampbearer.entites.behavior.player.PlayerMoveAndAttackBehavior;
+import com.vdn.lampbearer.entites.behavior.player.PlayerTargetBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.game.engine.EngineState;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
 import com.vdn.lampbearer.services.light.PlayerSight;
 import com.vdn.lampbearer.utils.PositionUtils;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
+import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +30,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Player extends Actor<PlayerBehaviorManager> implements Schedulable {
+@Slf4j
+public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
-    //TODO: По идее это должен быть какой-то дженерик список, либо поведения могут вызывать другие поведения
-    private final PlayerBehaviorManager behaviorManager = new PlayerBehaviorManager();
+    private PlayerBehavior behavior = new PlayerMoveAndAttackBehavior();
 
     /**
      * Зрение игрока без фонарей в тумане войны
@@ -81,7 +85,24 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
 
     @Override
     public boolean makeAction(GameContext context) {
-        return behaviorManager.act(this, context);
+        var event = context.getEvent();
+        if (!(event instanceof KeyboardEvent)) return false;
+
+        if (isStuck(context))
+            throw new RuntimeException(String.format("%s is stuck!", getName()));
+
+        if (behavior instanceof PlayerTargetBehavior) {
+            context.getWorld().setState(EngineState.GAME_LOOP);
+        }
+
+        PlayerBehavior nextBehavior = behavior.next(this, context);
+        if (nextBehavior instanceof PlayerTargetBehavior) {
+            context.getWorld().setState(EngineState.PAUSE);
+        }
+
+//        log.error(String.format("%s -> %s", behavior.getClass().getSimpleName(), nextBehavior.getClass().getSimpleName()));
+
+        return (behavior = nextBehavior).act(this, context);
     }
 
 
@@ -128,11 +149,6 @@ public class Player extends Actor<PlayerBehaviorManager> implements Schedulable 
         keyToSurroundingPositionMap.put(KeyCode.KEY_S, position.withRelativeY(1));
         keyToSurroundingPositionMap.put(KeyCode.KEY_D, position.withRelativeX(1));
         return keyToSurroundingPositionMap;
-    }
-
-
-    public void changeBehavior(PlayerBehavior playerTargetBehavior, GameContext context) {
-        behaviorManager.changeBehavior(playerTargetBehavior, context);
     }
 
 

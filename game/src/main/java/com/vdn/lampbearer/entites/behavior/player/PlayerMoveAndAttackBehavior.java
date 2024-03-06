@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.AttackAction;
+import com.vdn.lampbearer.action.reactions.LookReaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
@@ -13,19 +14,12 @@ import com.vdn.lampbearer.utils.PositionUtils;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
-import org.hexworks.zircon.api.uievent.UIEvent;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
-
-    private static final Set<KeyCode> MOVEMENT_KEYS = new HashSet<>(
-            List.of(KeyCode.KEY_W, KeyCode.KEY_A, KeyCode.KEY_S, KeyCode.KEY_D, KeyCode.SPACE)
-    );
-
 
     @Override
     public boolean act(Player actor, GameContext context) {
@@ -40,6 +34,24 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
             return isMoved;
         }
         return false;
+    }
+
+
+    @NotNull
+    @Override
+    public PlayerBehavior next(Player player, GameContext context) {
+        var event = context.getEvent();
+        if (!(event instanceof KeyboardEvent)) return this;
+
+        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+
+        if (isMovement(keyboardEvent)) return this;
+        if (isInventoryAction(keyboardEvent)) return new PlayerInventoryInteractionBehavior();
+        if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
+        if (keyboardEvent.getCode().equals(KeyCode.KEY_L))
+            return new PlayerTargetBehavior(new LookReaction());
+
+        return this;
     }
 
 
@@ -148,15 +160,5 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
     private static Position3D getNewPosition(Player player, KeyboardEvent event) {
         Position3D newPosition = player.getKeyToSurroundingPositionMap().get(event.getCode());
         return newPosition != null ? newPosition : player.getPosition();
-    }
-
-
-    @Override
-    public boolean isUiEventApplicable(UIEvent event) {
-        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-        return keyboardEvent != null && MOVEMENT_KEYS.contains(keyboardEvent.getCode())
-                && !keyboardEvent.getCtrlDown()
-                && !keyboardEvent.getAltDown()
-                && !keyboardEvent.getShiftDown();
     }
 }

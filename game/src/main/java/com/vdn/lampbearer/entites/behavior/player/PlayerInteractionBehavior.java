@@ -2,25 +2,42 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.Interaction;
 import com.vdn.lampbearer.action.Reaction;
+import com.vdn.lampbearer.action.reactions.LookReaction;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
-import org.hexworks.zircon.api.uievent.UIEvent;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class PlayerInteractionBehavior extends PlayerBehavior {
 
-    private static final Set<KeyCode> INTERACTION_KEY = new HashSet<>(
-            List.of(KeyCode.KEY_E)
-    );
     @Override
     public boolean act(Player actor, GameContext context) {
-        var event = context.getEvent();
         return interact(context);
+    }
+
+
+    @NotNull
+    @Override
+    public PlayerBehavior next(Player player, GameContext context) {
+        var event = context.getEvent();
+        if (!(event instanceof KeyboardEvent)) return this;
+
+        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+
+        if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
+        if (isInventoryAction(keyboardEvent)) return new PlayerInventoryInteractionBehavior();
+        if (isInteraction(keyboardEvent)) return this;
+        if (keyboardEvent.getCode().equals(KeyCode.KEY_L))
+            return new PlayerTargetBehavior(new LookReaction());
+
+        return this;
     }
 
 
@@ -82,16 +99,5 @@ public class PlayerInteractionBehavior extends PlayerBehavior {
         }
 
         return keyToInteractableMap;
-    }
-
-
-    @Override
-    public boolean isUiEventApplicable(UIEvent event) {
-        ;
-        if (event instanceof KeyboardEvent) {
-            KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-            return INTERACTION_KEY.contains(keyboardEvent.getCode());
-        }
-        return false;
     }
 }

@@ -2,13 +2,24 @@ package com.vdn.lampbearer.entites.behavior;
 
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.game.GameContext;
+import lombok.NonNull;
 
 /**
  * A behavior of Actor
  *
- * @param <T> type of actor
+ * @param <A> type of actor
  */
-public abstract class Behavior<T extends Actor<?>> {
+public abstract class Behavior<A extends Actor<?>> {
+
+    /**
+     * Реализация конечного автомата
+     *
+     * @param actor   действующее лицо
+     * @param context контекст
+     * @return следующее поведение
+     */
+    @NonNull
+    public abstract Behavior<?> next(A actor, GameContext context);
 
     /**
      * Acts according to behavior
@@ -17,5 +28,5 @@ public abstract class Behavior<T extends Actor<?>> {
      * @param context GameContext
      * @return true if an action has been made
      */
-    public abstract boolean act(T actor, GameContext context);
+    public abstract boolean act(A actor, GameContext context);
 }

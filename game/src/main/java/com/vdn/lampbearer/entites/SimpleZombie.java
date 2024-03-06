@@ -6,20 +6,28 @@ import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.attributes.StrengthAttr;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
-import com.vdn.lampbearer.entites.behavior.npc.SimpleZombieBehavior;
+import com.vdn.lampbearer.entites.behavior.ai.LinearMovementAi;
+import com.vdn.lampbearer.entites.behavior.npc.general.AttackingBehavior;
+import com.vdn.lampbearer.entites.behavior.npc.general.ChasingBehavior;
 import com.vdn.lampbearer.entites.behavior.npc.general.NonPlayerCharacterBehavior;
+import com.vdn.lampbearer.entites.behavior.npc.general.WanderingBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
+
+    private NonPlayerCharacterBehavior behavior = new AttackingBehavior();
+
 
     public SimpleZombie(SpeedAttr speedAttr) {
         setName(GameBlockFactory.returnGameBlock(BlockTypes.SIMPLE_ZOMBIE).getName());
@@ -34,17 +42,23 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
                 StaticBlockOccupier.getInstance()
         ));
         setActions(List.of(AttackAction.getInstance()));
-        behaviors.add(new SimpleZombieBehavior());
+
+        behaviors.add(new AttackingBehavior());
+        behaviors.add(new ChasingBehavior(LinearMovementAi.getInstance()));
+        behaviors.add(new WanderingBehavior(LinearMovementAi.getInstance()));
     }
 
 
     @Override
     public boolean makeAction(GameContext context) {
-        for (NonPlayerCharacterBehavior behavior : behaviors) {
-            if (behavior.isApplicable(this, context))
-                return behavior.act(this, context);
-        }
-        return false;
+        if (isStuck(context))
+            throw new RuntimeException(String.format("%s is stuck!", getName()));
+
+        NonPlayerCharacterBehavior nextBehavior = behavior.next(this, context);
+
+//        log.error(String.format("%s -> %s", behavior.getClass().getSimpleName(), nextBehavior.getClass().getSimpleName()));
+
+        return (behavior = nextBehavior).act(this, context);
     }
 
 

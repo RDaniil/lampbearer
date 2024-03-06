@@ -12,20 +12,12 @@ import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
-import org.hexworks.zircon.api.uievent.UIEvent;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerTargetBehavior extends PlayerBehavior {
 
-    private static final Set<KeyCode> MOVEMENT_KEYS = new HashSet<>(
-            List.of(KeyCode.KEY_W, KeyCode.KEY_A, KeyCode.KEY_S, KeyCode.KEY_D, KeyCode.ENTER,
-                    KeyCode.SPACE, KeyCode.ESCAPE, KeyCode.KEY_C, KeyCode.KEY_L)
-    );
     private LookReaction reactionToExecute;
     private Position selectedPosition;
     private Tile selectTile = Tile.newBuilder().withCharacter(' ')
@@ -57,6 +49,24 @@ public class PlayerTargetBehavior extends PlayerBehavior {
     }
 
 
+    @NotNull
+    @Override
+    public PlayerBehavior next(Player player, GameContext context) {
+        var event = context.getEvent();
+        if (!(event instanceof KeyboardEvent)) return this;
+
+        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+
+        if (keyboardEvent.getCode().equals(KeyCode.KEY_C) ||
+                keyboardEvent.getCode().equals(KeyCode.ESCAPE)) {
+            clearPreviousTargetTile(context);
+            return new PlayerMoveAndAttackBehavior();
+        }
+
+        return this;
+    }
+
+
     private boolean moveTarget(GameContext context, KeyboardEvent keyboardEvent) {
         clearPreviousTargetTile(context);
 
@@ -68,14 +78,14 @@ public class PlayerTargetBehavior extends PlayerBehavior {
             selectedPosition = selectedPosition.withRelativeY(1);
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_D)) {
             selectedPosition = selectedPosition.withRelativeX(1);
-        } else if (keyboardEvent.getCode().equals(KeyCode.KEY_C) || keyboardEvent.getCode().equals(KeyCode.ESCAPE)) {
-            context.getPlayer().changeBehavior(new PlayerMoveAndAttackBehavior(), context);
-            return false;
         } else if (keyboardEvent.getCode().equals(KeyCode.ENTER)) {
-            return reactionToExecute.execute(context.getPlayer(),
-                    context.getWorld().getEntityAt(
-                            convertToWorldPosition(context, selectedPosition)), context);
+            return reactionToExecute.execute(
+                    context.getPlayer(),
+                    context.getWorld().getEntityAt(convertToWorldPosition(context, selectedPosition)),
+                    context
+            );
         }
+
         selectPosition(context, selectedPosition);
         return true;
     }
@@ -95,21 +105,12 @@ public class PlayerTargetBehavior extends PlayerBehavior {
         return position.plus(context.getWorld().getVisibleOffset().to2DPosition());
     }
 
+
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
         context.getLogArea()
                 .addParagraph(String.format("This is %s", target.getName()), false, 0);
         context.getLogArea()
                 .addParagraph(target.getDescription(), false, 0);
         return true;
-    }
-
-
-    @Override
-    public boolean isUiEventApplicable(UIEvent event) {
-        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-        return keyboardEvent != null && MOVEMENT_KEYS.contains(keyboardEvent.getCode())
-                && !keyboardEvent.getCtrlDown()
-                && !keyboardEvent.getAltDown()
-                && !keyboardEvent.getShiftDown();
     }
 }

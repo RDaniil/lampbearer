@@ -5,6 +5,7 @@ import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -25,6 +26,21 @@ public class ChasingBehavior extends NonPlayerCharacterBehavior {
     @Override
     public boolean act(NonPlayerCharacter npc, GameContext context) {
         return npc.isStuck(context) || movementAi.move(npc, context.getPlayer().getPosition(), context);
+    }
+
+
+    @NotNull
+    @Override
+    public NonPlayerCharacterBehavior next(NonPlayerCharacter npc, GameContext context) {
+        NonPlayerCharacterBehavior behavior = npc.findBehavior(AttackingBehavior.class);
+        if (behavior != null && behavior.isApplicable(npc, context)) return behavior;
+
+        if (isApplicable(npc, context)) return this;
+
+        behavior = npc.findBehavior(WanderingBehavior.class);
+        if (behavior != null && behavior.isApplicable(npc, context)) return behavior;
+
+        return this;
     }
 
 

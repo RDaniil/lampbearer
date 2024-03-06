@@ -9,18 +9,10 @@ import com.vdn.lampbearer.views.inventory.InventoryItemSelectModalView;
 import lombok.SneakyThrows;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
-import org.hexworks.zircon.api.uievent.UIEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
-    private static final Set<KeyCode> INVENTORY_KEYS = new HashSet<>(
-            List.of(KeyCode.KEY_P, KeyCode.KEY_U)
-    );
-
 
     @Override
     public boolean act(Player actor, GameContext context) {
@@ -30,6 +22,21 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
             return interactWithInventory(context, keyboardEvent);
         }
         return false;
+    }
+
+
+    @NotNull
+    @Override
+    public PlayerBehavior next(Player player, GameContext context) {
+        var event = context.getEvent();
+        if (!(event instanceof KeyboardEvent)) return this;
+
+        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
+
+        if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
+        if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
+
+        return this;
     }
 
 
@@ -63,12 +70,5 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
     public ItemUseReactionContextDto showItemActionModal(GameContext context) {
         return InventoryItemSelectModalView.showItemActionModal(context,
                 context.getPlayer().findAttribute(InventoryAttr.class).get());
-    }
-
-
-    @Override
-    public boolean isUiEventApplicable(UIEvent event) {
-        KeyboardEvent keyboardEvent = (KeyboardEvent) event;
-        return keyboardEvent != null && INVENTORY_KEYS.contains(keyboardEvent.getCode());
     }
 }

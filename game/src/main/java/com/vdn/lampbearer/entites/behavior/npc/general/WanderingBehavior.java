@@ -5,6 +5,7 @@ import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;
+import org.jetbrains.annotations.NotNull;
 
 import static com.vdn.lampbearer.services.RandomService.getRandom;
 
@@ -30,6 +31,19 @@ public class WanderingBehavior extends NonPlayerCharacterBehavior {
         }
 
         return true;
+    }
+
+
+    @NotNull
+    @Override
+    public NonPlayerCharacterBehavior next(NonPlayerCharacter npc, GameContext context) {
+        NonPlayerCharacterBehavior behavior = npc.findBehavior(AttackingBehavior.class);
+        if (behavior != null && behavior.isApplicable(npc, context)) return behavior;
+
+        behavior = npc.findBehavior(ChasingBehavior.class);
+        if (behavior != null && behavior.isApplicable(npc, context)) return behavior;
+
+        return this;
     }
 
 
