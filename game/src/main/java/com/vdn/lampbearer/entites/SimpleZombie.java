@@ -1,12 +1,11 @@
 package com.vdn.lampbearer.entites;
 
 import com.vdn.lampbearer.action.actions.AttackAction;
-import com.vdn.lampbearer.attributes.HealthAttr;
-import com.vdn.lampbearer.attributes.PerceptionAttr;
-import com.vdn.lampbearer.attributes.SpeedAttr;
-import com.vdn.lampbearer.attributes.StrengthAttr;
+import com.vdn.lampbearer.attributes.*;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
-import com.vdn.lampbearer.entites.behavior.ai.LinearMovementAi;
+import com.vdn.lampbearer.entites.behavior.ai.movement.AstarMovementAi;
+import com.vdn.lampbearer.entites.behavior.ai.olfaction.SmellAi;
+import com.vdn.lampbearer.entites.behavior.ai.sight.LinearSightAi;
 import com.vdn.lampbearer.entites.behavior.npc.general.AttackingBehavior;
 import com.vdn.lampbearer.entites.behavior.npc.general.ChasingBehavior;
 import com.vdn.lampbearer.entites.behavior.npc.general.NonPlayerCharacterBehavior;
@@ -38,14 +37,20 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
                 new HealthAttr(20),
                 new StrengthAttr(0),
                 new PerceptionAttr(10),
+                new SmellAttr(10),
                 speedAttr,
                 StaticBlockOccupier.getInstance()
         ));
         setActions(List.of(AttackAction.getInstance()));
 
         behaviors.add(new AttackingBehavior());
-        behaviors.add(new ChasingBehavior(LinearMovementAi.getInstance()));
-        behaviors.add(new WanderingBehavior(LinearMovementAi.getInstance()));
+        behaviors.add(new ChasingBehavior(
+                LinearSightAi.getInstance(),
+                SmellAi.getInstance(),
+                AstarMovementAi.getInstance(),
+                true
+        ));
+        behaviors.add(new WanderingBehavior(AstarMovementAi.getInstance()));
     }
 
 

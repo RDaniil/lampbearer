@@ -1,18 +1,19 @@
-package com.vdn.lampbearer.entites.behavior.ai;
+package com.vdn.lampbearer.entites.behavior.ai.movement;
 
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
+import com.vdn.lampbearer.entites.behavior.ai.Ai;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 /**
  * An artificial intelligence which is driving NPCs
  */
 public abstract class MovementAi implements Ai {
+
     /**
      * Moves NPC to the target position
      *
@@ -54,37 +55,24 @@ public abstract class MovementAi implements Ai {
         if (npc.isStuck(context))
             throw new RuntimeException(String.format("%s is stuck!", npc.getName()));
 
+        World world = context.getWorld();
         Position3D playerPos = context.getPlayer().getPosition();
-        if (!playerPos.equals(targetPos) && !context.getWorld().isBlockWalkable(targetPos))
+        if (!playerPos.equals(targetPos) && !world.isBlockWalkable(targetPos))
             return Optional.empty();
 
-        ArrayList<Position3D> path = createPath(currentPos, targetPos);
-        return isTargetVisible(path, context.getWorld()) ? Optional.of(path) : Optional.empty();
+        return createPath(currentPos, targetPos, world);
     }
 
 
     /**
      * Creates a path between two positions
      *
-     * @param startPos start of path
-     * @param endPos   end of path
+     * @param startPosition start of path
+     * @param endPosition   end of path
+     * @param world         world
      * @return path which includes start and end
      */
-    protected abstract ArrayList<Position3D> createPath(Position3D startPos,
-                                                        Position3D endPos);
-
-
-    /**
-     * Checks if all objects between start and finish of the path are transparent
-     *
-     * @param positions positions of created path
-     * @param world     World
-     * @return true if all objects between start and end of the path are transparent
-     */
-    private boolean isTargetVisible(List<Position3D> positions, World world) {
-        for (int i = 1; i < positions.size() - 1; i++) {
-            if (!world.isBlockTransparent(positions.get(i))) return false;
-        }
-        return true;
-    }
+    protected abstract Optional<ArrayList<Position3D>> createPath(Position3D startPosition,
+                                                                  Position3D endPosition,
+                                                                  World world);
 }

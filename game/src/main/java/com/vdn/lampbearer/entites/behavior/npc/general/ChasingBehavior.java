@@ -1,31 +1,47 @@
 package com.vdn.lampbearer.entites.behavior.npc.general;
 
-import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
-import com.vdn.lampbearer.entites.behavior.ai.MovementAi;
+import com.vdn.lampbearer.entites.behavior.ai.movement.MovementAi;
+import com.vdn.lampbearer.entites.behavior.ai.olfaction.SmellAi;
+import com.vdn.lampbearer.entites.behavior.ai.sight.SightAi;
 import com.vdn.lampbearer.game.GameContext;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * A chasing behavior of NPC
  */
+@Slf4j
+@RequiredArgsConstructor
 public class ChasingBehavior extends NonPlayerCharacterBehavior {
 
+    private final SightAi sightAi;
+    private final SmellAi smellAi;
     private final MovementAi movementAi;
+    private final boolean isMemoryAvailable;
 
-
-    public ChasingBehavior(MovementAi ai) {
-        this.movementAi = ai;
-    }
+    private Position3D lastSeenPositionOfPlayer;
 
 
     @Override
     public boolean act(NonPlayerCharacter npc, GameContext context) {
-        return npc.isStuck(context) || movementAi.move(npc, context.getPlayer().getPosition(), context);
+        if (npc.isStuck(context)) return true;
+
+        Position3D targetPosition;
+        if (sightAi.isPlayerInSight(npc, context) || smellAi.isPlayerScentAround(npc, context)) {
+            targetPosition = context.getPlayer().getPosition();
+        } else {
+            targetPosition = lastSeenPositionOfPlayer;
+        }
+
+        boolean isMoved = movementAi.move(npc, targetPosition, context);
+        if (isMoved && isMemoryAvailable && npc.getPosition().equals(lastSeenPositionOfPlayer)) {
+            lastSeenPositionOfPlayer = null;
+        }
+
+        return isMoved;
     }
 
 
@@ -46,23 +62,13 @@ public class ChasingBehavior extends NonPlayerCharacterBehavior {
 
     @Override
     public boolean isApplicable(NonPlayerCharacter npc, GameContext context) {
-        return isPlayerInSight(npc, context);
-    }
+        if (sightAi.isPlayerInSight(npc, context)) {
+            if (isMemoryAvailable) {
+                lastSeenPositionOfPlayer = context.getPlayer().getPosition();
+            }
+            return true;
+        }
 
-
-    /**
-     * Checks if player is in sight
-     *
-     * @param npc     NPC
-     * @param context GameContext
-     * @return true if player is in sight
-     */
-    private boolean isPlayerInSight(NonPlayerCharacter npc, GameContext context) {
-        PerceptionAttr perception = npc.findAttribute(PerceptionAttr.class).get();
-        int value = perception.getValue();
-
-        Optional<ArrayList<Position3D>> path =
-                movementAi.findPath(npc, context.getPlayer().getPosition(), context);
-        return path.isPresent() && path.get().size() <= value + 1;
+        return smellAi.isPlayerScentAround(npc, context) || lastSeenPositionOfPlayer != null;
     }
 }

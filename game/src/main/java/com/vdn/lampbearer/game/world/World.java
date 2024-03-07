@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Содержит всю карту из блоков
@@ -323,5 +324,23 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+
+    /**
+     * @param position3D позиция
+     * @return до 4-х позиций вокруг, находящихся в пределах игрового поля, на которые можно встать
+     */
+    public List<Position3D> getWalkablePositionsAround(Position3D position3D) {
+        return Stream.of(
+                        position3D.withRelativeY(-1),
+                        position3D.withRelativeX(-1),
+                        position3D.withRelativeY(1),
+                        position3D.withRelativeX(1)
+                ).filter(p -> {
+                    GameBlock block = this.fetchBlockAtOrNull(position3D);
+                    return block != null && block.isWalkable();
+                })
+                .collect(Collectors.toList());
     }
 }
