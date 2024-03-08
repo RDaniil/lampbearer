@@ -5,6 +5,7 @@ import com.vdn.lampbearer.action.actions.DoorCloseAction;
 import com.vdn.lampbearer.action.actions.DoorOpenAction;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
@@ -17,7 +18,9 @@ public class DoorOpeningReaction implements Reaction {
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
         if (target.findAction(DoorOpenAction.class).isEmpty()) return false;
 
-        target.setTile(TileRepository.getTile(BlockTypes.OPENED_DOOR));
+        BlockTypes blockTypes = BlockTypes.OPENED_DOOR;
+
+        target.setTile(TileRepository.getTile(blockTypes));
         target.removeAttribute(BlockOccupier.class);
         target.removeAction(DoorOpenAction.class);
         target.getActions().add(DoorCloseAction.getInstance());
@@ -25,6 +28,8 @@ public class DoorOpeningReaction implements Reaction {
 
         context.getLogArea()
                 .addParagraph(String.format("%s's been opened", target.getName()), false, 0);
+
+        target.setName(GameBlockFactory.returnGameBlock(blockTypes).getName());
 
         return true;
     }

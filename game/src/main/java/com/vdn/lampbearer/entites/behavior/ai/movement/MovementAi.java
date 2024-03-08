@@ -1,9 +1,12 @@
 package com.vdn.lampbearer.entites.behavior.ai.movement;
 
+import com.vdn.lampbearer.action.actions.DoorOpenAction;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.Ai;
+import com.vdn.lampbearer.entites.objects.Door;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.ArrayList;
@@ -32,8 +35,12 @@ public abstract class MovementAi implements Ai {
 
         ArrayList<Position3D> positions = path.get();
         Position3D nextPos = positions.get(1);
-        return context.getWorld().isBlockWalkable(nextPos) &&
-                context.getWorld().moveEntity(npc, nextPos);
+
+        if (context.getWorld().isBlockWalkable(nextPos)) {
+            return context.getWorld().moveEntity(npc, nextPos);
+        }
+
+        return interact(npc, context, nextPos);
     }
 
 
@@ -75,4 +82,25 @@ public abstract class MovementAi implements Ai {
     protected abstract Optional<ArrayList<Position3D>> createPath(Position3D startPosition,
                                                                   Position3D endPosition,
                                                                   World world);
+
+
+    /**
+     * @param npc        NPC
+     * @param context    context
+     * @param position3D позиция, на которой должно происходить взаимодействие
+     * @return true если взаимодействие было выполнено, иначе false
+     */
+    private boolean interact(NonPlayerCharacter npc, GameContext context, Position3D position3D) {
+        GameBlock block = context.getWorld().fetchBlockAtOrNull(position3D);
+        if (block == null) return false;
+
+        return block.getEntities().stream().anyMatch(e -> {
+            if (e instanceof Door) {
+                Optional<DoorOpenAction> action = e.findAction(DoorOpenAction.class);
+                return action.map(a -> a.createReaction().execute(npc, e, context)).orElse(false);
+            }
+
+            return false;
+        });
+    }
 }
