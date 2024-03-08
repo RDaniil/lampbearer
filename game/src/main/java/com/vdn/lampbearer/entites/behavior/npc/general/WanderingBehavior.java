@@ -2,24 +2,24 @@ package com.vdn.lampbearer.entites.behavior.npc.general;
 
 import com.vdn.lampbearer.attributes.PerceptionAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
-import com.vdn.lampbearer.entites.behavior.ai.MovementAi;
+import com.vdn.lampbearer.entites.behavior.ai.movement.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
+import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 import static com.vdn.lampbearer.services.RandomService.getRandom;
 
 /**
  * A wandering behavior of NPC
  */
+@RequiredArgsConstructor
 public class WanderingBehavior extends NonPlayerCharacterBehavior {
+
     private final MovementAi movementAi;
     protected Position3D positionToMoveTo;
-
-
-    public WanderingBehavior(MovementAi ai) {
-        this.movementAi = ai;
-    }
 
 
     @Override
@@ -52,8 +52,8 @@ public class WanderingBehavior extends NonPlayerCharacterBehavior {
      * @return a target position to wander to
      */
     private Position3D getRandomPositionInView(NonPlayerCharacter npc) {
-        PerceptionAttr perception = npc.findAttribute(PerceptionAttr.class).get();
-        int value = perception.getValue();
+        Optional<PerceptionAttr> perceptionAttr = npc.findAttribute(PerceptionAttr.class);
+        int value = perceptionAttr.map(PerceptionAttr::getValue).orElse(1);
 
         int randomX = getRandom(1, value);
         int randomY = getRandom(1, value);
