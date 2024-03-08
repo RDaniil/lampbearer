@@ -2,6 +2,8 @@ package com.vdn.lampbearer.entites;
 
 import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.attributes.Attribute;
+import com.vdn.lampbearer.attributes.TransparentAttr;
+import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import lombok.Getter;
 import lombok.Setter;
 import org.hexworks.zircon.api.data.Position3D;
@@ -58,5 +60,11 @@ public abstract class AbstractEntity {
     public void setActions(List<Action<?>> actions) {
         this.actions.clear();
         this.actions.addAll(actions);
+    }
+
+
+    public boolean isTransparent() {
+        return findAttribute(TransparentAttr.class).isPresent() ||
+                findAttribute(BlockOccupier.class).isEmpty();
     }
 }

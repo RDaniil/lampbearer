@@ -45,6 +45,11 @@ public class GameBlock extends BaseBlock<Tile> {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
 
 
+    public boolean isTransparent() {
+        return isTransparent && entities.stream().allMatch(AbstractEntity::isTransparent);
+    }
+
+
     public void addEntity(AbstractEntity entity) {
         entities.add(entity);
         updateContent();
