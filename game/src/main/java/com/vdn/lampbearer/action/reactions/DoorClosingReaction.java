@@ -6,6 +6,7 @@ import com.vdn.lampbearer.action.actions.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.BlockTypes;
 import com.vdn.lampbearer.views.TileRepository;
@@ -19,8 +20,9 @@ public class DoorClosingReaction implements Reaction {
         if (target.findAction(DoorCloseAction.class).isEmpty()) return false;
 
         boolean isVertical = target.findAttribute(VerticalArrangement.class).isPresent();
-        target.setTile(isVertical ? TileRepository.getTile(BlockTypes.V_CLOSED_DOOR) :
-                TileRepository.getTile(BlockTypes.H_CLOSED_DOOR));
+        BlockTypes blockTypes = isVertical ? BlockTypes.V_CLOSED_DOOR : BlockTypes.H_CLOSED_DOOR;
+
+        target.setTile(TileRepository.getTile(blockTypes));
         target.getAttributes().add(DynamicBlockOccupier.getInstance());
         target.removeAction(DoorCloseAction.class);
         target.getActions().add(DoorOpenAction.getInstance());
@@ -28,6 +30,8 @@ public class DoorClosingReaction implements Reaction {
 
         context.getLogArea()
                 .addParagraph(String.format("%s's been closed", target.getName()), false, 0);
+
+        target.setName(GameBlockFactory.returnGameBlock(blockTypes).getName());
 
         return true;
     }

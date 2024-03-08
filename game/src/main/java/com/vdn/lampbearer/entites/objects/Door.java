@@ -14,11 +14,12 @@ import java.util.List;
 public class Door extends AbstractEntity {
 
     public Door(Arrangement arrangement) {
-        setName(GameBlockFactory.returnGameBlock(BlockTypes.OPENED_DOOR).getName());
-        setDescription(GameBlockFactory.returnGameBlock(BlockTypes.OPENED_DOOR).getDescription());
-        setTile(arrangement instanceof VerticalArrangement ?
-                TileRepository.getTile(BlockTypes.V_CLOSED_DOOR) :
-                TileRepository.getTile(BlockTypes.H_CLOSED_DOOR));
+        BlockTypes blockTypes = arrangement instanceof VerticalArrangement ?
+                BlockTypes.V_CLOSED_DOOR : BlockTypes.H_CLOSED_DOOR;
+
+        setName(GameBlockFactory.returnGameBlock(blockTypes).getName());
+        setDescription(GameBlockFactory.returnGameBlock(blockTypes).getDescription());
+        setTile(TileRepository.getTile(blockTypes));
         setAttributes(List.of(DynamicBlockOccupier.getInstance(), arrangement));
         setActions(List.of(DoorOpenAction.getInstance()));
     }
