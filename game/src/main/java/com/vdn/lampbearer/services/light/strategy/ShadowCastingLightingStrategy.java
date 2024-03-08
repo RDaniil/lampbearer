@@ -110,7 +110,6 @@ public class ShadowCastingLightingStrategy implements LightingStrategy {
                 if (blocked) { //previous cell was a blocking one
                     if (isOpaque(currentPos)) {//hit a wall
                         newStart = rightSlope;
-                        continue;
                     } else {
                         blocked = false;
                         start = newStart;
