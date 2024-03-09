@@ -7,8 +7,7 @@ import com.vdn.lampbearer.action.reactions.PutOutLampReaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
 import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
-import com.vdn.lampbearer.entites.interfaces.Schedulable;
-import com.vdn.lampbearer.entites.interfaces.Updateable;
+import com.vdn.lampbearer.entites.interfaces.Updatable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.services.light.CircleLight;
@@ -21,7 +20,7 @@ import org.hexworks.zircon.api.data.Position3D;
 import java.util.List;
 
 @Slf4j
-public class Lantern extends AbstractItem implements Updateable, Schedulable {
+public class Lantern extends AbstractItem implements Updatable {
 
     private static final int MAX_LIGHT_RADIUS = 6;
     private static final float START_FADING_PERCENTAGE = 20;
@@ -32,8 +31,15 @@ public class Lantern extends AbstractItem implements Updateable, Schedulable {
 
     @Override
     public int getTime() {
-        return 1;
+        return 10;
     }
+
+
+    @Override
+    public boolean needUpdate() {
+        return lightSource.isOn();
+    }
+
 
 
     public Lantern(Position3D position3D) {

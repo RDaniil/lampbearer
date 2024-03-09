@@ -37,7 +37,7 @@ public class GameBuilder {
         world.addPlayer(player, Position3D.create(25, 25, 0));
         world.addDynamicLight(player, player.getFowLight());
 
-        world.addEntity(new SimpleZombie(new SpeedAttr(10)), Position3D.create(5, 6, 0));
+        world.addEntity(new SimpleZombie(new SpeedAttr(10)), Position3D.create(30, 25, 0));
         world.addEntity(new SimpleZombie(new SpeedAttr(14)), Position3D.create(5, 7, 0));
 
         SimpleZombie zombie = new SimpleZombie(new SpeedAttr(2));

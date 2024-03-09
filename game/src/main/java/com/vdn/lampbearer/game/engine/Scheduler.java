@@ -49,6 +49,14 @@ public class Scheduler {
     public static Schedulable peek() {
         currentTime = timeToSchedulablesMap.firstKey();
         List<Schedulable> scheduledToCurrentTime = timeToSchedulablesMap.get(currentTime);
+
+        /*Сущности с скоростью 0 - выполняются "мгновенно" вне очереди*/
+        var immediateSchedulable = scheduledToCurrentTime.stream()
+                .filter(s -> s.getTime() == 0).findFirst();
+        if (immediateSchedulable.isPresent()) {
+            return immediateSchedulable.get();
+        }
+
         var schedulable = scheduledToCurrentTime.get(0);
         if (schedulable != null) return schedulable;
 

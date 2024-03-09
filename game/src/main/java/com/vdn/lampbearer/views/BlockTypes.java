@@ -25,4 +25,5 @@ public enum BlockTypes {
     LAMPPOST,
     LANTERN,
     OIL_BOTTLE,
+    STONE,
 }

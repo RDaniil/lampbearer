@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.AbstractPickUpItemAction;
+import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.Player;
@@ -35,6 +36,7 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
 
         if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
         if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
+        if (isThrowAction(keyboardEvent)) return new PlayerTargetBehavior(new ThrowReaction());
 
         return this;
     }

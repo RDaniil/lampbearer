@@ -1,7 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.reactions.LookReaction;
-import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.action.TargetedReaction;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.AllArgsConstructor;
@@ -18,18 +17,19 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 public class PlayerTargetBehavior extends PlayerBehavior {
 
-    private LookReaction reactionToExecute;
+    private TargetedReaction reactionToExecute;
     private Position selectedPosition;
     private Tile selectTile = Tile.newBuilder().withCharacter(' ')
             .withForegroundColor(TileColor.fromString("#FFAC4D").withAlpha(100))
             .withModifiers(Modifiers.blink())
             .withBackgroundColor(TileColor.fromString("#E7D5B6").withAlpha(200))
             .build();
+    private boolean targetActionExecuted;
 
 
-    public PlayerTargetBehavior(LookReaction lookReaction) {
+    public PlayerTargetBehavior(TargetedReaction targetedReaction) {
         super();
-        this.reactionToExecute = lookReaction;
+        this.reactionToExecute = targetedReaction;
     }
 
 
@@ -57,13 +57,18 @@ public class PlayerTargetBehavior extends PlayerBehavior {
 
         KeyboardEvent keyboardEvent = (KeyboardEvent) event;
 
-        if (keyboardEvent.getCode().equals(KeyCode.KEY_C) ||
-                keyboardEvent.getCode().equals(KeyCode.ESCAPE)) {
+        if (isCanceledTargeting(keyboardEvent) || targetActionExecuted) {
             clearPreviousTargetTile(context);
             return new PlayerMoveAndAttackBehavior();
         }
 
         return this;
+    }
+
+
+    private static boolean isCanceledTargeting(KeyboardEvent keyboardEvent) {
+        return keyboardEvent.getCode().equals(KeyCode.KEY_C) ||
+                keyboardEvent.getCode().equals(KeyCode.ESCAPE);
     }
 
 
@@ -79,15 +84,16 @@ public class PlayerTargetBehavior extends PlayerBehavior {
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_D)) {
             selectedPosition = selectedPosition.withRelativeX(1);
         } else if (keyboardEvent.getCode().equals(KeyCode.ENTER)) {
-            return reactionToExecute.execute(
+            targetActionExecuted = reactionToExecute.execute(
                     context.getPlayer(),
-                    context.getWorld().getEntityAt(convertToWorldPosition(context, selectedPosition)),
+                    context.getWorld().getEntityOrBlockEntityAt(convertToWorldPosition(context, selectedPosition)),
                     context
             );
+            return targetActionExecuted;
         }
 
         selectPosition(context, selectedPosition);
-        return true;
+        return false;
     }
 
 
@@ -103,14 +109,5 @@ public class PlayerTargetBehavior extends PlayerBehavior {
 
     private Position convertToWorldPosition(GameContext context, Position position) {
         return position.plus(context.getWorld().getVisibleOffset().to2DPosition());
-    }
-
-
-    public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        context.getLogArea()
-                .addParagraph(String.format("This is %s", target.getName()), false, 0);
-        context.getLogArea()
-                .addParagraph(target.getDescription(), false, 0);
-        return true;
     }
 }
