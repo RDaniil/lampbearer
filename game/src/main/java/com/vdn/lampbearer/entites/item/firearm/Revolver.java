@@ -44,12 +44,15 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
     }
 
 
-    public static Revolver createForWorld(Position3D position) {
-        Revolver revolver = new Revolver(position);
+    public static Revolver createForWorld() {
+        Revolver revolver = new Revolver();
         revolver.getActions().add(PickUpItemAction.getInstance());
-        for (int i = 0; i < 6; i++) {
-            revolver.cylinder.set(i, new DefaultRevolverRound());
-        }
+        revolver.cylinder.set(0, new DefaultRevolverRound());
+        revolver.cylinder.set(1, new DefaultRevolverRound());
+        revolver.cylinder.set(2, new DefaultRevolverRound());
+        revolver.cylinder.set(3, new DefaultRevolverRound());
+        revolver.cylinder.set(4, new DefaultRevolverRound());
+        revolver.cylinder.set(5, new DefaultRevolverRound());
         return revolver;
     }
 

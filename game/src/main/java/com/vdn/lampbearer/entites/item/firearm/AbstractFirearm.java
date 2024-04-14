@@ -11,7 +11,6 @@ public abstract class AbstractFirearm<P extends Projectile> extends AbstractItem
         super(position);
     }
 
-
     public abstract P popProjectile();
 
     public abstract int countEmptyRounds();

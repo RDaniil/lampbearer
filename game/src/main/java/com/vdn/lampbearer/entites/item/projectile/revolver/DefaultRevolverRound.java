@@ -16,12 +16,12 @@ import org.hexworks.zircon.api.shape.LineFactory;
 public class DefaultRevolverRound extends AbstractRevolverRound {
 
     public DefaultRevolverRound() {
-        super(Position3D.defaultPosition());
-        BlockType blockType = BlockType.DEFAULT_REVOLVER_ROUND;
-        setTile(TileRepository.getTile(blockType));
-        GameBlock gameBlock = GameBlockFactory.returnGameBlock(blockType);
-        setName(gameBlock.getName());
-        setDescription(gameBlock.getDescription());
+        super();
+        BlockTypes stoneType = BlockTypes.DEFAULT_REVOLVER_ROUND;
+        setTile(TileRepository.getTile(stoneType));
+        GameBlock stoneBlock = GameBlockFactory.returnGameBlock(stoneType);
+        setName(stoneBlock.getName());
+        setDescription(stoneBlock.getDescription());
 
         setPenetrationPower(new PenetrationPowerAttr(3));
         setProjectileDamage(new ProjectileDamageAttr(10));

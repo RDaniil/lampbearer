@@ -2,6 +2,7 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.combat.AttackAction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
+import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.action.reactions.items.ShootFirearmReaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
