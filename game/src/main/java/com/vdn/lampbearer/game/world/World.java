@@ -91,18 +91,16 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
-    public void addPlayer(Player player, Position3D position3D) {
-        this.player = player;
-        addEntity(player, position3D);
-    }
-
-
     public void addEntity(AbstractEntity entity, Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
             throw new IllegalArgumentException(
                     String.format("Position %s does not contain any blocks", pos)
             );
         });
+
+        if (entity instanceof Player) {
+            this.player = (Player) entity;
+        }
 
         entity.setPosition(position3D);
         block.addEntity(entity);

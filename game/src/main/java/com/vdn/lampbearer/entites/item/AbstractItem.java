@@ -5,10 +5,16 @@ import com.vdn.lampbearer.entites.interfaces.Printable;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.component.Component;
 import org.hexworks.zircon.api.component.HBox;
+import org.hexworks.zircon.api.data.Position3D;
 
 import static org.hexworks.zircon.api.ComponentDecorations.noDecoration;
 
 public abstract class AbstractItem extends AbstractEntity implements Printable {
+
+    public AbstractItem(Position3D position) {
+        super(position);
+    }
+
 
     @Override
     public Component toComponent() {

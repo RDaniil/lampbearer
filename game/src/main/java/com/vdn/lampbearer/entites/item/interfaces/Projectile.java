@@ -21,6 +21,7 @@ import java.util.Optional;
 @Setter
 @Getter
 public abstract class Projectile extends AbstractItem implements Updatable {
+
     public PenetrationPowerAttr penetrationPower;
     public ProjectileDamageAttr projectileDamage;
     public Position3D targetPosition;
@@ -28,6 +29,11 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     @Nullable
     protected Iterator<Position> projectilePath = null;
     protected boolean isFlying;
+
+
+    public Projectile(Position3D position) {
+        super(position);
+    }
 
 
     @Override

@@ -14,14 +14,14 @@ import java.util.Map;
  */
 public class TileRepository {
 
-    static Map<BlockTypes, Tile> blockTypesTileMap = new HashMap<>();
+    private final static Map<BlockType, Tile> TYPE_TO_TILE_MAP = new HashMap<>();
 
 
     public static void fillTileMap(TileGameBlockConfig tileGameBlockConfig) {
         for (ConfigBlock tile : tileGameBlockConfig.configTileList) {
-            blockTypesTileMap.put(tile.getBlockType(), createTileFromConfigBlock(tile));
+            TYPE_TO_TILE_MAP.put(tile.getBlockType(), createTileFromConfigBlock(tile));
         }
-        blockTypesTileMap.put(BlockTypes.EMPTY, Tile.empty());
+        TYPE_TO_TILE_MAP.put(BlockType.EMPTY, Tile.empty());
     }
 
     private static Tile createTileFromConfigBlock(ConfigBlock tile) {
@@ -32,14 +32,14 @@ public class TileRepository {
     }
 
 
-    public static Tile getTile(BlockTypes blockTypes) {
-        return blockTypesTileMap.get(blockTypes);
+    public static Tile getTile(BlockType blockType) {
+        return TYPE_TO_TILE_MAP.get(blockType);
     }
 
 
     public static Tile getTile(Tile tile) {
         try {
-            return blockTypesTileMap.values().stream()
+            return TYPE_TO_TILE_MAP.values().stream()
                     .filter(t -> t.equals(tile))
                     .findFirst().orElseThrow(() -> new NoTileFoundException(tile));
         } catch (Exception e) {
@@ -48,8 +48,8 @@ public class TileRepository {
     }
 
 
-    public static BlockTypes getBlockType(Tile tile) {
-        return blockTypesTileMap.entrySet().stream()
+    public static BlockType getBlockType(Tile tile) {
+        return TYPE_TO_TILE_MAP.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(tile))
                 .findFirst().orElseThrow(() -> new NoTileFoundException(tile))
                 .getKey();

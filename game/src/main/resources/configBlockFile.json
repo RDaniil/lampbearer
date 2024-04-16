@@ -19,6 +19,16 @@
       "description": "Just ground"
     },
     {
+      "blockType": "GROUND_TRAIL",
+      "tile": ".",
+      "background": "#111111",
+      "foreground": "#FF978f",
+      "walkable": true,
+      "transparent": true,
+      "name": "Ground trail",
+      "description": "Just ground trail"
+    },
+    {
       "blockType": "ROCK",
       "tile": "▲",
       "background": "#111111",
@@ -29,6 +39,116 @@
       "description": "Just rock"
     },
     {
+      "blockType": "TREE_LG",
+      "tile": "T",
+      "background": "#111111",
+      "foreground": "#9ca942",
+      "walkable": false,
+      "transparent": false,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "TREE_Y",
+      "tile": "T",
+      "background": "#111111",
+      "foreground": "#a98b42",
+      "walkable": false,
+      "transparent": false,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "TREE_G",
+      "tile": "T",
+      "background": "#111111",
+      "foreground": "#69862d",
+      "walkable": false,
+      "transparent": false,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "TREE_R",
+      "tile": "T",
+      "background": "#111111",
+      "foreground": "#975132",
+      "walkable": false,
+      "transparent": false,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "SMALL_TREE_LG",
+      "tile": "t",
+      "background": "#111111",
+      "foreground": "#9ca942",
+      "walkable": true,
+      "transparent": true,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "SMALL_TREE_Y",
+      "tile": "t",
+      "background": "#111111",
+      "foreground": "#a98b42",
+      "walkable": true,
+      "transparent": true,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "SMALL_TREE_G",
+      "tile": "t",
+      "background": "#111111",
+      "foreground": "#69862d",
+      "walkable": true,
+      "transparent": true,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "SMALL_TREE_R",
+      "tile": "t",
+      "background": "#111111",
+      "foreground": "#975132",
+      "walkable": true,
+      "transparent": true,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "PINE",
+      "tile": "♠",
+      "background": "#111111",
+      "foreground": "#283d14",
+      "walkable": false,
+      "transparent": false,
+      "name": "Tree",
+      "description": "Just tree"
+    },
+    {
+      "blockType": "BUSH_Y",
+      "tile": "v",
+      "background": "#111111",
+      "foreground": "#a98b42",
+      "walkable": true,
+      "transparent": true,
+      "name": "Bush",
+      "description": "Just bush"
+    },
+    {
+      "blockType": "BUSH_LG",
+      "tile": "v",
+      "background": "#111111",
+      "foreground": "#9ca942",
+      "walkable": true,
+      "transparent": true,
+      "name": "Bush",
+      "description": "Just bush"
+    },
+    {
       "blockType": "GRASS",
       "tile": "\"",
       "background": "#111111",
@@ -37,6 +157,26 @@
       "transparent": true,
       "name": "Grass",
       "description": "Just grass"
+    },
+    {
+      "blockType": "GRASS_SMALL",
+      "tile": "'",
+      "background": "#111111",
+      "foreground": "#9ca942",
+      "walkable": true,
+      "transparent": true,
+      "name": "Grass",
+      "description": "Just grass"
+    },
+    {
+      "blockType": "GRASS_TRAIL",
+      "tile": ",",
+      "background": "#111111",
+      "foreground": "#FF6633",
+      "walkable": true,
+      "transparent": true,
+      "name": "Grass trail",
+      "description": "Just grass trail"
     },
     {
       "blockType": "SIMPLE_ZOMBIE",
@@ -131,6 +271,16 @@
       "description": "Just wall"
     },
     {
+      "blockType": "V_WALL",
+      "tile": "│",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
       "blockType": "V_WALL_THICK",
       "tile": "║",
       "background": "#111111",
@@ -167,6 +317,36 @@
       "transparent": true,
       "name": "Glass",
       "description": "Just glass"
+    },
+    {
+      "blockType": "H_WALL_THICK_B_JOINT",
+      "tile": "╤",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "H_WALL_THICK_T_JOINT",
+      "tile": "╧",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "V_WALL_THICK_L_JOINT",
+      "tile": "╢",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
     },
     {
       "blockType": "V_WALL_THICK_R_JOINT",
