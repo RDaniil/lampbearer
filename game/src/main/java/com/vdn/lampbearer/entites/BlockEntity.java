@@ -8,17 +8,15 @@ import org.hexworks.zircon.api.data.Position;
  */
 public class BlockEntity extends AbstractEntity {
     public BlockEntity(Position position, GameBlock block) {
-        setPosition(position.toPosition3D(0));
+        super(position.toPosition3D(0));
         setName(block.getName());
         setDescription(block.getDescription());
     }
 
 
-    public BlockEntity(Position position,
-                       String blockEntityName, String blockEntityDescription) {
-        setPosition(position.toPosition3D(0));
+    public BlockEntity(Position position, String blockEntityName, String blockEntityDescription) {
+        super(position.toPosition3D(0));
         setName(blockEntityName);
         setDescription(blockEntityDescription);
     }
-
 }

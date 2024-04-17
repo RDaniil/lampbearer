@@ -23,6 +23,11 @@ public abstract class Actor<B extends Behavior<?>> extends AbstractEntity {
     private final List<Position3D> surroundingPositions = new ArrayList<>();
 
 
+    public Actor(Position3D position) {
+        super(position);
+    }
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

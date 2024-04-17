@@ -1,11 +1,13 @@
 package com.vdn.lampbearer.action;
 
+import java.io.Serializable;
+
 /**
  * An action which can be made on something/someone
  *
  * @param <T> Type of Reaction which has to be caused by it
  */
-public interface Action<T extends Reaction> {
+public interface Action<T extends Reaction> extends Serializable {
 
     Class<T> getReactionClass();
 

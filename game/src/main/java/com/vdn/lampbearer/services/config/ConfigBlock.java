@@ -1,17 +1,17 @@
 package com.vdn.lampbearer.services.config;
 
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Промежуточный класс для чтение Tile с JSON файла
+ * Промежуточный класс для чтения Tile с JSON файла
  */
 @Getter
 @Setter
 public class ConfigBlock {
 
-    private BlockTypes blockType;
+    private BlockType blockType;
 
     private String background;
 

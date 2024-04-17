@@ -9,11 +9,12 @@ import com.vdn.lampbearer.entites.item.interfaces.Projectile;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.data.Position3D;
 
 @Setter
 @Getter
@@ -32,9 +33,10 @@ public class Stone extends Projectile {
     }
 
 
-    public Stone() {
-        super();
-        BlockTypes stoneType = BlockTypes.STONE;
+    public Stone(Position3D position) {
+        super(position);
+
+        BlockType stoneType = BlockType.STONE;
         setTile(TileRepository.getTile(stoneType));
         GameBlock stoneBlock = GameBlockFactory.returnGameBlock(stoneType);
         setName(stoneBlock.getName());
@@ -48,7 +50,7 @@ public class Stone extends Projectile {
 
 
     public static Stone createForInventory() {
-        Stone stone = new Stone();
+        Stone stone = new Stone(Position3D.defaultPosition());
         stone.getActions().add(DropItemAction.getInstance());
         return stone;
     }
@@ -64,8 +66,8 @@ public class Stone extends Projectile {
     }
 
 
-    public static Stone createForWorld() {
-        Stone stone = new Stone();
+    public static Stone createForWorld(Position3D position3D) {
+        Stone stone = new Stone(position3D);
         stone.getActions().add(PickUpItemAction.getInstance());
         return stone;
     }

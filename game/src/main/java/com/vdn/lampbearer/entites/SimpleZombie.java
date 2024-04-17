@@ -14,9 +14,10 @@ import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,17 +29,20 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
     private NonPlayerCharacterBehavior behavior = new AttackingBehavior();
 
 
-    public SimpleZombie(SpeedAttr speedAttr) {
-        setName(GameBlockFactory.returnGameBlock(BlockTypes.SIMPLE_ZOMBIE).getName());
-        setDescription(GameBlockFactory.returnGameBlock(BlockTypes.SIMPLE_ZOMBIE)
-                .getDescription());
-        setTile(TileRepository.getTile(BlockTypes.SIMPLE_ZOMBIE));
+    public SimpleZombie(Position3D position3D) {
+        super(position3D);
+
+        BlockType type = BlockType.SIMPLE_ZOMBIE;
+        GameBlock block = GameBlockFactory.returnGameBlock(type);
+        setName(block.getName());
+        setDescription(block.getDescription());
+        setTile(TileRepository.getTile(type));
         setAttributes(List.of(
                 new HealthAttr(20),
                 new StrengthAttr(0),
                 new PerceptionAttr(10),
                 new SmellAttr(10),
-                speedAttr,
+                new SpeedAttr(5),
                 StaticBlockOccupier.getInstance()
         ));
         setActions(List.of(AttackAction.getInstance()));
