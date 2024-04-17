@@ -1,13 +1,13 @@
 package com.vdn.lampbearer.game;
 
 import com.vdn.lampbearer.attributes.SpeedAttr;
-import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.entites.item.OilBottle;
-import com.vdn.lampbearer.entites.objects.Door;
+import com.vdn.lampbearer.entites.item.firearm.Revolver;
+import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
@@ -33,25 +33,27 @@ public class GameBuilder {
 
     public Game buildGame(Size3D worldSize) {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
-        Player player = new Player();
-        world.addPlayer(player, Position3D.create(25, 25, 0));
+        Player player = new Player(Position3D.create(25, 25, 0));
+        world.addEntity(player, player.getPosition());
         world.addDynamicLight(player, player.getFowLight());
 
-        world.addEntity(new SimpleZombie(new SpeedAttr(10)), Position3D.create(30, 25, 0));
-        world.addEntity(new SimpleZombie(new SpeedAttr(14)), Position3D.create(5, 7, 0));
+        SimpleZombie zombie = new SimpleZombie(Position3D.create(5, 6, 0));
+        zombie.removeAttribute(SpeedAttr.class);
+        zombie.getAttributes().add(new SpeedAttr(10));
+        world.addEntity(zombie, zombie.getPosition());
 
-        SimpleZombie zombie = new SimpleZombie(new SpeedAttr(2));
-        world.addEntity(zombie, Position3D.create(5, 4, 0));
-//        CircleLight zombieLight = new CircleLight(zombie.getPosition(), 4, TileColor.fromString("#FF4200"));
-//        world.addDynamicLight(zombie, zombieLight);
-
-        world.addEntity(new Door(VerticalArrangement.getInstance()), Position3D.create(10, 12, 0));
+        zombie = new SimpleZombie(Position3D.create(5, 7, 0));
+        zombie.removeAttribute(SpeedAttr.class);
+        zombie.getAttributes().add(new SpeedAttr(14));
+        world.addEntity(zombie, zombie.getPosition());
 
         LampPost lampPost = new LampPost(Position3D.create(13, 13, 0));
         world.addEntity(lampPost, lampPost.getPosition());
         world.addStaticLight(lampPost.getLight());
 
-        world.addEntity(FirstAidKit.createForWorld(), Position3D.create(5, 4, 0));
+        world.addEntity(FirstAidKit.createForWorld(Position3D.create(5, 4, 0)), Position3D.create(5, 4, 0));
+        world.addEntity(Revolver.createForWorld(Position3D.create(26, 25, 0)), Position3D.create(26, 25, 0));
+        world.addEntity(FMJRevolverAmmoBox.createForWorld(Position3D.create(26, 26, 0)), Position3D.create(26, 26, 0));
         world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
         world.addEntity(new OilBottle(Position3D.create(23, 23, 0)), Position3D.create(23, 23, 0));
         return new Game(world, player);

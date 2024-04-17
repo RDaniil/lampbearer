@@ -21,6 +21,7 @@ import java.util.Optional;
 @Setter
 @Getter
 public abstract class Projectile extends AbstractItem implements Updatable {
+
     public PenetrationPowerAttr penetrationPower;
     public ProjectileDamageAttr projectileDamage;
     public Position3D targetPosition;
@@ -28,6 +29,12 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     @Nullable
     protected Iterator<Position> projectilePath = null;
     protected boolean isFlying;
+
+    private boolean isPathStart = false;
+
+    public Projectile(Position3D position) {
+        super(position);
+    }
 
 
     @Override
@@ -60,10 +67,16 @@ public abstract class Projectile extends AbstractItem implements Updatable {
      */
     protected void updateProjectile(GameContext context) {
         if (projectilePath == null) {
-            initPath();
+            initPath(context);
+            isPathStart = true;
+        }
+        var nextPosition = projectilePath.next();
+
+        if (isPathStart) {
+            onPathStart(context, nextPosition);
+            isPathStart = false;
         }
 
-        var nextPosition = projectilePath.next();
         moveProjectile(context, nextPosition);
         if (isCollided(context)) {
             onCollision(context);
@@ -75,12 +88,21 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     }
 
 
+    protected void onPathStart(GameContext context, Position startPosition) {
+    }
+
+
+    public void beforeLaunch(GameContext context, Position startPosition,
+                             Position targetPosition) {
+    }
+
+
     private void moveProjectile(GameContext context, Position nextPosition) {
         context.getWorld().moveEntity(this, nextPosition.toPosition3D(0));
     }
 
 
-    protected void initPath() {
+    protected void initPath(GameContext context) {
         projectilePath = LineFactory.INSTANCE.buildLine(getPosition().to2DPosition(),
                 getTargetPosition().to2DPosition()).iterator();
         //Сдвигаем позицию один раз, чтобы не спавнить снаряд на стреляющем
@@ -123,7 +145,14 @@ public abstract class Projectile extends AbstractItem implements Updatable {
 
 
     protected void destroyProjectile(GameContext context) {
+        /* Ситуация, когда столкнулись непосредственно перед концом пути, и при столкновении уже
+         * удалили снаряд везде
+         */
+        if (!isFlying) {
+            return;
+        }
         isFlying = false;
+        context.getWorld().removeFromSchedule(this);
         context.getWorld().deleteEntity(this, getPosition());
     }
 

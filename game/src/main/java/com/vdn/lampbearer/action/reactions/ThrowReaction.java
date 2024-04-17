@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.action.reactions;
 
-import com.vdn.lampbearer.action.TargetedReaction;
+import com.vdn.lampbearer.action.AbstractProjectileReaction;
 import com.vdn.lampbearer.action.actions.ThrowAction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class ThrowReaction extends TargetedReaction {
+public class ThrowReaction extends AbstractProjectileReaction {
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
         Position3D initiatorPosition = initiator.getPosition();
@@ -37,13 +37,4 @@ public class ThrowReaction extends TargetedReaction {
         return true;
     }
 
-
-    private static void initProjectile(Projectile projectile, Position3D targetPosition,
-                                       Position3D initiatorPosition, GameContext context) {
-        projectile.setTargetPosition(targetPosition);
-        projectile.setPosition(initiatorPosition);
-        projectile.setFlying(true);
-
-        context.getWorld().addEntity(projectile, initiatorPosition);
-    }
 }

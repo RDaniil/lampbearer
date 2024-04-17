@@ -102,6 +102,6 @@ public class PlayView extends BaseView {
     @NotNull
     private static ComponentRenderer<org.hexworks.zircon.api.component.Panel> createGameAreaRenderer(Game game) {
         return GameComponents.newGameAreaComponentRenderer(game.getWorld(), TOP_DOWN,
-                TileRepository.getTile(BlockTypes.GROUND));
+                TileRepository.getTile(BlockType.GROUND));
     }
 }

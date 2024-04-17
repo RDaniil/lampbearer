@@ -4,7 +4,7 @@ import com.vdn.lampbearer.constants.BlockLightingState;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.Player;
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import kotlin.Pair;
 import lombok.Getter;
@@ -29,20 +29,20 @@ import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
 @Getter
 @Setter
 public class GameBlock extends BaseBlock<Tile> {
-    public GameBlock(Tile tile) {
-        super(tile, persistentMapOf(new Pair<>(BlockTileType.CONTENT, tile)));
-        lightingState = BlockLightingState.UNSEEN;
-        setTop(TileRepository.getTile(BlockTypes.UNSEEN));
-    }
 
-
-    private BlockLightingState lightingState;
+    private BlockLightingState lightingState = BlockLightingState.UNSEEN;
     private boolean isWalkable;
     private boolean isTransparent;
     private String name;
     private String description;
 
     private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
+
+
+    public GameBlock(Tile tile) {
+        super(tile, persistentMapOf(new Pair<>(BlockTileType.BOTTOM, tile)));
+        setTop(TileRepository.getTile(BlockType.UNSEEN));
+    }
 
 
     public boolean isTransparent() {
@@ -59,7 +59,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public void removeEntity(AbstractEntity entity) {
         if (!entities.remove(entity)) {
             throw new RuntimeException("Сущность " + entity.toString() +
-                    " не существует на блоке" + this);
+                    " не существует на блоке " + this);
         }
         updateContent();
     }
@@ -76,7 +76,7 @@ public class GameBlock extends BaseBlock<Tile> {
         List<AbstractEntity> actors = entities.stream()
                 .filter(entity -> entity instanceof Actor)
                 .collect(Collectors.toList());
-        Tile newContent = getEmptyTile();
+        Tile newContent = getBottomTile();
 
         Player player = (Player) actors.stream()
                 .filter(entity -> entity instanceof Player)
@@ -102,7 +102,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public void updateLighting() {
         var newContent = getContent();
         if (lightingState == BlockLightingState.IN_LIGHT) {
-            setTop(TileRepository.getTile(BlockTypes.EMPTY));
+            setTop(TileRepository.getTile(BlockType.EMPTY));
         } else if (lightingState == BlockLightingState.SEEN) {
             newContent = getDisplayedTile().withForegroundColor(
                     newContent.getForegroundColor()
@@ -125,5 +125,20 @@ public class GameBlock extends BaseBlock<Tile> {
 
     public boolean isUnseen() {
         return BlockLightingState.UNSEEN.equals(getLightingState());
+    }
+
+
+    public Tile getBottomTile() {
+        return getTiles().get(BlockTileType.BOTTOM);
+    }
+
+
+    public void cloneEntities(ArrayList<AbstractEntity> entities) {
+        entities.forEach(e -> this.entities.add(e.clone()));
+    }
+
+
+    public static GameBlock createEmpty() {
+        return new GameBlock(TileRepository.getTile(BlockType.EMPTY));
     }
 }

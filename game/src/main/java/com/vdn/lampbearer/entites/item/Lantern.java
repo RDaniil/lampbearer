@@ -10,9 +10,12 @@ import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
 import com.vdn.lampbearer.entites.interfaces.Updatable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.CircleLight;
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
+import lombok.AccessLevel;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position3D;
@@ -26,7 +29,9 @@ public class Lantern extends AbstractItem implements Updatable {
     private static final float START_FADING_PERCENTAGE = 20;
 
     private final UsableAttr usableAttr;
-    private final LightSourceAttr lightSource;
+
+    @Setter(AccessLevel.NONE)
+    private LightSourceAttr lightSource;
 
 
     @Override
@@ -43,10 +48,13 @@ public class Lantern extends AbstractItem implements Updatable {
 
 
     public Lantern(Position3D position3D) {
-        super();
-        setPosition(position3D);
-        setTile(TileRepository.getTile(BlockTypes.LANTERN));
-        setName(GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getName());
+        super(position3D);
+
+        BlockType type = BlockType.LANTERN;
+        GameBlock block = GameBlockFactory.returnGameBlock(type);
+        setTile(TileRepository.getTile(type));
+        setName(block.getName());
+        setDescription(block.getDescription());
 
         usableAttr = new UsableAttr(100, 70);
         lightSource = new LightSourceAttr(
@@ -56,8 +64,8 @@ public class Lantern extends AbstractItem implements Updatable {
         setAttributes(List.of(
                 this.lightSource,
                 FueledByOilAttr.getInstance(),
-                usableAttr)
-        );
+                usableAttr
+        ));
 
         getActions().add(PickUpLightSourceAction.getInstance());
         getActions().add(LightLampAction.getInstance());
@@ -67,9 +75,8 @@ public class Lantern extends AbstractItem implements Updatable {
 
     @Override
     public String getDescription() {
-        return String.format("%s. %s",
-                GameBlockFactory.returnGameBlock(BlockTypes.LANTERN).getDescription(),
-                usableAttr.getStringPercentageLeft());
+        String description = super.getDescription();
+        return String.format("%s. %s", description, usableAttr.getStringPercentageLeft());
     }
 
 
@@ -92,5 +99,15 @@ public class Lantern extends AbstractItem implements Updatable {
 
         float newRadius = percentageLeft * (MAX_LIGHT_RADIUS - 1) / START_FADING_PERCENTAGE;
         lightSource.getLight().setRadius((int) (Math.max(newRadius, 1)));
+    }
+
+
+    @Override
+    public Lantern clone() {
+        Lantern clone = (Lantern) super.clone();
+        clone.lightSource = lightSource.clone();
+        clone.removeAttribute(LightSourceAttr.class);
+        clone.getAttributes().add(clone.lightSource);
+        return clone;
     }
 }

@@ -1,0 +1,64 @@
+{
+  "0": {
+    "bottomTiles": [
+      {
+        "blockTypes": ["TREE_LG", "TREE_Y", "TREE_G", "TREE_R", "PINE"],
+        "minSize": 1,
+        "maxSize": 10,
+        "minNumber": 20,
+        "maxNumber": 20
+      },
+      {
+        "blockTypes": ["SMALL_TREE_LG", "SMALL_TREE_Y", "SMALL_TREE_G", "SMALL_TREE_R"],
+        "minSize": 1,
+        "maxSize": 20,
+        "minNumber": 20,
+        "maxNumber": 20
+      },
+      {
+        "blockTypes": ["BUSH_Y", "BUSH_LG"],
+        "minSize": 1,
+        "maxSize": 20,
+        "minNumber": 100,
+        "maxNumber": 100
+      },
+      {
+        "blockTypes": ["ROCK"],
+        "minSize": 1,
+        "maxSize": 7,
+        "minNumber": 80,
+        "maxNumber": 120
+      },
+      {
+        "blockTypes": ["GRASS"],
+        "minSize": 1,
+        "maxSize": 30,
+        "minNumber": 160,
+        "maxNumber": 200
+      },
+      {
+        "blockTypes": ["GRASS"],
+        "minSize": 1,
+        "maxSize": 1,
+        "minNumber": 2000,
+        "maxNumber": 2000
+      }
+    ],
+    "stuffRestrictions": {
+      "FIRST_AID_KIT": 3,
+      "LANTERN": 4,
+      "OIL_BOTTLE": 4
+    },
+    "probabilities": {
+      "trailDeviation": 60,
+      "lamppostInstallation": 25
+    },
+    "prefabs": [
+      {
+        "prefab": "SMALL_BUILDING",
+        "number": 8,
+        "shouldBeConnectedByTrails": true
+      }
+    ]
+  }
+}

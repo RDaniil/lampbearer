@@ -2,21 +2,27 @@ package com.vdn.lampbearer.services.light;
 
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.utils.PositionUtils;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.SerializationUtils;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Tile;
 import org.springframework.lang.Nullable;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public abstract class Light {
+public abstract class Light implements Serializable {
 
-    private Position position;
+    private transient Position position;
     protected PositionUtils.Direction direction = PositionUtils.Direction.RIGHT;
     private int radius;
-    private final TileColor color;
+
+    @Setter(AccessLevel.NONE)
+    private transient TileColor color;
 
 
     public Light(Position position, int radius, TileColor color) {
@@ -82,5 +88,15 @@ public abstract class Light {
         float brightness = (float) (distance / radius);
         var colorInterpolator = color.interpolateTo(foregroundColor);
         return colorInterpolator.getColorAtRatio(brightness);
+    }
+
+
+    @Override
+    @SuppressWarnings({"all"})
+    public Light clone() {
+        Light clone = SerializationUtils.clone(this);
+        clone.position = position;
+        clone.color = color;
+        return clone;
     }
 }

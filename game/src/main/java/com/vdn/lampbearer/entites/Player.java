@@ -16,8 +16,9 @@ import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
 import com.vdn.lampbearer.services.light.PlayerSight;
 import com.vdn.lampbearer.utils.PositionUtils;
-import com.vdn.lampbearer.views.BlockTypes;
+import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
+    @Setter
     private PlayerBehavior behavior = new PlayerMoveAndAttackBehavior();
 
     /**
@@ -56,11 +58,16 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
     private final Map<KeyCode, Position3D> keyToSurroundingPositionMap = new HashMap<>();
 
 
-    public Player() {
-        setName(GameBlockFactory.returnGameBlock(BlockTypes.PLAYER).getName());
-        setDescription(GameBlockFactory.returnGameBlock(BlockTypes.PLAYER).getDescription());
-        setTile(TileRepository.getTile(BlockTypes.PLAYER));
-        InventoryAttr inventoryAttr = new InventoryAttr();
+    public Player(Position3D position3D) {
+        super(position3D);
+
+        BlockType type = BlockType.PLAYER;
+        GameBlock block = GameBlockFactory.returnGameBlock(type);
+        setName(block.getName());
+        setDescription(block.getDescription());
+        setTile(TileRepository.getTile(type));
+        InventoryAttr inventoryAttr = new InventoryAttr(10);
+
         inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(FirstAidKit.createForInventory());
@@ -68,7 +75,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         HealthAttr healthAttr = new HealthAttr(100);
         healthAttr.reduceHealth(40);
 
-        PerceptionAttr perceptionAttr = new PerceptionAttr(8);
+        PerceptionAttr perceptionAttr = new PerceptionAttr(20);
 
         setAttributes(List.of(
                 healthAttr,
