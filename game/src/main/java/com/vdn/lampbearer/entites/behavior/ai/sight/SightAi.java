@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.ai.sight;
 
-import com.vdn.lampbearer.attributes.PerceptionAttr;
+import com.vdn.lampbearer.attributes.creature.PerceptionAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.Ai;
 import com.vdn.lampbearer.game.GameContext;

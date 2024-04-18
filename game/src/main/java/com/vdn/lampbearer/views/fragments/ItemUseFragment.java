@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.views.fragments;
 
-import com.vdn.lampbearer.action.Action;
-import com.vdn.lampbearer.action.Reaction;
+import com.vdn.lampbearer.action.actions.Action;
+import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.item.AbstractItem;

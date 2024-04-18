@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.attributes.projectile;
 
-import com.vdn.lampbearer.attributes.UsableAttr;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import lombok.Getter;
 
 @Getter

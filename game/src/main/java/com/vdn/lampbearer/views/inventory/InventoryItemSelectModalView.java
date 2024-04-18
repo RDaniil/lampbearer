@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.views.inventory;
 
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.item.AbstractItem;

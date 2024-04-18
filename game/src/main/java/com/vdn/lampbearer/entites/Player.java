@@ -1,7 +1,11 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.actions.AttackAction;
-import com.vdn.lampbearer.attributes.*;
+import com.vdn.lampbearer.action.actions.combat.AttackAction;
+import com.vdn.lampbearer.attributes.creature.HealthAttr;
+import com.vdn.lampbearer.attributes.creature.PerceptionAttr;
+import com.vdn.lampbearer.attributes.creature.SpeedAttr;
+import com.vdn.lampbearer.attributes.creature.StrengthAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.StaticBlockOccupier;
 import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerMoveAndAttackBehavior;

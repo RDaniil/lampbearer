@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.services.light;
 
-import com.vdn.lampbearer.attributes.PerceptionAttr;
+import com.vdn.lampbearer.attributes.creature.PerceptionAttr;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;

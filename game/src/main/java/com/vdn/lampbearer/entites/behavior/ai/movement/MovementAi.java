@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.ai.movement;
 
-import com.vdn.lampbearer.action.actions.DoorOpenAction;
+import com.vdn.lampbearer.action.actions.interaction.DoorOpenAction;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.Ai;
 import com.vdn.lampbearer.entites.objects.Door;

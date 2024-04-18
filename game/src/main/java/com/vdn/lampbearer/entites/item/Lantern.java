@@ -1,12 +1,12 @@
 package com.vdn.lampbearer.entites.item;
 
 import com.vdn.lampbearer.action.actions.InspectItemAction;
-import com.vdn.lampbearer.action.actions.LightLampAction;
-import com.vdn.lampbearer.action.actions.PickUpLightSourceAction;
-import com.vdn.lampbearer.action.reactions.PutOutLampReaction;
+import com.vdn.lampbearer.action.actions.inventory.PickUpLightSourceAction;
+import com.vdn.lampbearer.action.actions.items.LightLampAction;
+import com.vdn.lampbearer.action.reactions.items.PutOutLampReaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
-import com.vdn.lampbearer.attributes.UsableAttr;
 import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.entites.interfaces.Updatable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;

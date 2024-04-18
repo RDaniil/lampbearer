@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.views.fragments;
 
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.views.fragments.sidepanel.SidePanelInventoryRowFragment;

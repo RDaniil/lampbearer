@@ -1,9 +1,9 @@
 package com.vdn.lampbearer.entites.item;
 
-import com.vdn.lampbearer.action.actions.FuelLanternAction;
 import com.vdn.lampbearer.action.actions.InspectItemAction;
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
-import com.vdn.lampbearer.attributes.UsableAttr;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.FuelLanternAction;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.views.BlockType;
