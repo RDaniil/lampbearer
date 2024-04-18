@@ -18,6 +18,7 @@ import com.vdn.lampbearer.services.light.PlayerSight;
 import com.vdn.lampbearer.utils.PositionUtils;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Player extends Actor<PlayerBehavior> implements Schedulable {
 
+    @Setter
     private PlayerBehavior behavior = new PlayerMoveAndAttackBehavior();
 
     /**
@@ -64,7 +66,8 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setName(block.getName());
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
-        InventoryAttr inventoryAttr = new InventoryAttr();
+        InventoryAttr inventoryAttr = new InventoryAttr(10);
+
         inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(FirstAidKit.createForInventory());

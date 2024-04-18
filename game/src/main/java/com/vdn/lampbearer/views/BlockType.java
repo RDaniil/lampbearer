@@ -44,6 +44,9 @@ public enum BlockType {
     PINE,
     BUSH_Y,
     BUSH_LG,
+    DEFAULT_REVOLVER_ROUND,
+    REVOLVER,
+    DEFAULT_REVOLVER_ROUND_BOX,
     ;
 
 

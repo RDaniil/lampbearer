@@ -3,11 +3,15 @@ package com.vdn.lampbearer.game;
 import com.vdn.lampbearer.attributes.SpeedAttr;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
+import com.vdn.lampbearer.entites.item.FirstAidKit;
+import com.vdn.lampbearer.entites.item.Lantern;
+import com.vdn.lampbearer.entites.item.OilBottle;
+import com.vdn.lampbearer.entites.item.firearm.Revolver;
+import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
+import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
-import com.vdn.lampbearer.services.light.CircleLight;
 import lombok.RequiredArgsConstructor;
-import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 import org.springframework.stereotype.Component;
@@ -43,11 +47,15 @@ public class GameBuilder {
         zombie.getAttributes().add(new SpeedAttr(14));
         world.addEntity(zombie, zombie.getPosition());
 
-        zombie = new SimpleZombie(Position3D.create(5, 4, 0));
-        world.addEntity(zombie, zombie.getPosition());
-        CircleLight zombieLight = new CircleLight(zombie.getPosition(), 4, TileColor.fromString("#FF4200"));
-        world.addDynamicLight(zombie, zombieLight);
+        LampPost lampPost = new LampPost(Position3D.create(13, 13, 0));
+        world.addEntity(lampPost, lampPost.getPosition());
+        world.addStaticLight(lampPost.getLight());
 
+        world.addEntity(FirstAidKit.createForWorld(Position3D.create(5, 4, 0)), Position3D.create(5, 4, 0));
+        world.addEntity(Revolver.createForWorld(Position3D.create(26, 25, 0)), Position3D.create(26, 25, 0));
+        world.addEntity(FMJRevolverAmmoBox.createForWorld(Position3D.create(26, 26, 0)), Position3D.create(26, 26, 0));
+        world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
+        world.addEntity(new OilBottle(Position3D.create(23, 23, 0)), Position3D.create(23, 23, 0));
         return new Game(world, player);
     }
 }

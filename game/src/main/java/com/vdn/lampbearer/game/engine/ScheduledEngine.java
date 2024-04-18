@@ -43,12 +43,12 @@ public class ScheduledEngine implements Engine {
     }
 
 
-    private void addToSchedule(Schedulable schedulable) {
+    public void addToSchedule(Schedulable schedulable) {
         Scheduler.add(schedulable);
     }
 
 
-    private void removeFromSchedule(Schedulable schedulable) {
+    public void removeFromSchedule(Schedulable schedulable) {
         Scheduler.remove(schedulable);
     }
 

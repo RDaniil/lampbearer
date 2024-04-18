@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.action;
 
 /**
- * Абстрактная реакция, для выполнения которой необходимо выбрать цель
+ * Реакция, для выполнения которой необходимо выбрать цель
  */
-public abstract class TargetedReaction implements Reaction {
+public interface TargetedReaction extends Reaction {
 }

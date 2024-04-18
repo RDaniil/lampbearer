@@ -9,7 +9,7 @@ public class DiceBuilder {
         }
 
         for (int i = 0; i < numberOfRoll; i++) {
-            this.resultOfRoll += RandomService.getRandom(1, numberOfEdge + 1);
+            this.resultOfRoll += RandomService.getRandom(1, numberOfEdge);
         }
         return this;
     }

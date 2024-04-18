@@ -6,6 +6,7 @@ import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.BlockEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.Engine;
 import com.vdn.lampbearer.game.engine.EngineState;
@@ -154,11 +155,6 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         block.removeEntity(entity);
         engine.removeEntity(entity);
         removeDynamicLightByEntity(entity);
-    }
-
-
-    public void removeFromSchedule(AbstractEntity entity) {
-        engine.removeEntity(entity);
     }
 
 
@@ -359,6 +355,15 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         }
     }
 
+
+    public void addToSchedule(Schedulable schedulable) {
+        engine.addToSchedule(schedulable);
+    }
+
+
+    public void removeFromSchedule(Schedulable schedulable) {
+        engine.removeFromSchedule(schedulable);
+    }
 
     /**
      * @param position3D позиция

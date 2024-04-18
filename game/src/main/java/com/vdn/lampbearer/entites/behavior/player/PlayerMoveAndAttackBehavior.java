@@ -2,6 +2,7 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.AttackAction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
+import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
@@ -53,6 +54,8 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
             return new PlayerTargetBehavior(new LookReaction());
         if (isThrowAction(keyboardEvent))
             return new PlayerTargetBehavior(new ThrowReaction());
+        if (isRevolverAction(keyboardEvent))
+            return new PlayerTargetBehavior(new ShootFirearmReaction());
 
         return this;
     }

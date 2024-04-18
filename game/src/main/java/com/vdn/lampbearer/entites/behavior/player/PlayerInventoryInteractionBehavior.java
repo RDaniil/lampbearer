@@ -1,6 +1,8 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
+import com.vdn.lampbearer.action.TargetedReaction;
 import com.vdn.lampbearer.action.actions.AbstractPickUpItemAction;
+import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.InventoryAttr;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
@@ -37,6 +39,8 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
         if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
         if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
         if (isThrowAction(keyboardEvent)) return new PlayerTargetBehavior(new ThrowReaction());
+        if (isRevolverAction(keyboardEvent))
+            return new PlayerTargetBehavior(new ShootFirearmReaction());
 
         return this;
     }
@@ -56,8 +60,12 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
         } else if (keyboardEvent.getCode().equals(KeyCode.KEY_U)) {
             var actionDto = showItemActionModal(context);
             if (actionDto == null) return false;
-            //Здесь указываем что надо перейти в таргет, возвращаем фолс
-//            player.changeBehavior(new PlayerTargetBehavior(actionDto));
+
+            if (actionDto.getReaction() instanceof TargetedReaction) {
+                player.setBehavior(new PlayerTargetBehavior((TargetedReaction) actionDto.getReaction()));
+                return false;
+            }
+
             return actionDto.getReaction().execute(
                     actionDto.getInitiator(),
                     actionDto.getTarget(),

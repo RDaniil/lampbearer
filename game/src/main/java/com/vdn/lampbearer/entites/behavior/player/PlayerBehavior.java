@@ -25,6 +25,7 @@ public abstract class PlayerBehavior extends Behavior<Player> {
 
     private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
     private static final KeyCode THROW_KEY = KeyCode.KEY_T;
+    private static final KeyCode REVOLVER_KEY = KeyCode.KEY_R;
     private static final KeyCode LOOK_KEY = KeyCode.KEY_L;
 
 
@@ -62,6 +63,11 @@ public abstract class PlayerBehavior extends Behavior<Player> {
                 && !event.getCtrlDown()
                 && !event.getAltDown()
                 && !event.getShiftDown();
+    }
+
+
+    protected static boolean isRevolverAction(KeyboardEvent event) {
+        return event != null && REVOLVER_KEY.equals(event.getCode());
     }
 
 

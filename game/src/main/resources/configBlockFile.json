@@ -395,6 +395,30 @@
       "foreground": "#fc8403",
       "name": "Stone",
       "description": "You can throw it"
+    },
+    {
+      "blockType": "DEFAULT_REVOLVER_ROUND",
+      "tile": "•",
+      "background": "#111111",
+      "foreground": "#e7d5c8",
+      "name": "Revolver round",
+      "description": "FMJ rounds"
+    },
+    {
+      "blockType": "REVOLVER",
+      "tile": "r",
+      "background": "#111111",
+      "foreground": "#aaaacc",
+      "name": "Revolver",
+      "description": "Military issue revolver"
+    },
+    {
+      "blockType": "DEFAULT_REVOLVER_ROUND_BOX",
+      "tile": "◘",
+      "background": "#111111",
+      "foreground": "#e7d5c8",
+      "name": "Revolver rounds Box",
+      "description": "Box of FMJ revolver rounds"
     }
   ]
 }

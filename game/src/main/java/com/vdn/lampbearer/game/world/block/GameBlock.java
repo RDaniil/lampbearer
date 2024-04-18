@@ -59,7 +59,7 @@ public class GameBlock extends BaseBlock<Tile> {
     public void removeEntity(AbstractEntity entity) {
         if (!entities.remove(entity)) {
             throw new RuntimeException("Сущность " + entity.toString() +
-                    " не существует на блоке" + this);
+                    " не существует на блоке " + this);
         }
         updateContent();
     }
