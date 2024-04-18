@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.ai.olfaction;
 
-import com.vdn.lampbearer.attributes.SmellAttr;
+import com.vdn.lampbearer.attributes.creature.SmellAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.Ai;
 import com.vdn.lampbearer.game.GameContext;

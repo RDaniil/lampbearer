@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.item.projectile.ammo;
 
-import com.vdn.lampbearer.action.actions.LoadFirearmAction;
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
-import com.vdn.lampbearer.attributes.ItemContainerAttr;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.LoadFirearmAction;
+import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.factories.GameBlockFactory;

@@ -1,10 +1,10 @@
 package com.vdn.lampbearer.entites.item.firearm;
 
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
-import com.vdn.lampbearer.action.actions.ShootFirearmAction;
-import com.vdn.lampbearer.attributes.ItemContainerAttr;
-import com.vdn.lampbearer.attributes.UsableAttr;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.ShootFirearmAction;
+import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.entites.item.projectile.revolver.AbstractRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.EmptyRound;

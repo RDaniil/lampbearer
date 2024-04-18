@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.item.projectile;
 
-import com.vdn.lampbearer.action.actions.DropItemAction;
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
-import com.vdn.lampbearer.action.actions.ThrowAction;
+import com.vdn.lampbearer.action.actions.inventory.DropItemAction;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.ThrowAction;
 import com.vdn.lampbearer.attributes.projectile.PenetrationPowerAttr;
 import com.vdn.lampbearer.attributes.projectile.ProjectileDamageAttr;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;

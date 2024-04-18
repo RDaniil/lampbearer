@@ -1,8 +1,7 @@
 package com.vdn.lampbearer.action.reactions;
 
-import com.vdn.lampbearer.action.AbstractProjectileReaction;
-import com.vdn.lampbearer.action.actions.ThrowAction;
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.action.actions.items.ThrowAction;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;

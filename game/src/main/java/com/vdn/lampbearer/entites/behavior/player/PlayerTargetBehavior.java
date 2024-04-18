@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.TargetedReaction;
+import com.vdn.lampbearer.action.reactions.TargetedReaction;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.AllArgsConstructor;

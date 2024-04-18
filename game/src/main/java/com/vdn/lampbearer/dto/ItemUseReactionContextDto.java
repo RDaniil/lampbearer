@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.dto;
 
-import com.vdn.lampbearer.action.Reaction;
+import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.AllArgsConstructor;

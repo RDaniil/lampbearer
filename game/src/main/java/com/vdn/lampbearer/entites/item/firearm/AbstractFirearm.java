@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.item.firearm;
 
-import com.vdn.lampbearer.attributes.ItemContainerAttr;
+import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;
 import org.hexworks.zircon.api.data.Position3D;

@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.views.fragments.sidepanel;
 
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;

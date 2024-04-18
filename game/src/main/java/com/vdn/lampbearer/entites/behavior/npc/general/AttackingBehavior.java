@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.npc.general;
 
-import com.vdn.lampbearer.action.reactions.AttackReaction;
+import com.vdn.lampbearer.action.reactions.combat.AttackReaction;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;

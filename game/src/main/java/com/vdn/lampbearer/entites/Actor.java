@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.attributes.HealthAttr;
-import com.vdn.lampbearer.attributes.SpeedAttr;
+import com.vdn.lampbearer.attributes.creature.HealthAttr;
+import com.vdn.lampbearer.attributes.creature.SpeedAttr;
 import com.vdn.lampbearer.entites.behavior.Behavior;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;

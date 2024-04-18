@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.Interaction;
-import com.vdn.lampbearer.action.Reaction;
+import com.vdn.lampbearer.action.actions.Interaction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
+import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;

@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites;
 
-import com.vdn.lampbearer.action.Action;
+import com.vdn.lampbearer.action.actions.Action;
 import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.TransparentAttr;
 import com.vdn.lampbearer.attributes.arrangement.HorizontalArrangement;

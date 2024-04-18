@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.entites.objects;
 
-import com.vdn.lampbearer.action.actions.DoorCloseAction;
-import com.vdn.lampbearer.action.actions.DoorOpenAction;
+import com.vdn.lampbearer.action.actions.interaction.DoorCloseAction;
+import com.vdn.lampbearer.action.actions.interaction.DoorOpenAction;
 import com.vdn.lampbearer.attributes.arrangement.Arrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;

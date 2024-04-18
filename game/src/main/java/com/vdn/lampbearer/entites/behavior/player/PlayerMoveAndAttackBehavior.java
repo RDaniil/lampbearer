@@ -1,11 +1,11 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.actions.AttackAction;
+import com.vdn.lampbearer.action.actions.combat.AttackAction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
-import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.action.reactions.items.ShootFirearmReaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;

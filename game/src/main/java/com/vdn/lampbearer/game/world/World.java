@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.game.world;
 
-import com.vdn.lampbearer.action.Action;
+import com.vdn.lampbearer.action.actions.Action;
 import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;

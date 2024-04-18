@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.item.interfaces;
 
-import com.vdn.lampbearer.action.reactions.ProjectileAttackReaction;
+import com.vdn.lampbearer.action.reactions.combat.ProjectileAttackReaction;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.attributes.projectile.PenetrationPowerAttr;
 import com.vdn.lampbearer.attributes.projectile.ProjectileDamageAttr;

@@ -1,10 +1,10 @@
 package com.vdn.lampbearer.entites.item;
 
-import com.vdn.lampbearer.action.actions.DropItemAction;
-import com.vdn.lampbearer.action.actions.HealAction;
-import com.vdn.lampbearer.action.actions.PickUpItemAction;
-import com.vdn.lampbearer.attributes.UsableAttr;
+import com.vdn.lampbearer.action.actions.inventory.DropItemAction;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.HealAction;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.DiceBuilder;

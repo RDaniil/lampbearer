@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.game;
 
-import com.vdn.lampbearer.attributes.SpeedAttr;
+import com.vdn.lampbearer.attributes.creature.SpeedAttr;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
