@@ -11,6 +11,12 @@ import lombok.Getter;
 public enum Prefab {
 
     SMALL_BUILDING("prefabs/SmallBuilding.xp"),
+    SMALL_BUILDING_BROKEN("prefabs/SmallBuildingBroken.xp"),
+    MEDIUM_BUILDING("prefabs/MediumBuilding.xp"),
+    MEDIUM_BUILDING_BROKEN("prefabs/MediumBuildingBroken.xp"),
+    STORAGE("prefabs/Storage.xp"),
+    SHOP("prefabs/Shop.xp"),
+    HOSPITAL("prefabs/Hospital.xp"),
     ;
 
     private final String pathToFile;
