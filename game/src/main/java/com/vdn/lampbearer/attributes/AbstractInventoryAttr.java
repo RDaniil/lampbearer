@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.attributes;
 
-import com.vdn.lampbearer.action.Action;
+import com.vdn.lampbearer.action.actions.Action;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class AbstractInventoryAttr<T extends AbstractItem> implements Attribute {
 
-    protected final int maxSize;
+    private final int maxSize;
 
-    List<T> items = new ArrayList<>();
+    private final List<T> items = new ArrayList<>();
 
     private final Class<T> itemType;
 

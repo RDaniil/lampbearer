@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.action.reactions.items;
 
 import com.vdn.lampbearer.action.reactions.Reaction;
+import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
-import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.firearm.AbstractFirearm;
@@ -24,8 +24,8 @@ public class LoadFirearmReaction implements Reaction {
             return false;
         }
         //TODO: Рак, все желтое, надо понять как красиво дженерично провернуть контейнеры
-        Optional<ItemContainerAttr> ammoBoxInventory =
-                ammoBox.findAttribute(ItemContainerAttr.class);
+        Optional<RoundContainerAttr> ammoBoxInventory =
+                ammoBox.findAttribute(RoundContainerAttr.class);
         if (ammoBoxInventory.isEmpty()) {
             return false;
         }
@@ -49,7 +49,7 @@ public class LoadFirearmReaction implements Reaction {
     }
 
 
-    private static void deleteAmmoBoxIfEmpty(AbstractItem ammoBox, ItemContainerAttr ammoBoxInventory,
+    private static void deleteAmmoBoxIfEmpty(AbstractItem ammoBox, RoundContainerAttr ammoBoxInventory,
                                              InventoryAttr inventoryOpt) {
         if (ammoBoxInventory.getItemCount() == 0) {
             inventoryOpt.removeItem(ammoBox);

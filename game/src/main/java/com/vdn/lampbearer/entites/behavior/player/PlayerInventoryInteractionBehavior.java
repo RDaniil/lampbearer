@@ -1,12 +1,9 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.inventory.AbstractPickUpItemAction;
-import com.vdn.lampbearer.action.reactions.TargetedReaction;
-import com.vdn.lampbearer.action.TargetedReaction;
-import com.vdn.lampbearer.action.actions.AbstractPickUpItemAction;
 import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
+import com.vdn.lampbearer.action.reactions.TargetedReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
-import com.vdn.lampbearer.action.reactions.items.ShootFirearmReaction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.Player;

@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.action.reactions;
 
 import com.vdn.lampbearer.action.AbstractProjectileReaction;
-import com.vdn.lampbearer.attributes.InventoryAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.firearm.AbstractFirearm;
@@ -33,17 +33,19 @@ public class ShootFirearmReaction extends AbstractProjectileReaction {
             return false;
         }
 
-        if (foundFirearm.get() instanceof AbstractFirearm) {
-            var firearm = (AbstractFirearm<?>) foundFirearm.get();
-            var projectile = firearm.popProjectile();
-            if (projectile == null) {
-                context.getLogArea().addParagraph("*You hear a click, but gun doesn't shoot*",
-                        false, 0);
-                return true;
-            }
-            initProjectile(projectile, targetPosition, initiatorPosition, context);
-            inventoryOpt.get().removeItem(projectile);
+        if (!(foundFirearm.get() instanceof AbstractFirearm)) {
+            return false;
         }
+
+        var firearm = (AbstractFirearm<?>) foundFirearm.get();
+        var projectile = firearm.popProjectile();
+        if (projectile == null) {
+            context.getLogArea().addParagraph("*You hear a click, but gun doesn't shoot*",
+                    false, 0);
+            return true;
+        }
+        initProjectile(projectile, targetPosition, initiatorPosition, context);
+        inventoryOpt.get().removeItem(projectile);
 
         return true;
     }

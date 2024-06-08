@@ -1,5 +1,6 @@
 package com.vdn.lampbearer.action;
 
+import com.vdn.lampbearer.action.reactions.TargetedReaction;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;
 import com.vdn.lampbearer.game.GameContext;
 import org.hexworks.zircon.api.data.Position3D;

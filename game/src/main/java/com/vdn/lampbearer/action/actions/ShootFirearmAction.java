@@ -1,6 +1,5 @@
 package com.vdn.lampbearer.action.actions;
 
-import com.vdn.lampbearer.action.Action;
 import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

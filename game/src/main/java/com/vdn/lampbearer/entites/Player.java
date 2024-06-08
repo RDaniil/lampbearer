@@ -12,6 +12,7 @@ import com.vdn.lampbearer.entites.behavior.player.PlayerMoveAndAttackBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerTargetBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
+import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.Stone;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
@@ -73,9 +74,8 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         InventoryAttr inventoryAttr = new InventoryAttr(10);
 
         inventoryAttr.putItem(FirstAidKit.createForInventory());
-        inventoryAttr.putItem(FirstAidKit.createForInventory());
-        inventoryAttr.putItem(FirstAidKit.createForInventory());
         inventoryAttr.putItem(Stone.createForInventory());
+        inventoryAttr.putItem(Revolver.createForPlayer(position3D));
         HealthAttr healthAttr = new HealthAttr(100);
         healthAttr.reduceHealth(40);
 

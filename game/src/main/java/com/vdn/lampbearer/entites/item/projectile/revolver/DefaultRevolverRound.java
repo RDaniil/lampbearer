@@ -15,13 +15,13 @@ import org.hexworks.zircon.api.shape.LineFactory;
 
 public class DefaultRevolverRound extends AbstractRevolverRound {
 
-    public DefaultRevolverRound() {
-        super();
-        BlockTypes stoneType = BlockTypes.DEFAULT_REVOLVER_ROUND;
-        setTile(TileRepository.getTile(stoneType));
-        GameBlock stoneBlock = GameBlockFactory.returnGameBlock(stoneType);
-        setName(stoneBlock.getName());
-        setDescription(stoneBlock.getDescription());
+    public DefaultRevolverRound(Position3D position) {
+        super(position);
+        BlockType blockType = BlockType.DEFAULT_REVOLVER_ROUND;
+        setTile(TileRepository.getTile(blockType));
+        GameBlock gameBlock = GameBlockFactory.returnGameBlock(blockType);
+        setName(gameBlock.getName());
+        setDescription(gameBlock.getDescription());
 
         setPenetrationPower(new PenetrationPowerAttr(3));
         setProjectileDamage(new ProjectileDamageAttr(10));
@@ -33,9 +33,9 @@ public class DefaultRevolverRound extends AbstractRevolverRound {
         projectilePath = LineFactory.INSTANCE.buildLine(getPosition().to2DPosition(),
                 getTargetPosition().to2DPosition()).iterator();
         //Сдвигаем позицию один раз, чтобы спавнить вспышку перед стреляющим
-        projectilePath.next();
-        CircleSparkLight.createNow(context, projectilePath.next(), 6,
-                TileColor.fromString("#FFbb33"), 100);
+        moveToNextPosition();
+        CircleSparkLight.createNow(context, moveToNextPosition(), 6,
+                TileColor.fromString("#FFbb33"), 1);
     }
 
 

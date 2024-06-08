@@ -1,8 +1,7 @@
 package com.vdn.lampbearer.action.reactions;
 
-import com.vdn.lampbearer.action.Reaction;
-import com.vdn.lampbearer.attributes.InventoryAttr;
-import com.vdn.lampbearer.attributes.ItemContainerAttr;
+import com.vdn.lampbearer.attributes.RoundContainerAttr;
+import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.firearm.AbstractFirearm;
@@ -12,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 @Slf4j
-public class LoadFirearmReaction implements Reaction {
+public class LoadAllInFirearmReaction implements Reaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity ammoBox, GameContext context) {
@@ -23,9 +22,8 @@ public class LoadFirearmReaction implements Reaction {
         if (foundFirearm.isEmpty()) {
             return false;
         }
-        //TODO: Рак, все желтое, надо понять как красиво дженерично провернуть контейнеры
-        Optional<ItemContainerAttr> ammoBoxInventory =
-                ammoBox.findAttribute(ItemContainerAttr.class);
+        Optional<RoundContainerAttr> ammoBoxInventory =
+                ammoBox.findAttribute(RoundContainerAttr.class);
         if (ammoBoxInventory.isEmpty()) {
             return false;
         }
@@ -49,7 +47,7 @@ public class LoadFirearmReaction implements Reaction {
     }
 
 
-    private static void deleteAmmoBoxIfEmpty(AbstractItem ammoBox, ItemContainerAttr ammoBoxInventory,
+    private static void deleteAmmoBoxIfEmpty(AbstractItem ammoBox, RoundContainerAttr ammoBoxInventory,
                                              InventoryAttr inventoryOpt) {
         if (ammoBoxInventory.getItemCount() == 0) {
             inventoryOpt.removeItem(ammoBox);
