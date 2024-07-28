@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.shape.LineFactory;
+import org.hexworks.zircon.api.shape.Shape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
@@ -29,6 +30,8 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     @Nullable
     protected Iterator<Position> projectilePath = null;
     protected boolean isFlying;
+    protected int currentPositionNumber;
+    protected int pathLength;
 
     private boolean isPathStart = false;
 
@@ -70,7 +73,7 @@ public abstract class Projectile extends AbstractItem implements Updatable {
             initPath(context);
             isPathStart = true;
         }
-        var nextPosition = projectilePath.next();
+        var nextPosition = moveToNextPosition();
 
         if (isPathStart) {
             onPathStart(context, nextPosition);
@@ -103,10 +106,26 @@ public abstract class Projectile extends AbstractItem implements Updatable {
 
 
     protected void initPath(GameContext context) {
-        projectilePath = LineFactory.INSTANCE.buildLine(getPosition().to2DPosition(),
-                getTargetPosition().to2DPosition()).iterator();
+        Shape path = LineFactory.INSTANCE.buildLine(getPosition().to2DPosition(),
+                getTargetPosition().to2DPosition());
+        projectilePath = path.iterator();
+        pathLength = path.getPositions().size();
+        currentPositionNumber = 0;
+
         //Сдвигаем позицию один раз, чтобы не спавнить снаряд на стреляющем
-        projectilePath.next();
+        moveToNextPosition();
+    }
+
+
+    protected Position moveToNextPosition() {
+        assert projectilePath != null;
+        currentPositionNumber++;
+        return projectilePath.next();
+    }
+
+
+    protected double getPathPercentage() {
+        return (double) currentPositionNumber / pathLength;
     }
 
 

@@ -405,6 +405,14 @@
       "description": "FMJ rounds"
     },
     {
+      "blockType": "SIGNAL_REVOLVER_ROUND",
+      "tile": "•",
+      "background": "#111111",
+      "foreground": "#f12d23",
+      "name": "Signal round",
+      "description": "Hunters signal round used to signal your position"
+    },
+    {
       "blockType": "REVOLVER",
       "tile": "r",
       "background": "#111111",

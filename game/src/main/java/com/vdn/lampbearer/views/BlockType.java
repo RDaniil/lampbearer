@@ -47,7 +47,7 @@ public enum BlockType {
     DEFAULT_REVOLVER_ROUND,
     REVOLVER,
     DEFAULT_REVOLVER_ROUND_BOX,
-    ;
+    SIGNAL_REVOLVER_ROUND;
 
 
     public static boolean isTrail(BlockType type) {

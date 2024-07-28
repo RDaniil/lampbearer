@@ -1,13 +1,16 @@
 package com.vdn.lampbearer.entites.item.firearm;
 
+import com.vdn.lampbearer.action.actions.inventory.DropItemAction;
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.action.actions.items.ShootFirearmAction;
-import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
+import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
 import com.vdn.lampbearer.attributes.items.UsableAttr;
+import com.vdn.lampbearer.entites.item.projectile.Round;
 import com.vdn.lampbearer.entites.item.projectile.revolver.AbstractRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.EmptyRound;
+import com.vdn.lampbearer.entites.item.projectile.revolver.SignalRevolverRound;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.DiceBuilder;
@@ -47,9 +50,25 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
     public static Revolver createForWorld(Position3D position) {
         Revolver revolver = new Revolver(position);
         revolver.getActions().add(PickUpItemAction.getInstance());
-        for (int i = 0; i < 6; i++) {
-            revolver.cylinder.set(i, new DefaultRevolverRound());
-        }
+        revolver.cylinder.set(0, new SignalRevolverRound(position));
+        revolver.cylinder.set(1, new DefaultRevolverRound(position));
+        revolver.cylinder.set(2, new DefaultRevolverRound(position));
+        revolver.cylinder.set(3, new DefaultRevolverRound(position));
+        revolver.cylinder.set(4, new DefaultRevolverRound(position));
+        revolver.cylinder.set(5, new DefaultRevolverRound(position));
+        return revolver;
+    }
+
+
+    public static Revolver createForPlayer(Position3D position) {
+        Revolver revolver = new Revolver(position);
+        revolver.getActions().add(DropItemAction.getInstance());
+        revolver.cylinder.set(0, new SignalRevolverRound(position));
+        revolver.cylinder.set(1, new SignalRevolverRound(position));
+        revolver.cylinder.set(2, new SignalRevolverRound(position));
+        revolver.cylinder.set(3, new SignalRevolverRound(position));
+        revolver.cylinder.set(4, new SignalRevolverRound(position));
+        revolver.cylinder.set(5, new SignalRevolverRound(position));
         return revolver;
     }
 
@@ -78,7 +97,7 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
 
 
     @Override
-    public int loadAllRounds(ItemContainerAttr<AbstractRevolverRound> ammoBox) {
+    public int loadAllRounds(RoundContainerAttr ammoBox) {
         int loadedRounds = 0;
 
         for (int i = 0; i < cylinder.size(); i++) {
@@ -88,7 +107,22 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
                     break;
                 }
                 loadedRounds++;
-                cylinder.set(i, round.get());
+                cylinder.set(i, (AbstractRevolverRound) round.get());
+            }
+        }
+        return loadedRounds;
+    }
+
+
+    @Override
+    public int loadOneRound(Round round) {
+        int loadedRounds = 0;
+
+        for (int i = 0; i < cylinder.size(); i++) {
+            if (cylinder.get(i) instanceof EmptyRound) {
+                loadedRounds++;
+                cylinder.set(i, (AbstractRevolverRound) round);
+                break;
             }
         }
         return loadedRounds;

@@ -1,8 +1,8 @@
 package com.vdn.lampbearer.entites.item.projectile.ammo;
 
+import com.vdn.lampbearer.action.actions.LoadAllInFirearmAction;
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
-import com.vdn.lampbearer.action.actions.items.LoadFirearmAction;
-import com.vdn.lampbearer.attributes.inventory.ItemContainerAttr;
+import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.factories.GameBlockFactory;
@@ -22,14 +22,14 @@ public class FMJRevolverAmmoBox extends AbstractItem {
         setName(gameBlock.getName());
         setDescription(gameBlock.getDescription());
         setAttributes(List.of(
-                        ItemContainerAttr.createFilled(
+                RoundContainerAttr.createFilled(
                                 new DiceBuilder().dice(2, 6).roll(),
-                                new DefaultRevolverRound(),
+                        new DefaultRevolverRound(position),
                                 DefaultRevolverRound.class)
                 )
         );
 
-        getActions().add(LoadFirearmAction.getInstance());
+        getActions().add(LoadAllInFirearmAction.getInstance());
     }
 
 
