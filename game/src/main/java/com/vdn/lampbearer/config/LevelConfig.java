@@ -42,8 +42,9 @@ public class LevelConfig {
         positionToBlockMap = getBottomMap(worldSize);
         Spawner spawner = getSpawner();
 
+        BlockPlacer blockPlacer = new BlockPlacer(spawner, worldSize, positionToBlockMap);
+
         for (PrefabConfig prefabConfig : prefabs) {
-            BlockPlacer blockPlacer = new BlockPlacer(spawner, worldSize, positionToBlockMap);
             try {
                 blockPlacer.prePlace(
                         prefabConfig.getPrefab(),
