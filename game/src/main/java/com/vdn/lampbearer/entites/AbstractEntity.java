@@ -9,6 +9,9 @@ import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.entites.item.OilBottle;
+import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
+import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
+import com.vdn.lampbearer.entites.item.projectile.revolver.SignalRevolverRound;
 import com.vdn.lampbearer.entites.objects.Door;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.views.BlockType;
@@ -127,6 +130,12 @@ public abstract class AbstractEntity implements Serializable {
                 return new SimpleZombie(position);
             case V_CLOSED_DOOR:
                 return new Door(position, VerticalArrangement.getInstance());
+            case DEFAULT_REVOLVER_ROUND:
+                return new DefaultRevolverRound(position);
+            case DEFAULT_REVOLVER_ROUND_BOX:
+                return new FMJRevolverAmmoBox(position);
+            case SIGNAL_REVOLVER_ROUND:
+                return new SignalRevolverRound(position);
             default:
                 throw new RuntimeException("Not implemented yet!");
         }

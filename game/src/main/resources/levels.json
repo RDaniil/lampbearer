@@ -25,9 +25,9 @@
       {
         "blockTypes": ["ROCK"],
         "minSize": 1,
-        "maxSize": 7,
-        "minNumber": 80,
-        "maxNumber": 120
+        "maxSize": 3,
+        "minNumber": 20,
+        "maxNumber": 30
       },
       {
         "blockTypes": ["GRASS"],
@@ -56,7 +56,37 @@
     "prefabs": [
       {
         "prefab": "SMALL_BUILDING",
-        "number": 8,
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "SMALL_BUILDING_BROKEN",
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "MEDIUM_BUILDING",
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "MEDIUM_BUILDING_BROKEN",
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "SHOP",
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "STORAGE",
+        "number": 1,
+        "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "HOSPITAL",
+        "number": 1,
         "shouldBeConnectedByTrails": true
       }
     ]

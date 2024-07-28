@@ -211,7 +211,7 @@
       "description": "Just Opened door"
     },
     {
-      "blockType": "UR_CORNER",
+      "blockType": "UR_CORNER_THICK",
       "tile": "╗",
       "background": "#111111",
       "foreground": "#75715E",
@@ -221,7 +221,7 @@
       "description": "Just corner"
     },
     {
-      "blockType": "BR_CORNER",
+      "blockType": "BR_CORNER_THICK",
       "tile": "╝",
       "background": "#111111",
       "foreground": "#75715E",
@@ -231,7 +231,7 @@
       "description": "Just corner"
     },
     {
-      "blockType": "UL_CORNER",
+      "blockType": "UL_CORNER_THICK",
       "tile": "╔",
       "background": "#111111",
       "foreground": "#75715E",
@@ -241,7 +241,7 @@
       "description": "Just corner"
     },
     {
-      "blockType": "BL_CORNER",
+      "blockType": "BL_CORNER_THICK",
       "tile": "╚",
       "background": "#111111",
       "foreground": "#75715E",
@@ -281,8 +281,88 @@
       "description": "Just wall"
     },
     {
+      "blockType": "D_WALL_JOINT",
+      "tile": "┬",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "U_WALL_JOINT",
+      "tile": "┴",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "PLUS_WALL_JOINT",
+      "tile": "┼",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "UR_CORNER",
+      "tile": "┐",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "BL_CORNER",
+      "tile": "└",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "BR_CORNER",
+      "tile": "┘",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "UL_CORNER",
+      "tile": "┌",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
       "blockType": "V_WALL_THICK",
       "tile": "║",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "V_WALL_LEFT_JOINT_THICK",
+      "tile": "╣",
       "background": "#111111",
       "foreground": "#75715E",
       "walkable": false,
@@ -299,10 +379,20 @@
       "description": "Can heal you"
     },
     {
+      "blockType": "BROKEN_GLASS",
+      "tile": "*",
+      "background": "#111111",
+      "foreground": "#A0B9EE",
+      "walkable": true,
+      "transparent": true,
+      "name": "Broken glass",
+      "description": "Broken glass"
+    },
+    {
       "blockType": "H_GLASS",
       "tile": "─",
       "background": "#111111",
-      "foreground": "#4DA0FF",
+      "foreground": "#A0B9EE",
       "walkable": false,
       "transparent": true,
       "name": "Glass",
@@ -312,14 +402,14 @@
       "blockType": "V_GLASS",
       "tile": "│",
       "background": "#111111",
-      "foreground": "#4DA0FF",
+      "foreground": "#A0B9EE",
       "walkable": false,
       "transparent": true,
       "name": "Glass",
       "description": "Just glass"
     },
     {
-      "blockType": "H_WALL_THICK_B_JOINT",
+      "blockType": "D_WALL_THICK_TO_SLIM_JOINT",
       "tile": "╤",
       "background": "#111111",
       "foreground": "#75715E",
@@ -329,7 +419,7 @@
       "description": "Just wall"
     },
     {
-      "blockType": "H_WALL_THICK_T_JOINT",
+      "blockType": "U_WALL_THICK_TO_SLIM_JOINT",
       "tile": "╧",
       "background": "#111111",
       "foreground": "#75715E",
@@ -339,7 +429,67 @@
       "description": "Just wall"
     },
     {
-      "blockType": "V_WALL_THICK_L_JOINT",
+      "blockType": "D_WALL_THICK_JOINT",
+      "tile": "╦",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "U_WALL_THICK_JOINT",
+      "tile": "╩",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "R_WALL_THICK_JOINT",
+      "tile": "╠",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "BROKEN_WALL",
+      "tile": "#",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Broken wall",
+      "description": "Broken wall"
+    },
+    {
+      "blockType": "L_WALL_THICK_JOINT",
+      "tile": "╣",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "R_WALL_THICK_TO_SLIM_JOINT",
+      "tile": "╟",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "L_WALL_THICK_TO_SLIM_JOINT",
       "tile": "╢",
       "background": "#111111",
       "foreground": "#75715E",
@@ -349,14 +499,124 @@
       "description": "Just wall"
     },
     {
-      "blockType": "V_WALL_THICK_R_JOINT",
-      "tile": "╟",
+      "blockType": "INTERIOR_THICK_WALL",
+      "tile": "▀",
       "background": "#111111",
       "foreground": "#75715E",
       "walkable": false,
       "transparent": false,
       "name": "Wall",
       "description": "Just wall"
+    },
+    {
+      "blockType": "INTERIOR_THICK_WALL_2",
+      "tile": "█",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "BROKEN_WALL_SOLID",
+      "tile": "░",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Broken wall",
+      "description": "Broken wall"
+    },
+    {
+      "blockType": "CLOSET",
+      "tile": "≡",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden closet",
+      "description": "Wooden closet"
+    },
+    {
+      "blockType": "WOODEN_FURNITURE_BROKEN",
+      "tile": "#",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": true,
+      "transparent": false,
+      "name": "Broken wooden furniture",
+      "description": "Broken wooden furniture"
+    },
+    {
+      "blockType": "WOODEN_FURNITURE_BROKEN_2",
+      "tile": "╣",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": true,
+      "transparent": false,
+      "name": "Broken wooden furniture",
+      "description": "Broken wooden furniture"
+    },
+    {
+      "blockType": "TABLE",
+      "tile": "╥",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden table",
+      "description": "Wooden table"
+    },
+    {
+      "blockType": "NIGHTSTAND",
+      "tile": "■",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden nightstand",
+      "description": "Wooden nightstand"
+    },
+    {
+      "blockType": "BED_PART",
+      "tile": "▄",
+      "background": "#111111",
+      "foreground": "#75715E",
+      "walkable": false,
+      "transparent": false,
+      "name": "Bed",
+      "description": "Bed nightstand"
+    },
+    {
+      "blockType": "L_CHAIR",
+      "tile": "╛",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden chair",
+      "description": "Wooden chair"
+    },
+    {
+      "blockType": "R_CHAIR",
+      "tile": "╘",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden chair",
+      "description": "Wooden chair"
+    },
+    {
+      "blockType": "FALLEN_CHAIR",
+      "tile": "╙",
+      "background": "#111111",
+      "foreground": "#964b00",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wooden chair",
+      "description": "Wooden chair"
     },
     {
       "blockType": "UNSEEN",

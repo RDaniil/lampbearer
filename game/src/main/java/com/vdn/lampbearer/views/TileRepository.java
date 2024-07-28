@@ -37,7 +37,7 @@ public class TileRepository {
     }
 
 
-    public static Tile getTile(Tile tile) {
+    public static Tile getTile(Tile tile) throws NoTileFoundException {
         try {
             return TYPE_TO_TILE_MAP.values().stream()
                     .filter(t -> t.equals(tile))
