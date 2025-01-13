@@ -12,7 +12,6 @@ import java.util.HashMap;
 /**
  * Фабрика игровых блоков
  */
-@Service
 public class GameBlockFactory {
 
     private final static HashMap<BlockType, GameBlock> TYPE_TO_BLOCK_MAP = new HashMap<>();
