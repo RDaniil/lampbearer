@@ -21,7 +21,7 @@ import org.hexworks.zircon.api.graphics.Layer;
 import org.hexworks.zircon.api.grid.TileGrid;
 import org.hexworks.zircon.api.view.base.BaseView;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
+
 
 import static com.vdn.lampbearer.config.GameConfig.SIDEBAR_WIDTH;
 import static com.vdn.lampbearer.config.GameConfig.WINDOW_WIDTH;
@@ -32,7 +32,6 @@ import static org.hexworks.zircon.api.game.ProjectionMode.TOP_DOWN;
  * UI класс, создает панели, отображаемые в терминале
  * Обрабатывает события ввода (с клавиатуры\мышки)
  */
-@Component
 @Getter
 @Slf4j
 public class PlayView extends BaseView {

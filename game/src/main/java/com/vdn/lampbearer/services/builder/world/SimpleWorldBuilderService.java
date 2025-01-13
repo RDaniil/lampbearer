@@ -13,8 +13,8 @@ import com.vdn.lampbearer.views.TileRepository;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
+
+
 
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
  * @author Chizhov D. on 2024.03.09
  */
 
-@Primary
-@Service
 @RequiredArgsConstructor
 public class SimpleWorldBuilderService implements WorldBuilderService {
 

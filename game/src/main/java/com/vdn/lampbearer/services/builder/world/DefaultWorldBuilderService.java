@@ -15,7 +15,7 @@ import com.vdn.lampbearer.views.TileRepository;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
-import org.springframework.stereotype.Service;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,7 +25,6 @@ import java.util.Map;
 
 import static com.vdn.lampbearer.factories.GameBlockFactory.returnGameBlock;
 
-@Service
 @RequiredArgsConstructor
 public class DefaultWorldBuilderService implements WorldBuilderService {
     private final HashMap<Position3D, GameBlock> blocks = new HashMap<>();

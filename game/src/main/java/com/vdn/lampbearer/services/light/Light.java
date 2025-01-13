@@ -9,7 +9,6 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Tile;
-import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 
@@ -39,7 +38,6 @@ public abstract class Light implements Serializable {
      * @param blockPosition позиция блока, который надо осветить
      * @return цвет освещенного блока
      */
-    @Nullable
     public TileColor getColorOfTile(GameBlock block, Position blockPosition) {
         double distance = PositionUtils.getDistance(position, blockPosition);
         if (block.hasEntities()) {

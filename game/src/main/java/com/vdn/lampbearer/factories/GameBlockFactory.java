@@ -6,7 +6,6 @@ import com.vdn.lampbearer.services.config.TileGameBlockConfig;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import org.hexworks.zircon.api.data.Tile;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 

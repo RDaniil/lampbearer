@@ -17,6 +17,10 @@ public class PositionUtils {
                         Math.pow(from.getY() - to.getY(), 2));
     }
 
+    public static double getDistance(Position3D from, Position3D to) {
+        return getDistance(from.to2DPosition(), to.to2DPosition());
+    }
+
 
     @SuppressWarnings({"all"})
     public static int getMaxX(Set<Position3D> positions) {

@@ -14,11 +14,10 @@ import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
-import org.springframework.stereotype.Component;
+
 
 import static com.vdn.lampbearer.config.GameConfig.*;
 
-@Component
 @RequiredArgsConstructor
 public class GameBuilder {
 

@@ -10,9 +10,7 @@ import org.hexworks.zircon.api.screen.Screen;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 import org.hexworks.zircon.api.uievent.KeyboardEventType;
 import org.hexworks.zircon.api.uievent.Processed;
-import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
 public class GameStarter {
 

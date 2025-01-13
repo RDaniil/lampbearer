@@ -2,13 +2,12 @@ package com.vdn.lampbearer.game.engine;
 
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-@Component
 @Slf4j
 public class Scheduler {
     private static final TreeMap<Integer, List<Schedulable>> timeToSchedulablesMap =
