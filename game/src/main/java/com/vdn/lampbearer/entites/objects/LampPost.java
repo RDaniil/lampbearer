@@ -28,7 +28,7 @@ public class LampPost extends AbstractEntity {
         setName(block.getName());
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
-        light = new CircleLight(position, 14, TileColor.fromString("#ffba37"));
+        light = new CircleLight(position, 3, TileColor.fromString("#964C21"));
     }
 
 
