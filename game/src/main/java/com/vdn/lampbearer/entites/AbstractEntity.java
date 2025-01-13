@@ -128,14 +128,16 @@ public abstract class AbstractEntity implements Serializable {
                 return new Player(position);
             case SIMPLE_ZOMBIE:
                 return new SimpleZombie(position);
+            case SWARMER:
+                return new Swarmer(position);
             case V_CLOSED_DOOR:
                 return new Door(position, VerticalArrangement.getInstance());
             case DEFAULT_REVOLVER_ROUND:
                 return new DefaultRevolverRound(position);
             case DEFAULT_REVOLVER_ROUND_BOX:
-                return new FMJRevolverAmmoBox(position);
+                return FMJRevolverAmmoBox.createForWorld(position);
             case SIGNAL_REVOLVER_ROUND:
-                return new SignalRevolverRound(position);
+                return SignalRevolverRound.createForWorld(position);
             default:
                 throw new RuntimeException("Not implemented yet!");
         }

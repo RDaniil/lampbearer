@@ -9,6 +9,7 @@ public enum BlockType {
     GRASS_TRAIL,
     ROCK,
     SIMPLE_ZOMBIE,
+    SWARMER,
     H_CLOSED_DOOR,
     V_CLOSED_DOOR,
     OPENED_DOOR,

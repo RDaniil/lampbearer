@@ -2,6 +2,7 @@ package com.vdn.lampbearer.entites.item.projectile.revolver;
 
 import com.vdn.lampbearer.action.actions.LoadOneInFirearmAction;
 import com.vdn.lampbearer.action.actions.ShootFirearmAction;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -58,6 +59,13 @@ public class SignalRevolverRound extends AbstractRevolverRound {
         lingerTimeLeft = LINGER_TIME;
 
         signalLight = new CircleLight(position, 8, TileColor.fromString("#FF2211"));
+    }
+
+
+    public static SignalRevolverRound createForWorld(Position3D position) {
+        SignalRevolverRound signalRevolverRound = new SignalRevolverRound(position);
+        signalRevolverRound.getActions().add(PickUpItemAction.getInstance());
+        return signalRevolverRound;
     }
 
 

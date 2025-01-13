@@ -187,6 +187,14 @@
       "description": "Scary and dangerous"
     },
     {
+      "blockType": "SWARMER",
+      "tile": "s",
+      "background": "#111111",
+      "foreground": "#6F3A5F",
+      "name": "Swarmer",
+      "description": "Small fast and weak"
+    },
+    {
       "blockType": "H_CLOSED_DOOR",
       "tile": "─",
       "background": "#111111",
