@@ -6,9 +6,7 @@ import com.vdn.lampbearer.attributes.TransparentAttr;
 import com.vdn.lampbearer.attributes.arrangement.HorizontalArrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
-import com.vdn.lampbearer.entites.item.FirstAidKit;
-import com.vdn.lampbearer.entites.item.Lantern;
-import com.vdn.lampbearer.entites.item.OilBottle;
+import com.vdn.lampbearer.entites.item.*;
 import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.SignalRevolverRound;
@@ -138,6 +136,10 @@ public abstract class AbstractEntity implements Serializable {
                 return FMJRevolverAmmoBox.createForWorld(position);
             case SIGNAL_REVOLVER_ROUND:
                 return SignalRevolverRound.createForWorld(position);
+            case LIGHTHOUSE_LAMP:
+                return LighthouseLamp.createForWorld(position);
+            case LIGHTHOUSE_LAMP_SOCKET:
+                return LighthouseLampSocket.createForWorld(position);
             default:
                 throw new RuntimeException("Not implemented yet!");
         }

@@ -19,7 +19,7 @@ public class GameConfig {
                 .withSize(WINDOW_WIDTH, WINDOW_HEIGHT)
                 .withTitle("TMIQ III the Lampbearer")
 //                .withFpsLimit(0)
-                .withDebugMode(true)
+                .withDebugMode(false)
 //                .withDebugConfig(DebugConfig.newBuilder()
 //                        .withRelaxBoundsCheck(true)
 //                        .build())

@@ -695,6 +695,22 @@
       "foreground": "#e7d5c8",
       "name": "Revolver rounds Box",
       "description": "Box of FMJ revolver rounds"
+    },
+    {
+      "blockType": "LIGHTHOUSE_LAMP",
+      "tile": "♦",
+      "background": "#111111",
+      "foreground": "#ffba37",
+      "name": "Lighthouse lamp",
+      "description": "Lamp that you have to get to the lighthouse"
+    },
+    {
+      "blockType": "LIGHTHOUSE_LAMP_SOCKET",
+      "tile": "◘",
+      "background": "#111111",
+      "foreground": "#ffba37",
+      "name": "Lighthouse lamp socket",
+      "description": "Lamp socket missing it's lamp"
     }
   ]
 }

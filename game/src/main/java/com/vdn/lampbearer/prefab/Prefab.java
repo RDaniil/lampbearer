@@ -17,6 +17,8 @@ public enum Prefab {
     STORAGE("prefabs/Storage.xp"),
     SHOP("prefabs/Shop.xp"),
     HOSPITAL("prefabs/Hospital.xp"),
+    LIGHTHOUSE("prefabs/Lighthouse.xp"),
+    LAMPBEARER_BUILDING("prefabs/LampBearerBuilding.xp"),
     ;
 
     private final String pathToFile;

@@ -18,16 +18,16 @@
       {
         "blockTypes": ["BUSH_Y", "BUSH_LG"],
         "minSize": 1,
-        "maxSize": 20,
-        "minNumber": 100,
-        "maxNumber": 100
+        "maxSize": 10,
+        "minNumber": 30,
+        "maxNumber": 40
       },
       {
         "blockTypes": ["ROCK"],
         "minSize": 1,
         "maxSize": 3,
-        "minNumber": 20,
-        "maxNumber": 30
+        "minNumber": 10,
+        "maxNumber": 20
       },
       {
         "blockTypes": ["GRASS"],
@@ -35,13 +35,6 @@
         "maxSize": 30,
         "minNumber": 160,
         "maxNumber": 200
-      },
-      {
-        "blockTypes": ["GRASS"],
-        "minSize": 1,
-        "maxSize": 1,
-        "minNumber": 2000,
-        "maxNumber": 2000
       }
     ],
     "stuffRestrictions": {
@@ -88,6 +81,16 @@
         "prefab": "HOSPITAL",
         "number": 1,
         "shouldBeConnectedByTrails": true
+      },
+      {
+        "prefab": "LAMPBEARER_BUILDING",
+        "number": 1,
+        "shouldBeConnectedByTrails": false
+      },
+      {
+        "prefab": "LIGHTHOUSE",
+        "number": 1,
+        "shouldBeConnectedByTrails": false
       }
     ]
   }

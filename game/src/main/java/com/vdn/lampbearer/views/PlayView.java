@@ -44,7 +44,7 @@ public class PlayView extends BaseView {
     @SneakyThrows
     public PlayView(@NotNull TileGrid playViewTileGrid, GameBuilder gameBuilder) {
         super(playViewTileGrid, GameConfig.THEME);
-        this.game = gameBuilder.buildGame(Size3D.create(100, 100, 1));
+        this.game = gameBuilder.buildGame(Size3D.create(200, 100, 1));
 
         //Нужен, чтобы скрывать артефакт библиотеки: при вызове detach() копонента на один кадр
         // переносится в левый верхний угол экрана. Проблема связана с многопоточкой, пока не
