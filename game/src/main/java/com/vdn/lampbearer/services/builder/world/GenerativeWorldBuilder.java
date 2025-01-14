@@ -22,11 +22,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author Chizhov D. on 2024.03.09
+ * Генераторй с случайной расстановкой префабов и элементов окружения на основе конфига
  */
-
 @RequiredArgsConstructor
-public class SimpleWorldBuilderService implements WorldBuilderService {
+public class GenerativeWorldBuilder implements WorldBuilderService {
 
     @Override
     public World buildWorld(Size3D worldSize, Size3D visibleSize) {
@@ -49,12 +48,16 @@ public class SimpleWorldBuilderService implements WorldBuilderService {
 
         World world = new World(visibleSize, worldSize, positionToBlockMap);
 
+        placeLampPosts(positionToBlockMap, world);
+
+        return world;
+    }
+
+    private static void placeLampPosts(Map<Position3D, GameBlock> positionToBlockMap, World world) {
         List<AbstractEntity> lampposts = positionToBlockMap.values().stream()
                 .filter(GameBlock::hasEntities).map(GameBlock::getEntities).flatMap(List::stream)
                 .filter(e -> e instanceof LampPost).collect(Collectors.toList());
 
         lampposts.forEach(lp -> world.addStaticLight(((LampPost) lp).getLight()));
-
-        return world;
     }
 }

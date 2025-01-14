@@ -541,7 +541,7 @@
       "tile": "≡",
       "background": "#111111",
       "foreground": "#964b00",
-      "walkable": false,
+      "walkable": true,
       "transparent": false,
       "name": "Wooden closet",
       "description": "Wooden closet"

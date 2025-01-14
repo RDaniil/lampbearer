@@ -46,11 +46,7 @@ public class LevelConfig {
 
         for (PrefabConfig prefabConfig : prefabs) {
             try {
-                blockPlacer.prePlace(
-                        prefabConfig.getPrefab(),
-                        prefabConfig.getNumber(),
-                        prefabConfig.shouldBeConnectedByTrails()
-                );
+                blockPlacer.prePlace(prefabConfig);
             } catch (PlaceTryLimitExceededException e) {
                 throw new RuntimeException(e);
             }

@@ -25,10 +25,6 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
 
     private NonPlayerCharacterBehavior behavior = new AttackingBehavior();
 
-/*    TODO: Сгенирировать карту, спавнить игрока в домике, понять сколько мобов надо заспавнить
-поиграться с конфигом. Мб добавить в конфиг опцию генерации префабов на определенной позиции
-Добавить маяк в конец карты, проверять что игрок дошел до него
-  */
 
     public Swarmer(Position3D position3D) {
         super(position3D);

@@ -85,12 +85,19 @@
       {
         "prefab": "LAMPBEARER_BUILDING",
         "number": 1,
-        "shouldBeConnectedByTrails": false
+        "xSpawnRange": [0.0, 0.1],
+        "ySpawnRange": [0.0, 0.1],
+        "shouldBeConnectedByTrails": false,
+        "shouldSpawnEverything": true,
+        "staticEntities": true
       },
       {
         "prefab": "LIGHTHOUSE",
         "number": 1,
-        "shouldBeConnectedByTrails": false
+        "xSpawnRange": [0.9, 1.0],
+        "shouldBeConnectedByTrails": false,
+        "shouldSpawnEverything": true,
+        "staticEntities": true
       }
     ]
   }

@@ -1,11 +1,11 @@
 package com.vdn.lampbearer.utils.block;
 
 import com.vdn.lampbearer.config.LevelProbabilities;
+import com.vdn.lampbearer.config.PrefabConfig;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.exception.PlaceTryLimitExceededException;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
-import com.vdn.lampbearer.prefab.Prefab;
 import com.vdn.lampbearer.prefab.PrefabData;
 import com.vdn.lampbearer.prefab.PrefabReader;
 import com.vdn.lampbearer.services.RandomService;
@@ -22,6 +22,11 @@ import java.util.*;
  * @author Chizhov D. on 2024.03.10
  */
 public class BlockPlacer {
+
+    /**
+     * Количество блоков отступаемых от краев карты от которых будет выбираться место спавна префабов
+     */
+    private final static Integer PREFAB_SPAWN_MARGIN = 5;
 
     private final Spawner spawner;
     private final Size3D worldSize;
@@ -42,16 +47,14 @@ public class BlockPlacer {
 
 
     /**
-     * @param prefab                    prefab
-     * @param number                    их количество
-     * @param shouldBeConnectedByTrails следует ли их соединять тропинками
+     * @param prefabConfig                    Настройки размещения префаба и сам префаб
      * @throws PlaceTryLimitExceededException предпринято слишком много неудачных попыток
      *                                        разместить prefab
      */
-    public void prePlace(Prefab prefab, int number, boolean shouldBeConnectedByTrails)
+    public void prePlace(PrefabConfig prefabConfig)
             throws PlaceTryLimitExceededException {
 
-        PrefabData prefabData = PrefabReader.read(prefab);
+        PrefabData prefabData = PrefabReader.read(prefabConfig.getPrefab());
 
         Map<Position3D, PrefabData> centerToPrefabDataMap = new HashMap<>();
 
@@ -61,20 +64,24 @@ public class BlockPlacer {
                 throw new PlaceTryLimitExceededException();
 
             try {
-                for (int i = 0; i < number; i++) {
+                for (int i = 0; i < prefabConfig.getNumber(); i++) {
                     int onePlaceTryNumber = 0;
                     PrefabData newPrefabData = null;
                     while (newPrefabData == null ||
                             isIntersecting(newPrefabData, centerToPrefabDataMap) ||
                             isIntersecting(newPrefabData, this.centerToPrefabDataMap)) {
-                        newPrefabData = prePlace(prefabData, worldSize);
+                        newPrefabData = prePlace(prefabData, worldSize, prefabConfig);
 
                         if (++onePlaceTryNumber > maxBlockNumber)
                             throw new PlaceTryLimitExceededException();
                     }
 
-                    newPrefabData.removeExtraEntities(spawner);
-                    newPrefabData.shuffleEntities();
+                    if(!prefabConfig.isShouldSpawnEverything()) {
+                        newPrefabData.removeExtraEntities(spawner);
+                    }
+                    if(!prefabConfig.isStaticEntities()){
+                        newPrefabData.shuffleEntities();
+                    }
                     centerToPrefabDataMap.put(newPrefabData.getCenter(), newPrefabData);
                 }
                 break;
@@ -84,11 +91,10 @@ public class BlockPlacer {
 
         this.centerToPrefabDataMap.putAll(centerToPrefabDataMap);
 
-        if (shouldBeConnectedByTrails) {
+        if (prefabConfig.shouldBeConnectedByTrails()) {
             trailEnds.addAll(centerToPrefabDataMap.keySet());
         }
     }
-
 
     /**
      * Пытаемся разместить prefab
@@ -97,12 +103,43 @@ public class BlockPlacer {
      * @param worldSize  worldSize
      * @return новый вариант размещения prefab'а
      */
-    private PrefabData prePlace(PrefabData prefabData, Size3D worldSize) {
+    private PrefabData prePlace(PrefabData prefabData, Size3D worldSize,  PrefabConfig prefabConfig) {
         Map<Position3D, GameBlock> blockMap =
                 BlockFlipper.flip(BlockRotator.rotate(prefabData.getBlockMap()));
+
+        int spawnMinX = PREFAB_SPAWN_MARGIN;
+        int spawnMaxX = worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX();
+        int spawnMinY = PREFAB_SPAWN_MARGIN;
+        int spawnMaxY = worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY();
+
+        if(prefabConfig != null){
+            if(prefabConfig.getXSpawnRange() != null && prefabConfig.getXSpawnRange().size() == 2
+                    && prefabConfig.getXSpawnRange().get(0) < prefabConfig.getXSpawnRange().get(1)) {
+                spawnMinX = (int) (prefabConfig.getXSpawnRange().get(0) * worldSize.getXLength());
+                spawnMaxX = (int) (prefabConfig.getXSpawnRange().get(1) * worldSize.getXLength());
+                if(spawnMinX < PREFAB_SPAWN_MARGIN) {
+                    spawnMinX = PREFAB_SPAWN_MARGIN;
+                }
+                if(spawnMaxX > worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX()){
+                    spawnMaxX = worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX();
+                }
+            }
+            if(prefabConfig.getYSpawnRange() != null && prefabConfig.getYSpawnRange().size() == 2
+                    && prefabConfig.getYSpawnRange().get(0) < prefabConfig.getYSpawnRange().get(1)) {
+                spawnMinY = (int) (prefabConfig.getYSpawnRange().get(0) * worldSize.getYLength());
+                spawnMaxY = (int) (prefabConfig.getYSpawnRange().get(1) * worldSize.getYLength());
+                if(spawnMinY < PREFAB_SPAWN_MARGIN) {
+                    spawnMinY = PREFAB_SPAWN_MARGIN;
+                }
+                if(spawnMaxY > worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY()){
+                    spawnMaxY = worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY();
+                }
+            }
+        }
+
         Position3D offset = Position3D.create(
-                RandomService.getRandom(1, worldSize.getXLength() - 2 - prefabData.getSizeX()),
-                RandomService.getRandom(2, worldSize.getYLength() - 3 - prefabData.getSizeY()),
+                RandomService.getRandom(spawnMinX, spawnMaxX),
+                RandomService.getRandom(spawnMinY, spawnMaxY),
                 0
         );
 
@@ -134,7 +171,19 @@ public class BlockPlacer {
         clearPerimeters(centerToPrefabDataMap.values());
 
         centerToPrefabDataMap.values().stream().map(PrefabData::getBlockMap)
-                .forEach(blockMap::putAll);
+                .forEach(this::putAllBlocksIntoMap);
+    }
+
+    private void putAllBlocksIntoMap(Map<Position3D, GameBlock> prefabBlocks) {
+        for (Map.Entry<Position3D, GameBlock> positionToBlock : prefabBlocks.entrySet()) {
+            var position = positionToBlock.getKey();
+            for (AbstractEntity entity : positionToBlock.getValue().getEntities()) {
+                entity.setPosition(position);
+            }
+
+        }
+
+        blockMap.putAll(prefabBlocks);
     }
 
 
@@ -160,7 +209,7 @@ public class BlockPlacer {
                     while (newPrefabData == null ||
                             isIntersecting(newPrefabData, centerToPrefabDataMap) ||
                             isIntersecting(newPrefabData, this.centerToPrefabDataMap)) {
-                        newPrefabData = prePlace(PrefabData.EMPTY, worldSize);
+                        newPrefabData = prePlace(PrefabData.EMPTY, worldSize, null);
 
                         if (++onePlaceTryNumber > maxBlockNumber)
                             throw new PlaceTryLimitExceededException();
