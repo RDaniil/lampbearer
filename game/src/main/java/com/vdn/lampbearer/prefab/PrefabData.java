@@ -128,17 +128,17 @@ public class PrefabData {
 
         if (entities.isEmpty()) return;
 
-        List<Map.Entry<Position3D, GameBlock>> posToBlockList = blockMap.entrySet().stream()
+        List<Map.Entry<Position3D, GameBlock>> possiblePlaceForSpawn = blockMap.entrySet().stream()
                 .filter(e -> {
                     BlockType blockType = TileRepository.getBlockType(e.getValue().getBottomTile());
                     return ENTITY_PLACEMENT_BLOCK_TYPE.contains(blockType);
                 })
                 .collect(Collectors.toList());
-        if (posToBlockList.isEmpty()) return;
+        if (possiblePlaceForSpawn.isEmpty()) return;
 
         for (AbstractEntity entity : entities) {
-            int index = RandomService.getRandom(0, posToBlockList.size() - 1);
-            Map.Entry<Position3D, GameBlock> posToBlock = posToBlockList.get(index);
+            int index = RandomService.getRandom(0, possiblePlaceForSpawn.size() - 1);
+            Map.Entry<Position3D, GameBlock> posToBlock = possiblePlaceForSpawn.get(index);
             GameBlock block = posToBlock.getValue();
 
             entity.setPosition(posToBlock.getKey());

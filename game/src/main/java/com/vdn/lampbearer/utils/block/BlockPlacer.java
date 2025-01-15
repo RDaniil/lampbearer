@@ -56,7 +56,7 @@ public class BlockPlacer {
 
         PrefabData prefabData = PrefabReader.read(prefabConfig.getPrefab());
 
-        Map<Position3D, PrefabData> centerToPrefabDataMap = new HashMap<>();
+        Map<Position3D, PrefabData> centerToPrefabDataMap = new LinkedHashMap<>();
 
         int manyPlaceTryNumber = 0;
         while (true) {
@@ -195,7 +195,7 @@ public class BlockPlacer {
     private Set<Position3D> generateDeadEnds() throws PlaceTryLimitExceededException {
         int number = (int) (this.trailEnds.size() * .8f);
 
-        Map<Position3D, PrefabData> centerToPrefabDataMap = new HashMap<>();
+        Map<Position3D, PrefabData> centerToPrefabDataMap = new LinkedHashMap<>();
 
         int manyPlaceTryNumber = 0;
         while (true) {

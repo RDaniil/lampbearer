@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static com.vdn.lampbearer.factories.GameBlockFactory.returnGameBlock;
 
+@Deprecated
 @RequiredArgsConstructor
 public class DefaultWorldBuilderService implements WorldBuilderService {
     private final HashMap<Position3D, GameBlock> blocks = new HashMap<>();
