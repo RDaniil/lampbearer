@@ -1,8 +1,29 @@
 package com.vdn.lampbearer.services;
 
-import java.util.concurrent.ThreadLocalRandom;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.Random;
 
 public class RandomService {
+
+    private static final String PATH_TO_SEED = "./seed.txt";
+    private static Random RANDOM;
+    private static long SEED;
+
+    public static void initRandom() {
+        try {
+            String seed = new String(Files.readAllBytes(Path.of(PATH_TO_SEED)));
+            SEED = Long.getLong(seed);
+        } catch (Exception e) {
+            SEED = LocalDateTime.now().getNano();
+        }
+
+        SEED = 1337L;
+
+        RANDOM = new Random(SEED);
+    }
 
     /**
      * @param min min число
@@ -10,7 +31,7 @@ public class RandomService {
      * @return случайное число из отрезка [min, max]
      */
     public static int getRandom(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        return min + RANDOM.nextInt(max - min + 1);
     }
 
 
