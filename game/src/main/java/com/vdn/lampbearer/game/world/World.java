@@ -42,8 +42,16 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     public World(Size3D visibleSize, Size3D actualSize, Map<Position3D, GameBlock> startingBlocks) {
         super(visibleSize, actualSize, startingBlocks);
         engine = new ScheduledEngine();
-
+        fillEngineEntities(engine, startingBlocks);
         lightingService = new LightingService(this, startingBlocks);
+    }
+
+    private void fillEngineEntities(Engine engine, Map<Position3D, GameBlock> startingBlocks) {
+        for (GameBlock value : startingBlocks.values()) {
+            for (AbstractEntity entity : value.getEntities()) {
+                engine.addEntity(entity);
+            }
+        }
     }
 
 
@@ -155,6 +163,15 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         block.removeEntity(entity);
         engine.removeEntity(entity);
         removeDynamicLightByEntity(entity);
+    }
+
+    /**
+     * Ищет сущность на карте с указанным типом
+     *
+     * @return null если сущность не найдена, наследник класса AbstractEntity с искомой сущностью
+     */
+    public AbstractEntity findEntityByType(Class<? extends AbstractEntity> entityType) {
+        return engine.findEntityByType(entityType);
     }
 
 

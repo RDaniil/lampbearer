@@ -5,6 +5,7 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
 import com.vdn.lampbearer.entites.item.Lantern;
+import com.vdn.lampbearer.entites.item.LighthouseLamp;
 import com.vdn.lampbearer.entites.item.OilBottle;
 import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
@@ -32,7 +33,12 @@ public class GameBuilder {
 
     public Game buildGame(Size3D worldSize) {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
-        Player player = new Player(Position3D.create(25, 25, 0));
+
+        LighthouseLamp lamp = (LighthouseLamp) world.findEntityByType(LighthouseLamp.class);
+
+        Player player = new Player(lamp.getPosition());
+        world.scrollUpBy(player.getPosition().getX());
+
         world.addEntity(player, player.getPosition());
         world.addDynamicLight(player, player.getFowLight());
 

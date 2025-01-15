@@ -13,6 +13,8 @@ public interface Engine {
 
     void removeEntity(AbstractEntity entity);
 
+    AbstractEntity findEntityByType(Class<? extends AbstractEntity> entityType);
+
     void executeTurn(GameContext gameContext);
 
     void initUi(GameContext gameContext);

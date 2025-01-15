@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Slf4j
 public class ScheduledEngine implements Engine {
@@ -30,6 +31,9 @@ public class ScheduledEngine implements Engine {
     public void addEntity(AbstractEntity entity) {
         entities.add(entity);
         if (entity instanceof Schedulable) {
+            if(entity instanceof Updatable && !((Updatable) entity).needUpdate()){
+                return;
+            }
             addToSchedule((Schedulable) entity);
         }
     }
@@ -40,6 +44,13 @@ public class ScheduledEngine implements Engine {
         if (entity instanceof Schedulable) {
             removeFromSchedule((Schedulable) entity);
         }
+    }
+
+    @Override
+    public AbstractEntity findEntityByType(Class<? extends AbstractEntity> entityType) {
+        Optional<AbstractEntity> first = entities.stream()
+                .filter(entityType::isInstance).findFirst();
+        return first.orElse(null);
     }
 
 
