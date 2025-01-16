@@ -16,7 +16,7 @@ public class SidePanelView {
     }
 
 
-    public void updateUI() {
+     public void updateUI() {
         sidePanelFragment.updateContent(context);
     }
 }

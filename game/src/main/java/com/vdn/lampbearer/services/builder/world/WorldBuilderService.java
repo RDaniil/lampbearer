@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.services.interfaces;
+package com.vdn.lampbearer.services.builder.world;
 
 import com.vdn.lampbearer.game.world.World;
 import org.hexworks.zircon.api.data.Size3D;

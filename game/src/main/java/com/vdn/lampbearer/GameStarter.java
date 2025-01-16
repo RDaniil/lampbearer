@@ -1,7 +1,10 @@
 package com.vdn.lampbearer;
 
+import com.vdn.lampbearer.exception.GameOverException;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.services.ScoreService;
+import com.vdn.lampbearer.views.GameOverView;
 import com.vdn.lampbearer.views.PlayView;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,9 +34,14 @@ public class GameStarter {
             return Processed.INSTANCE;
         });
 
-        GameContext gameContext = new GameContext(game.getWorld(), playView.getSidePanel(), event,
+        GameContext gameContext = new GameContext(
+                game.getWorld(),
+                playView.getSidePanel(),
+                event,
                 game.getPlayer(),
-                logArea, screen);
+                logArea,
+                screen,
+                new ScoreService());
         game.getWorld().initUi(gameContext);
         game.getWorld().updateUI();
 
@@ -54,7 +62,12 @@ public class GameStarter {
             // публичный метод рендера, мб он как-то спасет
             // Если убрать мнгопоточку в GameStarter, модальные окна почему-то не отображаются.
             gameContext.setEvent(event);
-            game.getWorld().update(gameContext);
+            try {
+                game.getWorld().update(gameContext);
+            } catch (GameOverException e){
+                new GameOverView(gameContext).show();
+
+            }
             game.getWorld().updateUI();
         }
     }

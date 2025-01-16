@@ -8,7 +8,6 @@ import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.config.ConfigFileParser;
 import com.vdn.lampbearer.services.config.TileGameBlockConfig;
-import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;

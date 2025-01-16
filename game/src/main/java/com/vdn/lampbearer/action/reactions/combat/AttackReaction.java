@@ -6,6 +6,7 @@ import com.vdn.lampbearer.attributes.creature.HealthAttr;
 import com.vdn.lampbearer.attributes.creature.StrengthAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.exception.GameOverException;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,8 +48,10 @@ public class AttackReaction implements Reaction {
 
             if (target instanceof Player) {
                 context.getLogArea().addParagraph("GAME IS OVER", false, 0);
-                throw new RuntimeException("GAME IS OVER");
+                throw new GameOverException(context);
             }
+
+            context.getScoreService().addKilledEnemy(target);
         }
 
         return true;

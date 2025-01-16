@@ -41,4 +41,8 @@ public class RandomService {
     public static int getRandomPercentage() {
         return RandomService.getRandom(1, 100);
     }
+
+    public static long getSeed(){
+        return SEED;
+    }
 }

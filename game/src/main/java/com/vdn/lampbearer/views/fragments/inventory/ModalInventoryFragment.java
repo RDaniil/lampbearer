@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.views.fragments;
+package com.vdn.lampbearer.views.fragments.inventory;
 
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.config.GameConfig;

@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.views.fragments;
+package com.vdn.lampbearer.views.fragments.inventory;
 
 import com.vdn.lampbearer.action.actions.Action;
 import com.vdn.lampbearer.action.reactions.Reaction;

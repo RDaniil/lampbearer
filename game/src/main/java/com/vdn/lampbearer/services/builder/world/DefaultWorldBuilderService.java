@@ -9,7 +9,6 @@ import com.vdn.lampbearer.prefab.PrefabReader;
 import com.vdn.lampbearer.services.RandomService;
 import com.vdn.lampbearer.services.config.ConfigFileParser;
 import com.vdn.lampbearer.services.config.TileGameBlockConfig;
-import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.RequiredArgsConstructor;

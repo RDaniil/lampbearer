@@ -2,6 +2,7 @@ package com.vdn.lampbearer.game;
 
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.world.World;
+import com.vdn.lampbearer.services.ScoreService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +22,5 @@ public class GameContext {
     private Player player;
     private LogArea logArea;
     private Screen screen;
+    private ScoreService scoreService;
 }

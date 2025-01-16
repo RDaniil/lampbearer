@@ -115,6 +115,7 @@ public class ScheduledEngine implements Engine {
                         break;
                     } else {
                         isPlayerActed = true;
+                        gameContext.getScoreService().addPlayerMove();
                     }
                 }
 

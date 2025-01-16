@@ -5,7 +5,7 @@ import com.vdn.lampbearer.config.GameConfig;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.game.GameContext;
-import com.vdn.lampbearer.views.fragments.ModalInventoryFragment;
+import com.vdn.lampbearer.views.fragments.inventory.ModalInventoryFragment;
 import kotlin.Unit;
 import org.hexworks.zircon.api.Components;
 import org.hexworks.zircon.api.builder.component.ModalBuilder;

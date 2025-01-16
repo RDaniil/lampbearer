@@ -11,7 +11,7 @@ import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
-import com.vdn.lampbearer.services.interfaces.WorldBuilderService;
+import com.vdn.lampbearer.services.builder.world.WorldBuilderService;
 import lombok.RequiredArgsConstructor;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
