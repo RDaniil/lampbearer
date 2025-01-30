@@ -46,7 +46,6 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
     }
 
 
-    @SneakyThrows
     private boolean interactWithInventory(GameContext context, KeyboardEvent keyboardEvent) {
         Player player = context.getPlayer();
         if (keyboardEvent.getCode().equals(KeyCode.KEY_P)) {

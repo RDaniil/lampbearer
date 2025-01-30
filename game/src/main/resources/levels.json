@@ -39,8 +39,9 @@
     ],
     "stuffRestrictions": {
       "FIRST_AID_KIT": 3,
-      "LANTERN": 4,
-      "OIL_BOTTLE": 4
+      "LANTERN": 3,
+      "OIL_BOTTLE": 4,
+      "LIGHTHOUSE_KEY": 1
     },
     "probabilities": {
       "trailDeviation": 60,

@@ -37,6 +37,9 @@ public class DropLightSourceReaction implements Reaction {
         lightSource.getActions().add(PickUpLightSourceAction.getInstance());
 
         log.info(String.format("%s's been dropped", lightSource.getName()));
+        context.getLogArea()
+                .addParagraph(String.format("%s's been dropped", lightSource.getName()), false, 0);
+
 
         return true;
     }

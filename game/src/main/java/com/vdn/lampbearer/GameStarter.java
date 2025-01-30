@@ -21,7 +21,6 @@ public class GameStarter {
     private KeyboardEvent event;
 
 
-    @SneakyThrows
     public void start() {
         playView.dock();
         Game game = playView.getGame();
@@ -45,7 +44,11 @@ public class GameStarter {
         game.getWorld().initUi(gameContext);
         game.getWorld().updateUI();
 
-        doMainLoop(gameContext, game);
+        try {
+            doMainLoop(gameContext, game);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

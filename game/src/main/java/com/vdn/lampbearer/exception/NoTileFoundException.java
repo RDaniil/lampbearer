@@ -29,7 +29,7 @@ public class NoTileFoundException extends RuntimeException {
 
     private static String getExceptionMessage(Set<CharacterTile> notFoundTiles, String pathToFile) {
         return notFoundTiles.stream()
-                .map(t -> String.format("PREFAB %s: '%s'\t%s\t%s\n",
+                .map(t -> String.format("PREFAB %s: '%s'\tF:%s\tB:%s\n",
                         pathToFile,
                         t.getCharacter(),
                         colorToHex(t.getForegroundColor()),

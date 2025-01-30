@@ -51,11 +51,11 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
         Revolver revolver = new Revolver(position);
         revolver.getActions().add(PickUpItemAction.getInstance());
         revolver.cylinder.set(0, new SignalRevolverRound(position));
-        revolver.cylinder.set(1, new DefaultRevolverRound(position));
-        revolver.cylinder.set(2, new DefaultRevolverRound(position));
-        revolver.cylinder.set(3, new DefaultRevolverRound(position));
-        revolver.cylinder.set(4, new DefaultRevolverRound(position));
-        revolver.cylinder.set(5, new DefaultRevolverRound(position));
+        revolver.cylinder.set(1, new SignalRevolverRound(position));
+        revolver.cylinder.set(2, new SignalRevolverRound(position));
+        revolver.cylinder.set(3, new SignalRevolverRound(position));
+        revolver.cylinder.set(4, new SignalRevolverRound(position));
+        revolver.cylinder.set(5, new SignalRevolverRound(position));
         return revolver;
     }
 

@@ -38,6 +38,9 @@ public class PickUpLightSourceReaction implements Reaction {
         lightSource.getActions().add(DropLightSourceAction.getInstance());
 
         log.info(String.format("%s's been picked up", lightSource.getName()));
+        context.getLogArea()
+                .addParagraph(String.format("%s's been picked up", lightSource.getName()), false, 0);
+
 
         return true;
     }

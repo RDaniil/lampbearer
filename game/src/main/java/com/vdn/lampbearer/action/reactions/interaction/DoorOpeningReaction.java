@@ -10,6 +10,11 @@ import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
+import org.hexworks.zircon.api.color.TileColor;
+import org.hexworks.zircon.api.graphics.CharacterTileString;
+import org.hexworks.zircon.api.graphics.StyleSet;
 
 @Slf4j
 public class DoorOpeningReaction implements Reaction {

@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>game</module>
-        <module>renderer</module>
     </modules>
 
     <properties>

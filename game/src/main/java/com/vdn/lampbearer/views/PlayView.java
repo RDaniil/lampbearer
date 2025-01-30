@@ -41,7 +41,6 @@ public class PlayView extends BaseView {
     private final Panel sidePanel;
 
 
-    @SneakyThrows
     public PlayView(@NotNull TileGrid playViewTileGrid, GameBuilder gameBuilder) {
         super(playViewTileGrid, GameConfig.THEME);
         this.game = gameBuilder.buildGame(Size3D.create(200, 100, 1));

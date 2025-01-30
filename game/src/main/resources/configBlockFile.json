@@ -542,7 +542,7 @@
       "background": "#111111",
       "foreground": "#964b00",
       "walkable": true,
-      "transparent": false,
+      "transparent": true,
       "name": "Wooden closet",
       "description": "Wooden closet"
     },
@@ -571,7 +571,7 @@
       "tile": "╥",
       "background": "#111111",
       "foreground": "#964b00",
-      "walkable": false,
+      "walkable": true,
       "transparent": false,
       "name": "Wooden table",
       "description": "Wooden table"
@@ -601,7 +601,7 @@
       "tile": "╛",
       "background": "#111111",
       "foreground": "#964b00",
-      "walkable": false,
+      "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
       "description": "Wooden chair"
@@ -611,7 +611,7 @@
       "tile": "╘",
       "background": "#111111",
       "foreground": "#964b00",
-      "walkable": false,
+      "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
       "description": "Wooden chair"
@@ -621,7 +621,7 @@
       "tile": "╙",
       "background": "#111111",
       "foreground": "#964b00",
-      "walkable": false,
+      "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
       "description": "Wooden chair"
@@ -634,7 +634,7 @@
     },
     {
       "blockType": "LAMPPOST",
-      "tile": "⌠",
+      "tile": "♥",
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lamp post",
@@ -711,6 +711,112 @@
       "foreground": "#ffba37",
       "name": "Lighthouse lamp socket",
       "description": "Lamp socket missing it's lamp"
+    },
+    {
+      "blockType": "H_CLOSED_DOOR_LAMBEARER_HOUSE",
+      "tile": "─",
+      "background": "#111111",
+      "foreground": "#ffba37",
+      "name": "Closed door",
+      "description": "Just closed door"
+    },
+    {
+      "blockType": "V_CLOSED_DOOR_LAMBEARER_HOUSE",
+      "tile": "│",
+      "background": "#111111",
+      "foreground": "#ffba37",
+      "name": "Closed door",
+      "description": "Just closed door"
+    },
+    {
+      "blockType": "OPENED_DOOR_LAMBEARER_HOUSE",
+      "tile": "/",
+      "background": "#111111",
+      "foreground": "#ffba37",
+      "name": "Opened door",
+      "description": "Just Opened door"
+    },
+    {
+      "blockType": "H_CLOSED_DOOR_LIGHTHOUSE",
+      "tile": "─",
+      "background": "#111111",
+      "foreground": "#f12d23",
+      "name": "Lighthouse closed door",
+      "description": "Lighthouse closed door, has a lock on it"
+    },
+    {
+      "blockType": "V_CLOSED_DOOR_LIGHTHOUSE",
+      "tile": "│",
+      "background": "#111111",
+      "foreground": "#f12d23",
+      "name": "Lighthouse closed door",
+      "description": "Lighthouse closed door, has a lock on it"
+    },
+    {
+      "blockType": "OPENED_DOOR_LIGHTHOUSE",
+      "tile": "/",
+      "background": "#111111",
+      "foreground": "#f12d23",
+      "name": "Lighthouse opened door",
+      "description": "Just Opened door"
+    },
+    {
+      "blockType": "LIGHTHOUSE_KEY",
+      "tile": "¥",
+      "background": "#111111",
+      "foreground": "#f12d23",
+      "name": "Lighthouse door key",
+      "description": "Key that can open the lighthouse"
+    },
+    {
+      "blockType": "BROKEN_LIGHTHOUSE_KEY",
+      "tile": "¥",
+      "background": "#f12d23",
+      "foreground": "#111111",
+      "walkable": true,
+      "transparent": true,
+      "name": "Broken lighthouse key",
+      "description": "Broken key that could've open the lighthouse. I need to find new one"
+    },
+    {
+      "blockType": "V_WALL_THICK_LIGHTHOUSE",
+      "tile": "║",
+      "foreground": "#e7d5c8",
+      "background": "#75715e",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "H_WALL_THICK_LIGHTHOUSE",
+      "tile": "═",
+      "foreground": "#e7d5c8",
+      "background": "#75715e",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "V_WALL_THICK_LIGHTHOUSE_RED",
+      "tile": "║",
+      "foreground": "#6f0a1f",
+      "background": "#75715e",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
+    },
+    {
+      "blockType": "H_WALL_THICK_LIGHTHOUSE_RED",
+      "tile": "═",
+      "foreground": "#6f0a1f",
+      "background": "#75715e",
+      "walkable": false,
+      "transparent": false,
+      "name": "Wall",
+      "description": "Just wall"
     }
   ]
 }

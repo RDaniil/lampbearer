@@ -28,6 +28,9 @@ public class DropItemReaction implements Reaction {
         target.getActions().add(PickUpItemAction.getInstance());
 
         log.info(String.format("%s's been dropped", target.getName()));
+        context.getLogArea()
+                .addParagraph(String.format("%s's been dropped", target.getName()), false, 0);
+
 
         return true;
     }

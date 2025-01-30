@@ -6,6 +6,7 @@ import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.exception.PlaceTryLimitExceededException;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.prefab.Prefab;
 import com.vdn.lampbearer.prefab.PrefabData;
 import com.vdn.lampbearer.prefab.PrefabReader;
 import com.vdn.lampbearer.services.RandomService;
@@ -104,8 +105,16 @@ public class BlockPlacer {
      * @return новый вариант размещения prefab'а
      */
     private PrefabData prePlace(PrefabData prefabData, Size3D worldSize,  PrefabConfig prefabConfig) {
-        Map<Position3D, GameBlock> blockMap =
-                BlockFlipper.flip(BlockRotator.rotate(prefabData.getBlockMap()));
+        Map<Position3D, GameBlock> blockMap = new HashMap<>();
+        if(!isSpecialBuildings(prefabData)) {
+            blockMap = BlockFlipper.flip(BlockRotator.rotate(prefabData.getBlockMap()));
+        } else {
+            if(prefabData.getPrefab().equals(Prefab.LAMPBEARER_BUILDING)) {
+                blockMap = BlockFlipper.flip(prefabData.getBlockMap(), BlockFlipper.Direction.LEFT);
+            } else if (prefabData.getPrefab().equals(Prefab.LIGHTHOUSE)) {
+                blockMap = prefabData.getBlockMap();
+            }
+        }
 
         int spawnMinX = PREFAB_SPAWN_MARGIN;
         int spawnMaxX = worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX();
@@ -144,6 +153,14 @@ public class BlockPlacer {
         );
 
         return new PrefabData(prefabData.getPrefab(), blockMap, offset);
+    }
+
+    private boolean isSpecialBuildings(PrefabData prefabData) {
+        if(prefabData == null || prefabData.getPrefab() == null) {
+            return false;
+        }
+        return prefabData.getPrefab().equals(Prefab.LAMPBEARER_BUILDING) ||
+                prefabData.getPrefab().equals(Prefab.LIGHTHOUSE);
     }
 
 

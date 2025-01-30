@@ -46,7 +46,6 @@ public class Lantern extends AbstractItem implements Updatable {
     }
 
 
-
     public Lantern(Position3D position3D) {
         super(position3D);
 

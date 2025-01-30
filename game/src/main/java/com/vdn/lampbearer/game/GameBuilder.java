@@ -1,12 +1,10 @@
 package com.vdn.lampbearer.game;
 
+import com.vdn.lampbearer.action.reactions.items.LightLampReaction;
 import com.vdn.lampbearer.attributes.creature.SpeedAttr;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.SimpleZombie;
-import com.vdn.lampbearer.entites.item.FirstAidKit;
-import com.vdn.lampbearer.entites.item.Lantern;
-import com.vdn.lampbearer.entites.item.LighthouseLamp;
-import com.vdn.lampbearer.entites.item.OilBottle;
+import com.vdn.lampbearer.entites.item.*;
 import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.objects.LampPost;
@@ -34,13 +32,19 @@ public class GameBuilder {
     public Game buildGame(Size3D worldSize) {
         World world = worldBuilderService.buildWorld(worldSize, worldVisibleSize);
 
-        LighthouseLamp lamp = (LighthouseLamp) world.findEntityByType(LighthouseLamp.class);
+        BrokenLighthouseKey lamp = (BrokenLighthouseKey) world.findEntityByType(BrokenLighthouseKey.class);
 
-        Player player = new Player(lamp.getPosition());
+        Player player = new Player(lamp.getPosition().plus(Position3D.create(1,0,0)));
         world.scrollUpBy(player.getPosition().getX());
 
         world.addEntity(player, player.getPosition());
         world.addDynamicLight(player, player.getFowLight());
+
+        Lantern lantern = (Lantern) world.findEntityByType(Lantern.class);
+        GameContext tmpContext = new GameContext();
+        tmpContext.setWorld(world);
+
+        new LightLampReaction().execute(lantern, lantern, tmpContext);
 
         SimpleZombie zombie = new SimpleZombie(Position3D.create(5, 6, 0));
         zombie.removeAttribute(SpeedAttr.class);

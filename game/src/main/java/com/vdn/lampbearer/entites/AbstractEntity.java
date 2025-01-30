@@ -7,11 +7,14 @@ import com.vdn.lampbearer.attributes.arrangement.HorizontalArrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.item.*;
+import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.SignalRevolverRound;
 import com.vdn.lampbearer.entites.objects.Door;
 import com.vdn.lampbearer.entites.objects.LampPost;
+import com.vdn.lampbearer.entites.objects.LampbearerHouseDoor;
+import com.vdn.lampbearer.entites.objects.LighthouseDoor;
 import com.vdn.lampbearer.views.BlockType;
 import lombok.Getter;
 import lombok.Setter;
@@ -140,6 +143,20 @@ public abstract class AbstractEntity implements Serializable {
                 return LighthouseLamp.createForWorld(position);
             case LIGHTHOUSE_LAMP_SOCKET:
                 return LighthouseLampSocket.createForWorld(position);
+            case H_CLOSED_DOOR_LAMBEARER_HOUSE:
+                return new LampbearerHouseDoor(position, HorizontalArrangement.getInstance());
+            case V_CLOSED_DOOR_LAMBEARER_HOUSE:
+                return new LampbearerHouseDoor(position, VerticalArrangement.getInstance());
+            case H_CLOSED_DOOR_LIGHTHOUSE:
+                return new LighthouseDoor(position, HorizontalArrangement.getInstance());
+            case V_CLOSED_DOOR_LIGHTHOUSE:
+                return new LighthouseDoor(position, VerticalArrangement.getInstance());
+            case LIGHTHOUSE_KEY:
+                return LighthouseKey.createForWorld(position);
+            case BROKEN_LIGHTHOUSE_KEY:
+                return BrokenLighthouseKey.createForWorld(position);
+            case REVOLVER:
+                return Revolver.createForWorld(position);
             default:
                 throw new RuntimeException("Not implemented yet!");
         }

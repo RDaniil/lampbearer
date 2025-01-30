@@ -75,7 +75,6 @@ public class ScheduledEngine implements Engine {
     }
 
 
-    @SneakyThrows
     @Override
     public void executeTurn(GameContext gameContext) {
         var event = gameContext.getEvent();
@@ -84,23 +83,26 @@ public class ScheduledEngine implements Engine {
             return;
         }
 
-        if (state == EngineState.GAME_LOOP) {
-            executeMainLoop(gameContext);
-        } else if (state == EngineState.PAUSE) {
-            executePausedPlayerAction(gameContext);
+        try {
+            if (state == EngineState.GAME_LOOP) {
+                    executeMainLoop(gameContext);
+            } else if (state == EngineState.PAUSE) {
+                executePausedPlayerAction(gameContext);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
 
-    private void executePausedPlayerAction(GameContext gameContext) {
+    private void executePausedPlayerAction(GameContext gameContext) throws InterruptedException {
         if (gameContext.getPlayer().makeAction(gameContext)) {
             executeMainLoop(gameContext);
         }
     }
 
 
-    @SneakyThrows
-    private void executeMainLoop(GameContext gameContext) {
+    private void executeMainLoop(GameContext gameContext) throws InterruptedException {
         Schedulable nextSchedulable = peekNextSchedulable();
         boolean isPlayerActed = false;
 

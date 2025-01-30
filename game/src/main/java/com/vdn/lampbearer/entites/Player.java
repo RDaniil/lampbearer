@@ -12,6 +12,7 @@ import com.vdn.lampbearer.entites.behavior.player.PlayerMoveAndAttackBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerTargetBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.item.FirstAidKit;
+import com.vdn.lampbearer.entites.item.LighthouseKey;
 import com.vdn.lampbearer.entites.item.firearm.Revolver;
 import com.vdn.lampbearer.entites.item.projectile.Stone;
 import com.vdn.lampbearer.factories.GameBlockFactory;
@@ -72,11 +73,9 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
         InventoryAttr inventoryAttr = new InventoryAttr(10);
+//        inventoryAttr.putItem(LighthouseKey.createForWorld(position3D));
 
-        inventoryAttr.putItem(FirstAidKit.createForInventory());
-        inventoryAttr.putItem(Stone.createForInventory());
-        inventoryAttr.putItem(Revolver.createForPlayer(position3D));
-        HealthAttr healthAttr = new HealthAttr(100);
+        HealthAttr healthAttr = new HealthAttr(1000);
         healthAttr.reduceHealth(40);
 
         PerceptionAttr perceptionAttr = new PerceptionAttr(20);
@@ -84,13 +83,13 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setAttributes(List.of(
                 healthAttr,
                 new StrengthAttr(5),
-                new SpeedAttr(5),
+                new SpeedAttr(1),
                 perceptionAttr,
                 StaticBlockOccupier.getInstance(),
                 inventoryAttr
         ));
         setActions(List.of(AttackAction.getInstance()));
-        fowLight = new PlayerFOWSight(Position.create(0, 0), 2,
+        fowLight = new PlayerFOWSight(Position.create(0, 0), 10,
                 TileColor.fromString("#fafaed"));
         sight = new PlayerSight(perceptionAttr);
     }

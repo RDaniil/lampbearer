@@ -27,7 +27,8 @@ public class PickUpItemReaction implements Reaction {
         target.removeAction(PickUpItemAction.class);
         target.getActions().add(DropItemAction.getInstance());
 
-        log.info(String.format("%s's been picked up", target.getName()));
+        context.getLogArea()
+                .addParagraph(String.format("%s's been picked up", target.getName()), false, 0);
 
         return true;
     }
