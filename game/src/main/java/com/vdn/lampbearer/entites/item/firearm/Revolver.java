@@ -1,6 +1,5 @@
 package com.vdn.lampbearer.entites.item.firearm;
 
-import com.vdn.lampbearer.action.actions.inventory.DropItemAction;
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.action.actions.items.ShootFirearmAction;
 import com.vdn.lampbearer.attributes.RoundContainerAttr;
@@ -8,9 +7,7 @@ import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
 import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.entites.item.projectile.Round;
 import com.vdn.lampbearer.entites.item.projectile.revolver.AbstractRevolverRound;
-import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.entites.item.projectile.revolver.EmptyRound;
-import com.vdn.lampbearer.entites.item.projectile.revolver.SignalRevolverRound;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.DiceBuilder;
@@ -20,14 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
     private final static int CYLINDER_CHAMBERS_COUNT = 6;
-    private final List<AbstractRevolverRound> cylinder =
-            Arrays.asList(new AbstractRevolverRound[CYLINDER_CHAMBERS_COUNT]);
+    private final List<AbstractRevolverRound> cylinder;
     private int currentChamber = 0;
 
 
@@ -44,34 +41,23 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
         );
 
         getActions().add(ShootFirearmAction.getInstance());
+
+
+        cylinder = Arrays.asList(new EmptyRound(position),
+                new EmptyRound(position),
+                new EmptyRound(position),
+                new EmptyRound(position),
+                new EmptyRound(position),
+                new EmptyRound(position)
+        );
     }
 
 
     public static Revolver createForWorld(Position3D position) {
         Revolver revolver = new Revolver(position);
         revolver.getActions().add(PickUpItemAction.getInstance());
-        revolver.cylinder.set(0, new SignalRevolverRound(position));
-        revolver.cylinder.set(1, new SignalRevolverRound(position));
-        revolver.cylinder.set(2, new SignalRevolverRound(position));
-        revolver.cylinder.set(3, new SignalRevolverRound(position));
-        revolver.cylinder.set(4, new SignalRevolverRound(position));
-        revolver.cylinder.set(5, new SignalRevolverRound(position));
         return revolver;
     }
-
-
-    public static Revolver createForPlayer(Position3D position) {
-        Revolver revolver = new Revolver(position);
-        revolver.getActions().add(DropItemAction.getInstance());
-        revolver.cylinder.set(0, new SignalRevolverRound(position));
-        revolver.cylinder.set(1, new SignalRevolverRound(position));
-        revolver.cylinder.set(2, new SignalRevolverRound(position));
-        revolver.cylinder.set(3, new SignalRevolverRound(position));
-        revolver.cylinder.set(4, new SignalRevolverRound(position));
-        revolver.cylinder.set(5, new SignalRevolverRound(position));
-        return revolver;
-    }
-
 
     public void rotateCylinderClockwise() {
         setCurrentChamber((currentChamber + 1) % CYLINDER_CHAMBERS_COUNT);

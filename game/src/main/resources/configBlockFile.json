@@ -213,6 +213,8 @@
     {
       "blockType": "OPENED_DOOR",
       "tile": "/",
+      "walkable": true,
+      "transparent": true,
       "background": "#111111",
       "foreground": "#964B00",
       "name": "Opened door",
@@ -552,7 +554,7 @@
       "background": "#111111",
       "foreground": "#964b00",
       "walkable": true,
-      "transparent": false,
+      "transparent": true,
       "name": "Broken wooden furniture",
       "description": "Broken wooden furniture"
     },
@@ -572,7 +574,7 @@
       "background": "#111111",
       "foreground": "#964b00",
       "walkable": true,
-      "transparent": false,
+      "transparent": true,
       "name": "Wooden table",
       "description": "Wooden table"
     },
@@ -592,7 +594,7 @@
       "background": "#111111",
       "foreground": "#75715E",
       "walkable": false,
-      "transparent": false,
+      "transparent": true,
       "name": "Bed",
       "description": "Bed nightstand"
     },
@@ -733,6 +735,8 @@
       "tile": "/",
       "background": "#111111",
       "foreground": "#ffba37",
+      "walkable": true,
+      "transparent": true,
       "name": "Opened door",
       "description": "Just Opened door"
     },
@@ -757,6 +761,8 @@
       "tile": "/",
       "background": "#111111",
       "foreground": "#f12d23",
+      "walkable": true,
+      "transparent": true,
       "name": "Lighthouse opened door",
       "description": "Just Opened door"
     },

@@ -3,6 +3,7 @@ package com.vdn.lampbearer.action.reactions.interaction;
 import com.vdn.lampbearer.action.actions.interaction.DoorCloseAction;
 import com.vdn.lampbearer.action.actions.interaction.DoorOpenAction;
 import com.vdn.lampbearer.action.reactions.Reaction;
+import com.vdn.lampbearer.attributes.TransparentAttr;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -24,6 +25,7 @@ public class DoorClosingReaction implements Reaction {
 
         target.setTile(TileRepository.getTile(blockType));
         target.getAttributes().add(DynamicBlockOccupier.getInstance());
+        target.removeAttribute(TransparentAttr.class);
         target.removeAction(DoorCloseAction.class);
         target.getActions().add(DoorOpenAction.getInstance());
         context.getWorld().updateBlockContent(target.getPosition());

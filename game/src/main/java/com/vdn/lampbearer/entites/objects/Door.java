@@ -2,6 +2,7 @@ package com.vdn.lampbearer.entites.objects;
 
 import com.vdn.lampbearer.action.actions.interaction.DoorCloseAction;
 import com.vdn.lampbearer.action.actions.interaction.DoorOpenAction;
+import com.vdn.lampbearer.attributes.TransparentAttr;
 import com.vdn.lampbearer.attributes.arrangement.Arrangement;
 import com.vdn.lampbearer.attributes.arrangement.VerticalArrangement;
 import com.vdn.lampbearer.attributes.occupation.DynamicBlockOccupier;
@@ -22,6 +23,7 @@ public class Door extends AbstractEntity {
         setName(GameBlockFactory.returnGameBlock(blockType).getName());
         setDescription(GameBlockFactory.returnGameBlock(blockType).getDescription());
         setTile(TileRepository.getTile(blockType));
+        setAttributes(List.of(TransparentAttr.getInstance()));
         setActions(List.of(DoorCloseAction.getInstance()));
     }
 

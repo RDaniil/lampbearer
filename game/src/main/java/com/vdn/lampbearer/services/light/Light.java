@@ -12,6 +12,11 @@ import org.hexworks.zircon.api.data.Tile;
 
 import java.io.Serializable;
 
+/**
+ * Общий класс для представления источников освещения.
+ * ВАЖНО: Если внутри сущности хранится наследник этого класса, необходимо переопределить метод clone()
+ * Для корректного копирования TileColor color
+ */
 @Getter
 @Setter
 public abstract class Light implements Serializable {

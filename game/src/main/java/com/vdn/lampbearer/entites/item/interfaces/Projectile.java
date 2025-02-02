@@ -120,7 +120,11 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     protected Position moveToNextPosition() {
         assert projectilePath != null;
         currentPositionNumber++;
-        return projectilePath.next();
+        if(projectilePath.hasNext()) {
+            return projectilePath.next();
+        } else {
+            return position.to2DPosition();
+        }
     }
 
 
