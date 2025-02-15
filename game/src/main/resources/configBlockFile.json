@@ -5,8 +5,8 @@
       "tile": "@",
       "background": "#111111",
       "foreground": "#FF9922",
-      "name": "Player",
-      "description": "It's you"
+      "name": "Lampbearer",
+      "description": "It's me"
     },
     {
       "blockType": "GROUND",
@@ -386,7 +386,7 @@
       "background": "#111111",
       "foreground": "#DA2C22",
       "name": "First aid kit",
-      "description": "Can heal you"
+      "description": "Can heal me"
     },
     {
       "blockType": "BROKEN_GLASS",
@@ -664,7 +664,7 @@
       "background": "#111111",
       "foreground": "#fc8403",
       "name": "Stone",
-      "description": "You can throw it"
+      "description": "I can throw it"
     },
     {
       "blockType": "DEFAULT_REVOLVER_ROUND",
@@ -680,7 +680,7 @@
       "background": "#111111",
       "foreground": "#f12d23",
       "name": "Signal round",
-      "description": "Hunters signal round used to signal your position"
+      "description": "Hunters signal round used to signal one's position"
     },
     {
       "blockType": "REVOLVER",
@@ -704,7 +704,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lighthouse lamp",
-      "description": "Lamp that you have to get to the lighthouse"
+      "description": "Lamp that I have to get to the lighthouse"
     },
     {
       "blockType": "LIGHTHOUSE_LAMP_SOCKET",

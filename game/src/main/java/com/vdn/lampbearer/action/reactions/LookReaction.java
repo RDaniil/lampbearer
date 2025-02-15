@@ -13,6 +13,6 @@ public class LookReaction implements TargetedReaction {
                 String.format("%s. %s", target.getName(), target.getDescription()),
                 false,
                 0);
-        return true;
+        return false;
     }
 }
