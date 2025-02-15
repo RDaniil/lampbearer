@@ -28,6 +28,8 @@ public class BlockPlacer {
      * Количество блоков отступаемых от краев карты от которых будет выбираться место спавна префабов
      */
     private final static Integer PREFAB_SPAWN_MARGIN = 5;
+    private final static float[] DEFAULT_PREFAB_SPAWN_RANGE = new float[]{0.2F, 0.8F};
+
 
     private final Spawner spawner;
     private final Size3D worldSize;
@@ -116,43 +118,38 @@ public class BlockPlacer {
             }
         }
 
-        int spawnMinX = PREFAB_SPAWN_MARGIN;
-        int spawnMaxX = worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX();
-        int spawnMinY = PREFAB_SPAWN_MARGIN;
-        int spawnMaxY = worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY();
+        List<Float> xSpawnRange = prefabConfig == null ? null: prefabConfig.getXSpawnRange();
+        int[] spawnRangeX = calculateSpawnRange(xSpawnRange, worldSize.getXLength(),
+                prefabData.getSizeX());
 
-        if(prefabConfig != null){
-            if(prefabConfig.getXSpawnRange() != null && prefabConfig.getXSpawnRange().size() == 2
-                    && prefabConfig.getXSpawnRange().get(0) < prefabConfig.getXSpawnRange().get(1)) {
-                spawnMinX = (int) (prefabConfig.getXSpawnRange().get(0) * worldSize.getXLength());
-                spawnMaxX = (int) (prefabConfig.getXSpawnRange().get(1) * worldSize.getXLength());
-                if(spawnMinX < PREFAB_SPAWN_MARGIN) {
-                    spawnMinX = PREFAB_SPAWN_MARGIN;
-                }
-                if(spawnMaxX > worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX()){
-                    spawnMaxX = worldSize.getXLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeX();
-                }
-            }
-            if(prefabConfig.getYSpawnRange() != null && prefabConfig.getYSpawnRange().size() == 2
-                    && prefabConfig.getYSpawnRange().get(0) < prefabConfig.getYSpawnRange().get(1)) {
-                spawnMinY = (int) (prefabConfig.getYSpawnRange().get(0) * worldSize.getYLength());
-                spawnMaxY = (int) (prefabConfig.getYSpawnRange().get(1) * worldSize.getYLength());
-                if(spawnMinY < PREFAB_SPAWN_MARGIN) {
-                    spawnMinY = PREFAB_SPAWN_MARGIN;
-                }
-                if(spawnMaxY > worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY()){
-                    spawnMaxY = worldSize.getYLength() - PREFAB_SPAWN_MARGIN - prefabData.getSizeY();
-                }
-            }
-        }
+        List<Float> ySpawnRange = prefabConfig == null ? null: prefabConfig.getYSpawnRange();
+        int[] spawnRangeY = calculateSpawnRange(ySpawnRange, worldSize.getYLength(),
+                prefabData.getSizeY());
 
         Position3D offset = Position3D.create(
-                RandomService.getRandom(spawnMinX, spawnMaxX),
-                RandomService.getRandom(spawnMinY, spawnMaxY),
+                RandomService.getRandom(spawnRangeX[0], spawnRangeX[1]),
+                RandomService.getRandom(spawnRangeY[0], spawnRangeY[1]),
                 0
         );
 
         return new PrefabData(prefabData.getPrefab(), blockMap, offset);
+    }
+
+
+    private int[] calculateSpawnRange(List<Float> spawnRangeConfig, int worldDimensionLength, int prefabDimensionSize) {
+        if (spawnRangeConfig != null && spawnRangeConfig.size() == 2 && spawnRangeConfig.get(0) < spawnRangeConfig.get(1)) {
+            int minSpawnPosition = (int) (spawnRangeConfig.get(0) * worldDimensionLength);
+            int maxSpawnPosition = (int) (spawnRangeConfig.get(1) * worldDimensionLength);
+
+            minSpawnPosition = Math.max(minSpawnPosition, PREFAB_SPAWN_MARGIN);
+            maxSpawnPosition = Math.min(maxSpawnPosition, worldDimensionLength - PREFAB_SPAWN_MARGIN
+                    - prefabDimensionSize);
+
+            return new int[] {minSpawnPosition, maxSpawnPosition};
+        }
+        int minDefault = (int) (worldDimensionLength * DEFAULT_PREFAB_SPAWN_RANGE[0]);
+        int maxDefault = (int) (worldDimensionLength * DEFAULT_PREFAB_SPAWN_RANGE[1]);
+        return new int[] {minDefault, maxDefault};
     }
 
     private boolean isSpecialBuildings(PrefabData prefabData) {
