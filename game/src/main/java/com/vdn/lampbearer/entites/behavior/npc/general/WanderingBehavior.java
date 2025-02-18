@@ -5,6 +5,7 @@ import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.movement.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,18 +17,27 @@ import static com.vdn.lampbearer.services.RandomService.getRandom;
  * A wandering behavior of NPC
  */
 @RequiredArgsConstructor
+@Slf4j
 public class WanderingBehavior extends NonPlayerCharacterBehavior {
 
+    private final static int MAX_TRIES_UNTIL_SWITCHING_TO_WAITING = 5;
+
     private final MovementAi movementAi;
+    private boolean isSwitchingToWating = false;
     protected Position3D positionToMoveTo;
 
 
     @Override
     public boolean act(NonPlayerCharacter npc, GameContext context) {
         if (npc.isStuck(context)) return true;
-
+        int numberOfTries = 0;
         while (positionToMoveTo == null || !movementAi.move(npc, positionToMoveTo, context)) {
             positionToMoveTo = getRandomPositionInView(npc);
+            numberOfTries++;
+            if(numberOfTries > MAX_TRIES_UNTIL_SWITCHING_TO_WAITING){
+                log.info(String.format("Entity %s is waiting", npc));
+                return true;
+            }
         }
 
         return true;
@@ -52,8 +62,7 @@ public class WanderingBehavior extends NonPlayerCharacterBehavior {
      * @return a target position to wander to
      */
     private Position3D getRandomPositionInView(NonPlayerCharacter npc) {
-        Optional<PerceptionAttr> perceptionAttr = npc.findAttribute(PerceptionAttr.class);
-        int value = perceptionAttr.map(PerceptionAttr::getValue).orElse(1);
+        int value = 2;
 
         int randomX = getRandom(1, value);
         int randomY = getRandom(1, value);

@@ -37,6 +37,22 @@
         "maxNumber": 200
       }
     ],
+    "npcs":[
+      {
+        "blockTypes": ["SIMPLE_ZOMBIE"],
+        "minSize": 1,
+        "maxSize": 2,
+        "minNumber": 5,
+        "maxNumber": 10
+      },
+      {
+        "blockTypes": ["SWARMER"],
+        "minSize": 4,
+        "maxSize": 8,
+        "minNumber": 15,
+        "maxNumber": 30
+      }
+    ],
     "stuffRestrictions": {
       "FIRST_AID_KIT": 3,
       "LANTERN": 3,

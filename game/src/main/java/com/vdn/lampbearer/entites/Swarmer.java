@@ -58,8 +58,9 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
 
     @Override
     public boolean makeAction(GameContext context) {
-        if (isStuck(context))
+        if (isStuck(context)) {
             throw new RuntimeException(String.format("%s is stuck!", getName()));
+        }
 
         NonPlayerCharacterBehavior nextBehavior = behavior.next(this, context);
 
@@ -77,13 +78,13 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
 
         for (GameBlock block : blocks) {
             if (!block.isWalkable()) continue;
-            if (block.getEntities().isEmpty()) return false;
+            if (!block.hasEntities()) return false;
 
             for (AbstractEntity entity : block.getEntities()) {
                 if (entity.findAttribute(StaticBlockOccupier.class).isEmpty() ||
-                        entity instanceof Player &&
-                                entity.findAction(AttackAction.class).isPresent())
+                        entity instanceof Actor) {
                     return false;
+                }
             }
         }
 
