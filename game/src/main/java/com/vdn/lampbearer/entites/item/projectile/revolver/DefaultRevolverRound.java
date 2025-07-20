@@ -11,6 +11,7 @@ import com.vdn.lampbearer.views.TileRepository;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
+import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.shape.LineFactory;
 
 public class DefaultRevolverRound extends AbstractRevolverRound {
@@ -30,11 +31,7 @@ public class DefaultRevolverRound extends AbstractRevolverRound {
 
     @Override
     public void beforeLaunch(GameContext context, Position startPosition, Position targetPosition) {
-        projectilePath = LineFactory.INSTANCE.buildLine(getPosition().to2DPosition(),
-                getTargetPosition().to2DPosition()).iterator();
-        //Сдвигаем позицию один раз, чтобы спавнить вспышку перед стреляющим
-        moveToNextPosition();
-        CircleSparkLight.createNow(context, moveToNextPosition(), 6,
+        CircleSparkLight.createNow(context, startPosition, 6,
                 TileColor.fromString("#FFbb33"), 1);
     }
 

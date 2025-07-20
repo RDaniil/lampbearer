@@ -88,10 +88,8 @@ public class SignalRevolverRound extends AbstractRevolverRound {
 
     @Override
     public void beforeLaunch(GameContext context, Position startPosition, Position targetPosition) {
-        initPath(context);
-
-        CircleSparkLight.createNow(context, moveToNextPosition(), 6,
-                TileColor.fromString("#FFbb33"), 1);
+        CircleSparkLight.createNow(context, startPosition, 6,
+                TileColor.fromString("#FF6633"), 1);
         onPathStart(context, startPosition);
     }
 

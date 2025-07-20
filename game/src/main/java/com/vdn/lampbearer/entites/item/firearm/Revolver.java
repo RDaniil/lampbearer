@@ -96,6 +96,7 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
                 cylinder.set(i, (AbstractRevolverRound) round.get());
             }
         }
+        setCurrentChamber(0);
         return loadedRounds;
     }
 

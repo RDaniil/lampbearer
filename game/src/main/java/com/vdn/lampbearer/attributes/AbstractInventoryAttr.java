@@ -18,7 +18,7 @@ public abstract class AbstractInventoryAttr<T extends AbstractItem> implements A
 
     private final List<T> items = new ArrayList<>();
 
-    private final Class<T> itemType;
+    private final Class<? extends T> itemType;
 
 
     public boolean isItemTypeSuitable(Class<?> itemType) {

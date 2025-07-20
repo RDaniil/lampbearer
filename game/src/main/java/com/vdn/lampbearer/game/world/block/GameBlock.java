@@ -16,6 +16,7 @@ import org.hexworks.zircon.api.data.base.BaseBlock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
@@ -81,12 +82,13 @@ public class GameBlock extends BaseBlock<Tile> {
         Player player = (Player) actors.stream()
                 .filter(entity -> entity instanceof Player)
                 .findFirst().orElse(null);
-
+        //TODO здесь нпе когда стреляешь только что заряженым реваольвером
         if (actors.isEmpty() ||
                 (player == null && !BlockLightingState.IN_LIGHT.equals(lightingState))) {
             List<Tile> notActorTiles = entities.stream()
                     .filter(entity -> !(entity instanceof Actor))
                     .map(AbstractEntity::getTile)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
             if (!notActorTiles.isEmpty()) {
                 newContent = notActorTiles.get(0);
