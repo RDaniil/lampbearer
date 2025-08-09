@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
 public class LightingService {
@@ -27,9 +29,16 @@ public class LightingService {
      * какой-то сущностью.
      * Соответственно мапка сущнось-свет
      */
-    private final HashMap<AbstractEntity, Set<Light>> entityToDynamicLight = new HashMap<>();
+    private final ConcurrentHashMap<AbstractEntity, Set<Light>> entityToDynamicLight = new ConcurrentHashMap<>();
 
-    private final HashSet<Light> staticLights = new HashSet<>();
+    private final CopyOnWriteArraySet<Light> staticLights = new CopyOnWriteArraySet<>();
+    
+    // Optimization caches
+    private final Map<Light, HashMap<Position, TileColor>> staticLightCache = new ConcurrentHashMap<>();
+    private final Set<Position3D> currentlyLitBlocks = new HashSet<>();
+    private final Set<Position3D> previouslyLitBlocks = new HashSet<>();
+    private final Map<AbstractEntity, Position> entityPreviousPositions = new HashMap<>();
+    private Position3D playerPreviousPosition;
 
 
     public LightingService(World world, Map<Position3D, GameBlock> worldBlocks) {
@@ -40,30 +49,37 @@ public class LightingService {
 
 
     public void updateLighting(Player player) {
-        resetLightedBlocks();
-
-        PlayerSight playerSight = player.getSight();
-        HashMap<Position, TileColor> positionToColorMap = lightingStrategy
-                .lightBlocks(playerSight);
-        playerSight.reset(positionToColorMap.keySet());
-
-        var lights = entityToDynamicLight.values().stream()
-                .flatMap(Set::stream).collect(Collectors.toSet());
-        lights.addAll(staticLights);
-
-        for (Light light : lights) {
-            positionToColorMap = lightingStrategy.lightBlocks(light);
-            for (var posToColor : positionToColorMap.entrySet()) {
-                var position = posToColor.getKey().toPosition3D(0);
-                if (!playerSight.contains(position)) continue;
-
-                GameBlock block = worldBlocks.get(position);
-                if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
-                    updateLightningWithMixingColor(block, posToColor.getKey(), posToColor.getValue());
-                } else {
-                    updateLighting(posToColor.getKey(), posToColor.getValue());
-                }
-            }
+        Position3D currentPlayerPosition = player.getPosition();
+        boolean playerMoved = !currentPlayerPosition.equals(playerPreviousPosition);
+        
+        // Check if any dynamic light entities moved
+        Set<AbstractEntity> movedEntities = getMovedEntities();
+        
+        // Only do expensive operations if something changed
+        if (playerMoved || !movedEntities.isEmpty()) {
+            // Store previous lit blocks for cleanup
+            previouslyLitBlocks.clear();
+            previouslyLitBlocks.addAll(currentlyLitBlocks);
+            currentlyLitBlocks.clear();
+            
+            // Update player sight
+            PlayerSight playerSight = player.getSight();
+            HashMap<Position, TileColor> positionToColorMap = lightingStrategy
+                    .lightBlocks(playerSight);
+            playerSight.reset(positionToColorMap.keySet());
+            
+            // Process static lights (cached)
+            processStaticLights(playerSight);
+            
+            // Process dynamic lights (only recalculate for moved entities)
+            processDynamicLights(playerSight, movedEntities);
+            
+            // Clean up blocks that are no longer lit
+            cleanupUnlitBlocks();
+            
+            // Update tracking
+            playerPreviousPosition = currentPlayerPosition;
+            updateEntityPositions();
         }
     }
 
@@ -79,23 +95,23 @@ public class LightingService {
 
 
     public void addDynamicLight(AbstractEntity entity, Light dynamicLight) {
-        if (!entityToDynamicLight.containsKey(entity)) {
-            entityToDynamicLight.put(entity, new HashSet<>());
-        }
-        entityToDynamicLight.get(entity).add(dynamicLight);
+        entityToDynamicLight.computeIfAbsent(entity, k -> new CopyOnWriteArraySet<>())
+                           .add(dynamicLight);
     }
 
 
     public void removeDynamicLight(AbstractEntity entity, Light dynamicLight) {
-        if (entityToDynamicLight.containsKey(entity)) {
-            entityToDynamicLight.get(entity).remove(dynamicLight);
+        Set<Light> lights = entityToDynamicLight.get(entity);
+        if (lights != null) {
+            lights.remove(dynamicLight);
         }
     }
 
 
     public void removeDynamicLight(AbstractEntity entity) {
-        if (entityToDynamicLight.containsKey(entity)) {
-            entityToDynamicLight.get(entity).clear();
+        Set<Light> lights = entityToDynamicLight.get(entity);
+        if (lights != null) {
+            lights.clear();
         }
     }
 
@@ -107,6 +123,7 @@ public class LightingService {
 
     public void removeStaticLight(Light staticLight) {
         staticLights.remove(staticLight);
+        staticLightCache.remove(staticLight);
     }
 
 
@@ -115,6 +132,8 @@ public class LightingService {
             for (Set<Light> lightsByEntity : entityToDynamicLight.values()) {
                 lightsByEntity.remove(light);
             }
+        } else {
+            staticLightCache.remove(light);
         }
     }
 
@@ -135,8 +154,11 @@ public class LightingService {
 
 
     public void moveDynamicLightWithEntity(AbstractEntity entity) {
-        for (Light light : entityToDynamicLight.get(entity)) {
-            light.setPosition(entity.getPosition().to2DPosition());
+        Set<Light> lights = entityToDynamicLight.get(entity);
+        if (lights != null) {
+            for (Light light : lights) {
+                light.setPosition(entity.getPosition().to2DPosition());
+            }
         }
     }
 
@@ -149,13 +171,87 @@ public class LightingService {
     }
 
 
-    private void resetLightedBlocks() {
-        for (GameBlock block : worldBlocks.values()) {
-            if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
-                block.setLightingState(BlockLightingState.SEEN);
-                block.updateContent();
-                block.updateLighting();
+    private Set<AbstractEntity> getMovedEntities() {
+        Set<AbstractEntity> movedEntities = new HashSet<>();
+        for (AbstractEntity entity : entityToDynamicLight.keySet()) {
+            Position currentPos = entity.getPosition().to2DPosition();
+            Position previousPos = entityPreviousPositions.get(entity);
+            if (!currentPos.equals(previousPos)) {
+                movedEntities.add(entity);
             }
+        }
+        return movedEntities;
+    }
+    
+    private void processStaticLights(PlayerSight playerSight) {
+        for (Light light : staticLights) {
+            HashMap<Position, TileColor> lightMap = staticLightCache.computeIfAbsent(light, 
+                lightingStrategy::lightBlocks);
+            
+            for (var posToColor : lightMap.entrySet()) {
+                var position = posToColor.getKey().toPosition3D(0);
+                if (!playerSight.contains(position)) continue;
+                
+                currentlyLitBlocks.add(position);
+                GameBlock block = worldBlocks.get(position);
+                if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
+                    updateLightningWithMixingColor(block, posToColor.getKey(), posToColor.getValue());
+                } else {
+                    updateLighting(posToColor.getKey(), posToColor.getValue());
+                }
+            }
+        }
+    }
+    
+    private void processDynamicLights(PlayerSight playerSight, Set<AbstractEntity> movedEntities) {
+        var dynamicLights = entityToDynamicLight.values().stream()
+                .flatMap(Set::stream).collect(Collectors.toSet());
+        
+        for (Light light : dynamicLights) {
+            if (shouldRecalculateDynamicLight(light, movedEntities)) {
+                applyDynamicLight(light, playerSight);
+            }
+        }
+    }
+    
+    private boolean shouldRecalculateDynamicLight(Light light, Set<AbstractEntity> movedEntities) {
+        AbstractEntity entity = getEntityByLight(light);
+        return entity == null || movedEntities.contains(entity) || !entityPreviousPositions.containsKey(entity);
+    }
+    
+    private void applyDynamicLight(Light light, PlayerSight playerSight) {
+        HashMap<Position, TileColor> positionToColorMap = lightingStrategy.lightBlocks(light);
+        
+        for (var posToColor : positionToColorMap.entrySet()) {
+            var position = posToColor.getKey().toPosition3D(0);
+            if (!playerSight.contains(position)) continue;
+            
+            currentlyLitBlocks.add(position);
+            GameBlock block = worldBlocks.get(position);
+            if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
+                updateLightningWithMixingColor(block, posToColor.getKey(), posToColor.getValue());
+            } else {
+                updateLighting(posToColor.getKey(), posToColor.getValue());
+            }
+        }
+    }
+    
+    private void cleanupUnlitBlocks() {
+        for (Position3D position : previouslyLitBlocks) {
+            if (!currentlyLitBlocks.contains(position)) {
+                GameBlock block = worldBlocks.get(position);
+                if (block.getLightingState() == BlockLightingState.IN_LIGHT) {
+                    block.setLightingState(BlockLightingState.SEEN);
+                    block.updateContent();
+                    block.updateLighting();
+                }
+            }
+        }
+    }
+    
+    private void updateEntityPositions() {
+        for (AbstractEntity entity : entityToDynamicLight.keySet()) {
+            entityPreviousPositions.put(entity, entity.getPosition().to2DPosition());
         }
     }
 }

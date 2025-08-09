@@ -68,16 +68,16 @@ public abstract class Light implements Serializable {
             return displayedTile.getForegroundColor();
         }
 
-        float brightness = (float) (distance / radius) - 0.3f;
-        if (brightness < 0) brightness = 0;
-        var colorInterpolator = color.interpolateTo(displayedTile.getForegroundColor());
-        /*При нахождении монстра в упор не нужно окрашивать
-        его полностью в цвет света*/
-        TileColor halfLightedEntityTile = colorInterpolator.getColorAtRatio(0.6);
-
-        colorInterpolator = halfLightedEntityTile
-                .interpolateTo(displayedTile.getForegroundColor());
-        return colorInterpolator.getColorAtRatio(brightness);
+        // Calculate light intensity with smoother falloff
+        float normalizedDistance = (float) (distance / radius); // 0 to 1
+        float intensity = 1.0f - (normalizedDistance * normalizedDistance); // Quadratic falloff
+        intensity = Math.max(0.0f, Math.min(1.0f, intensity));
+        
+        // Reduce intensity for entities to maintain readability
+        intensity *= 0.4f; // Max 40% light effect on entities
+        
+        // Blend colors based on distance
+        return blendLightWithBase(color, displayedTile.getForegroundColor(), intensity);
     }
 
 
@@ -88,9 +88,39 @@ public abstract class Light implements Serializable {
             return foregroundColor;
         }
 
-        float brightness = (float) (distance / radius);
-        var colorInterpolator = color.interpolateTo(foregroundColor);
-        return colorInterpolator.getColorAtRatio(brightness);
+        // Calculate light intensity with smoother falloff
+        float normalizedDistance = (float) (distance / radius); // 0 to 1
+        float intensity = 1.0f - (normalizedDistance * normalizedDistance); // Quadratic falloff for smoother transition
+        intensity = Math.max(0.0f, Math.min(1.0f, intensity));
+        
+        // For very close distances, ensure some base color remains visible
+        if (distance < 1.0) {
+            intensity = Math.min(intensity, 0.8f);
+        }
+        
+        // Blend colors based on distance
+        return blendLightWithBase(color, foregroundColor, intensity);
+    }
+    
+    /**
+     * Blends light color with base color based on intensity
+     * @param lightColor The light color
+     * @param baseColor The base/original color
+     * @param intensity The light intensity (0.0 = no light, 1.0 = full light)
+     * @return The blended color
+     */
+    private TileColor blendLightWithBase(TileColor lightColor, TileColor baseColor, float intensity) {
+        intensity = Math.max(0, Math.min(1, intensity)); // Clamp between 0 and 1
+        
+        // Linear interpolation between base color and light color
+        int red = (int) (baseColor.getRed() * (1.0f - intensity) + lightColor.getRed() * intensity);
+        int green = (int) (baseColor.getGreen() * (1.0f - intensity) + lightColor.getGreen() * intensity);
+        int blue = (int) (baseColor.getBlue() * (1.0f - intensity) + lightColor.getBlue() * intensity);
+        
+        return TileColor.defaultForegroundColor()
+                .withRed(red)
+                .withGreen(green)
+                .withBlue(blue);
     }
 
 

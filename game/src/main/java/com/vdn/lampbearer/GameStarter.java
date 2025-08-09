@@ -7,18 +7,20 @@ import com.vdn.lampbearer.services.ScoreService;
 import com.vdn.lampbearer.views.GameOverView;
 import com.vdn.lampbearer.views.PlayView;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.screen.Screen;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 import org.hexworks.zircon.api.uievent.KeyboardEventType;
 import org.hexworks.zircon.api.uievent.Processed;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 @RequiredArgsConstructor
 public class GameStarter {
 
     private final PlayView playView;
-    private KeyboardEvent event;
+    private final BlockingQueue<KeyboardEvent> eventQueue = new LinkedBlockingQueue<>();
 
 
     public void start() {
@@ -27,16 +29,15 @@ public class GameStarter {
         Screen screen = playView.getScreen();
         LogArea logArea = playView.getLogArea();
 
-        screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (event, uiEventPhase) -> {
-            this.event = event;
-            notifyMainLoop();
+        screen.handleKeyboardEvents(KeyboardEventType.KEY_PRESSED, (keyboardEvent, uiEventPhase) -> {
+            eventQueue.offer(keyboardEvent);
             return Processed.INSTANCE;
         });
 
         GameContext gameContext = new GameContext(
                 game.getWorld(),
                 playView.getSidePanel(),
-                event,
+                null,
                 game.getPlayer(),
                 logArea,
                 screen,
@@ -52,19 +53,15 @@ public class GameStarter {
     }
 
 
-    private synchronized void notifyMainLoop() {
-        notifyAll();
-    }
-
-
-    private synchronized void doMainLoop(GameContext gameContext, Game game) throws InterruptedException {
+    private void doMainLoop(GameContext gameContext, Game game) throws InterruptedException {
         while (true) {
-            wait();
+            // Non-blocking wait for keyboard events using BlockingQueue
+            KeyboardEvent currentEvent = eventQueue.take();
 
             //TODO: У org.hexworks.zircon.internal.game.impl.GameAreaComponentRenderer.render есть
             // публичный метод рендера, мб он как-то спасет
             // Если убрать мнгопоточку в GameStarter, модальные окна почему-то не отображаются.
-            gameContext.setEvent(event);
+            gameContext.setEvent(currentEvent);
             try {
                 game.getWorld().update(gameContext);
             } catch (GameOverException e){

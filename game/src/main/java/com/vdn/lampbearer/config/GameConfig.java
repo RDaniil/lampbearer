@@ -2,6 +2,7 @@ package com.vdn.lampbearer.config;
 
 import org.hexworks.zircon.api.CP437TilesetResources;
 import org.hexworks.zircon.api.application.AppConfig;
+import org.hexworks.zircon.api.application.DebugConfig;
 import org.hexworks.zircon.api.component.ColorTheme;
 
 public class GameConfig {
@@ -20,9 +21,9 @@ public class GameConfig {
                 .withTitle("TMIQ III the Lampbearer")
 //                .withFpsLimit(0)
                 .withDebugMode(false)
-//                .withDebugConfig(DebugConfig.newBuilder()
-//                        .withRelaxBoundsCheck(true)
-//                        .build())
+                .withDebugConfig(DebugConfig.newBuilder()
+                        .withRelaxBoundsCheck(true)
+                        .build())
                 .build();
     }
 }

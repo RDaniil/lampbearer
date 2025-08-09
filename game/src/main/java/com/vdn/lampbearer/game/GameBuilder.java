@@ -10,7 +10,10 @@ import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.entites.objects.LampPost;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.services.builder.world.WorldBuilderService;
+import com.vdn.lampbearer.services.light.CircleLight;
 import lombok.RequiredArgsConstructor;
+import org.hexworks.zircon.api.color.TileColor;
+import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
 import org.hexworks.zircon.api.data.Size3D;
 
@@ -59,6 +62,19 @@ public class GameBuilder {
         LampPost lampPost = new LampPost(Position3D.create(13, 13, 0));
         world.addEntity(lampPost, lampPost.getPosition());
         world.addStaticLight(lampPost.getLight());
+
+//        // Create 3 intersecting circle lights for testing color blending
+//        // Cyan light at (28, 30)
+//        CircleLight cyanLight = new CircleLight(Position.create(28, 30), 7, TileColor.fromString("#00FFFF"));
+//        world.addStaticLight(cyanLight);
+//
+//        // Magenta light at (32, 30)
+//        CircleLight magentaLight = new CircleLight(Position.create(32, 30), 7, TileColor.fromString("#FF00FF"));
+//        world.addStaticLight(magentaLight);
+//
+//        // Yellow light at (30, 27)
+//        CircleLight yellowLight = new CircleLight(Position.create(30, 27), 7, TileColor.fromString("#FFFF00"));
+//        world.addStaticLight(yellowLight);
 
         world.addEntity(FirstAidKit.createForWorld(Position3D.create(5, 4, 0)), Position3D.create(5, 4, 0));
         world.addEntity(Revolver.createForWorld(Position3D.create(26, 25, 0)), Position3D.create(26, 25, 0));

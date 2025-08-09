@@ -15,6 +15,8 @@ import org.hexworks.zircon.api.uievent.KeyboardEvent;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static java.lang.Thread.sleep;
+
 @Slf4j
 public class ScheduledEngine implements Engine {
     private final ArrayList<AbstractEntity> entities = new ArrayList<>();
@@ -85,7 +87,7 @@ public class ScheduledEngine implements Engine {
 
         try {
             if (state == EngineState.GAME_LOOP) {
-                    executeMainLoop(gameContext);
+                executeMainLoop(gameContext);
             } else if (state == EngineState.PAUSE) {
                 executePausedPlayerAction(gameContext);
             }
@@ -130,7 +132,7 @@ public class ScheduledEngine implements Engine {
                 Updatable updatable = (Updatable) nextSchedulable;
                 if (updatable.needUpdate()) {
                     if (updatable.needToBeAnimated()) {
-                        Thread.sleep(50);
+                        sleep(50);
                     }
                     updatable.update(gameContext);
                     log.info(Scheduler.currentTime + ": " + nextSchedulable + " updated");
@@ -139,6 +141,7 @@ public class ScheduledEngine implements Engine {
                 nextSchedulable = peekNextSchedulable();
             }
             if (nextSchedulable instanceof Player && isPlayerActed) break;
+            sleep(1);
         }
     }
 

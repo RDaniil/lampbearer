@@ -90,7 +90,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         ));
         setActions(List.of(AttackAction.getInstance()));
         fowLight = new PlayerFOWSight(Position.create(0, 0), 10,
-                TileColor.fromString("#fafaed"));
+                TileColor.fromString("#fafaed22"));
         sight = new PlayerSight(perceptionAttr);
     }
 
