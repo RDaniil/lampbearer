@@ -4,6 +4,7 @@ import com.vdn.lampbearer.action.actions.items.LightLampAction;
 import com.vdn.lampbearer.action.actions.items.PutOutLampAction;
 import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
+import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.World;
@@ -20,12 +21,19 @@ public class LightLampReaction implements Reaction {
                 lamp.findAttribute(LightSourceAttr.class);
         if (lightAttr.isEmpty()) return false;
 
+        Optional<UsableAttr> fuel =
+                lamp.findAttribute(UsableAttr.class);
+        if(fuel.isPresent() && fuel.get().getUsesLeft() <= 0){
+            log.info(String.format("%s is empty!", lamp.getName()));
+            return false;
+        }
+
         World world = context.getWorld();
         lightAttr.get().setOn(true);
 
         lightAttr.get().getLight().setPosition(target.getPosition().to2DPosition());
         world.addDynamicLight(target, lightAttr.get().getLight());
-        world.updateLighting();
+        world.forceUpdateLighting();
 
         lamp.removeAction(LightLampAction.class);
         lamp.getActions().add(PutOutLampAction.getInstance());

@@ -79,7 +79,7 @@ public class GameBuilder {
         world.addEntity(FirstAidKit.createForWorld(Position3D.create(5, 4, 0)), Position3D.create(5, 4, 0));
         world.addEntity(Revolver.createForWorld(Position3D.create(26, 25, 0)), Position3D.create(26, 25, 0));
         world.addEntity(FMJRevolverAmmoBox.createForWorld(Position3D.create(26, 26, 0)), Position3D.create(26, 26, 0));
-        world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
+//        world.addEntity(new Lantern(Position3D.create(22, 22, 0)), Position3D.create(22, 22, 0));
         world.addEntity(new OilBottle(Position3D.create(23, 23, 0)), Position3D.create(23, 23, 0));
         return new Game(world, player);
     }

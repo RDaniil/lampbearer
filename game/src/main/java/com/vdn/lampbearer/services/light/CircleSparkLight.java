@@ -37,16 +37,16 @@ public class CircleSparkLight extends CircleLight implements Updatable {
 
     @Override
     public void update(GameContext context) {
+
         if (isFirstUpdate()) {
             context.getWorld().addStaticLight(this);
-            context.getWorld().updateLighting();
         }
+        sparkDurationLeft--;
         if (sparkDurationLeft == 0) {
             context.getWorld().removeStaticLight(this);
             context.getWorld().removeFromSchedule(this);
-            context.getWorld().updateLighting();
         }
-        sparkDurationLeft--;
+        context.getWorld().forceUpdateLighting();
     }
 
 
@@ -57,6 +57,11 @@ public class CircleSparkLight extends CircleLight implements Updatable {
 
     @Override
     public boolean needUpdate() {
+        return true;
+    }
+
+    @Override
+    public boolean needToBeAnimated() {
         return true;
     }
 }

@@ -23,7 +23,7 @@ public class SignalRevolverRound extends AbstractRevolverRound {
     /**
      * Время, которое огонек будет "висеть" в воздухе
      */
-    private static final int LINGER_TIME = 60;
+    private static final int LINGER_TIME = 600;
 
     /**
      * Процент пройденного пути, начиная с которого ракета замедлится

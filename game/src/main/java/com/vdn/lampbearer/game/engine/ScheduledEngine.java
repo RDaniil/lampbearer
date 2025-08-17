@@ -132,7 +132,7 @@ public class ScheduledEngine implements Engine {
                 Updatable updatable = (Updatable) nextSchedulable;
                 if (updatable.needUpdate()) {
                     if (updatable.needToBeAnimated()) {
-                        sleep(50);
+                        sleep(100);
                     }
                     updatable.update(gameContext);
                     log.info(Scheduler.currentTime + ": " + nextSchedulable + " updated");

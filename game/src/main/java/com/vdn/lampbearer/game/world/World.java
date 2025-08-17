@@ -65,6 +65,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
     }
 
 
+    public void removeDynamicLight(Light light) {
+        lightingService.removeDynamicLight(light);
+    }
+
+
     public void removeLight(Light light) {
         lightingService.removeLight(light);
     }
@@ -237,9 +242,6 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
         if (isEntityContainsLight(entity)) {
             moveDynamicLightWithEntity(entity);
-            //TODO: Оптимизировать, сейчас отрисовываем весь свет сразу после каждого движения +
-            // после того как все сделали ход
-
             updateLighting();
         }
         return true;
@@ -248,6 +250,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
 
     public void updateLighting() {
         lightingService.updateLighting(player);
+    }
+
+
+    public void forceUpdateLighting() {
+        lightingService.updateLighting(player, true);
     }
 
 

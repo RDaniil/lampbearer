@@ -3,6 +3,7 @@ package com.vdn.lampbearer.services.light;
 import com.vdn.lampbearer.constants.BlockLightingState;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.entites.interfaces.Updatable;
 import com.vdn.lampbearer.game.world.World;
 import com.vdn.lampbearer.game.world.block.GameBlock;
 import com.vdn.lampbearer.services.ColorBlender;
@@ -48,41 +49,44 @@ public class LightingService {
     }
 
 
-    public void updateLighting(Player player) {
+    public void updateLighting(Player player, boolean forceUpdate) {
+
         Position3D currentPlayerPosition = player.getPosition();
         boolean playerMoved = !currentPlayerPosition.equals(playerPreviousPosition);
-        
+
         // Check if any dynamic light entities moved
         Set<AbstractEntity> movedEntities = getMovedEntities();
-        
-        // Only do expensive operations if something changed
-        if (playerMoved || !movedEntities.isEmpty()) {
+
+        if (forceUpdate || playerMoved || !movedEntities.isEmpty()) {
             // Store previous lit blocks for cleanup
             previouslyLitBlocks.clear();
             previouslyLitBlocks.addAll(currentlyLitBlocks);
             currentlyLitBlocks.clear();
-            
+
             // Update player sight
             PlayerSight playerSight = player.getSight();
             HashMap<Position, TileColor> positionToColorMap = lightingStrategy
                     .lightBlocks(playerSight);
             playerSight.reset(positionToColorMap.keySet());
-            
+
             // Process static lights (cached)
             processStaticLights(playerSight);
-            
+
             // Process dynamic lights (only recalculate for moved entities)
-            processDynamicLights(playerSight, movedEntities);
-            
+            processDynamicLights(playerSight, movedEntities, forceUpdate);
+
             // Clean up blocks that are no longer lit
             cleanupUnlitBlocks();
-            
+
             // Update tracking
             playerPreviousPosition = currentPlayerPosition;
             updateEntityPositions();
         }
     }
 
+    public void updateLighting(Player player) {
+        updateLighting(player, false);
+    }
 
     public void updateLightningWithMixingColor(GameBlock block,
                                                Position position,
@@ -112,6 +116,13 @@ public class LightingService {
         Set<Light> lights = entityToDynamicLight.get(entity);
         if (lights != null) {
             lights.clear();
+        }
+    }
+
+
+    public void removeDynamicLight(Light light) {
+        for (Set<Light> lights : entityToDynamicLight.values()) {
+            lights.remove(light);
         }
     }
 
@@ -203,12 +214,12 @@ public class LightingService {
         }
     }
     
-    private void processDynamicLights(PlayerSight playerSight, Set<AbstractEntity> movedEntities) {
+    private void processDynamicLights(PlayerSight playerSight, Set<AbstractEntity> movedEntities, boolean forceUpdate) {
         var dynamicLights = entityToDynamicLight.values().stream()
                 .flatMap(Set::stream).collect(Collectors.toSet());
         
         for (Light light : dynamicLights) {
-            if (shouldRecalculateDynamicLight(light, movedEntities)) {
+            if (forceUpdate || shouldRecalculateDynamicLight(light, movedEntities)) {
                 applyDynamicLight(light, playerSight);
             }
         }
@@ -216,6 +227,9 @@ public class LightingService {
     
     private boolean shouldRecalculateDynamicLight(Light light, Set<AbstractEntity> movedEntities) {
         AbstractEntity entity = getEntityByLight(light);
+        if(entity instanceof Updatable && ((Updatable) entity).needToBeAnimated()){
+            return true;
+        }
         return entity == null || movedEntities.contains(entity) || !entityPreviousPositions.containsKey(entity);
     }
     
@@ -254,4 +268,5 @@ public class LightingService {
             entityPreviousPositions.put(entity, entity.getPosition().to2DPosition());
         }
     }
+
 }

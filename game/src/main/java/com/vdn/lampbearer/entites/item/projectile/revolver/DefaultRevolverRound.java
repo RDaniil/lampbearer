@@ -32,7 +32,7 @@ public class DefaultRevolverRound extends AbstractRevolverRound {
     @Override
     public void beforeLaunch(GameContext context, Position startPosition, Position targetPosition) {
         CircleSparkLight.createNow(context, startPosition, 6,
-                TileColor.fromString("#FFbb33"), 1);
+                TileColor.fromString("#FFbb33"), 2);
     }
 
 
