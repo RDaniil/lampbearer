@@ -1,7 +1,11 @@
 package com.vdn.lampbearer.entites.item.projectile.revolver;
 
+import com.vdn.lampbearer.action.actions.LoadOneInFirearmAction;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.attributes.projectile.PenetrationPowerAttr;
 import com.vdn.lampbearer.attributes.projectile.ProjectileDamageAttr;
+import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.entites.item.projectile.ammo.FMJRevolverAmmoBox;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -28,6 +32,12 @@ public class DefaultRevolverRound extends AbstractRevolverRound {
         setProjectileDamage(new ProjectileDamageAttr(10));
     }
 
+    public static DefaultRevolverRound createForWorld(Position3D position) {
+        DefaultRevolverRound round = new DefaultRevolverRound(position);
+        round.getActions().add(PickUpItemAction.getInstance());
+        round.getActions().add(LoadOneInFirearmAction.getInstance());
+        return round;
+    }
 
     @Override
     public void beforeLaunch(GameContext context, Position startPosition, Position targetPosition) {

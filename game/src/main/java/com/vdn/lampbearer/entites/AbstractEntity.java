@@ -134,7 +134,7 @@ public abstract class AbstractEntity implements Serializable {
             case V_CLOSED_DOOR:
                 return new Door(position, VerticalArrangement.getInstance());
             case DEFAULT_REVOLVER_ROUND:
-                return new DefaultRevolverRound(position);
+                return DefaultRevolverRound.createForWorld(position);
             case DEFAULT_REVOLVER_ROUND_BOX:
                 return FMJRevolverAmmoBox.createForWorld(position);
             case SIGNAL_REVOLVER_ROUND:

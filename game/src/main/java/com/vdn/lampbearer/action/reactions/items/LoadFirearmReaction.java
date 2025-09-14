@@ -23,7 +23,6 @@ public class LoadFirearmReaction implements Reaction {
         if (foundFirearm.isEmpty()) {
             return false;
         }
-        //TODO: Рак, все желтое, надо понять как красиво дженерично провернуть контейнеры
         Optional<RoundContainerAttr> ammoBoxInventory =
                 ammoBox.findAttribute(RoundContainerAttr.class);
         if (ammoBoxInventory.isEmpty()) {
