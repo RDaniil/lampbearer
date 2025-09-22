@@ -65,7 +65,7 @@ public class GameStarter {
             try {
                 game.getWorld().update(gameContext);
             } catch (GameOverException e){
-                new GameOverView(gameContext).show();
+                new GameOverView(gameContext, e.getGameOverResult()).show();
 
             }
             game.getWorld().updateUI();

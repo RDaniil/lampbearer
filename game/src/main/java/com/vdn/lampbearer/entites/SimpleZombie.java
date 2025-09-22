@@ -14,6 +14,8 @@ import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.DiceBuilder;
+import com.vdn.lampbearer.services.RandomService;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +40,11 @@ public class SimpleZombie extends NonPlayerCharacter implements Schedulable {
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
         setAttributes(List.of(
-                new HealthAttr(20),
-                new StrengthAttr(25),
+                new HealthAttr(DiceBuilder.dice(2, 6).plus(10).roll()),
+                new StrengthAttr(DiceBuilder.dice(2, 6)),
                 new PerceptionAttr(10),
-                new SmellAttr(10),
-                new SpeedAttr(5),
+                new SmellAttr(15),
+                new SpeedAttr(RandomService.getRandom(2, 5)),
                 StaticBlockOccupier.getInstance()
         ));
         setActions(List.of(AttackAction.getInstance()));

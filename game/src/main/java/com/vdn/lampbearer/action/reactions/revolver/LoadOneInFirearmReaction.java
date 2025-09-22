@@ -1,5 +1,6 @@
-package com.vdn.lampbearer.action.reactions;
+package com.vdn.lampbearer.action.reactions.revolver;
 
+import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
@@ -20,6 +21,7 @@ public class LoadOneInFirearmReaction implements Reaction {
 
         Optional<AbstractItem> foundFirearm = inventoryOpt.get().findItem(AbstractFirearm.class);
         if (foundFirearm.isEmpty()) {
+            context.getLogArea().addParagraph("No firearm to load this ammo", false, 0);
             return false;
         }
 
@@ -45,6 +47,7 @@ public class LoadOneInFirearmReaction implements Reaction {
             inventoryOpt.get().removeItem((AbstractItem) round);
             context.getLogArea().addParagraph(String.format("%s rounds loaded", roundsLoaded),
                     false, 0);
+            new CheckChamberReaction().execute(initiator, round, context);
         }
         return true;
     }

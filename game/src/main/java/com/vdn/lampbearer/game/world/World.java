@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.game.world;
 
 import com.vdn.lampbearer.action.actions.Action;
+import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.attributes.Attribute;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.entites.AbstractEntity;
@@ -21,10 +22,7 @@ import org.hexworks.zircon.api.data.Size3D;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.game.GameArea;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -121,6 +119,15 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         engine.addEntity(entity);
     }
 
+    public void addEntityToEngine(AbstractEntity entity, Position3D position3D) {
+        fetchBlockAtOrElse(position3D, (pos) -> {
+            throw new IllegalArgumentException(
+                    String.format("Position %s does not contain any blocks", pos)
+            );
+        });
+
+        engine.addEntity(entity);
+    }
 
     public void updateBlockContent(Position3D position3D) {
         GameBlock block = fetchBlockAtOrElse(position3D, (pos) -> {
@@ -211,7 +218,8 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             List<AbstractEntity> entitiesByAction = block.getEntities().stream()
                     .filter(entity -> entity.findAction(actionType).isPresent())
                     .collect(Collectors.toList());
-            if (entitiesByAction.size() > 1) {
+
+            if (entitiesByAction.size() > 1 && !actionType.isAssignableFrom(PickUpItemAction.class)) {
                 throw new IllegalArgumentException(
                         "Ожидали найти 1 сущность по Action " + actionType.getSimpleName());
             }
@@ -262,11 +270,11 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
         double startTime = (double) System.nanoTime();
         engine.executeTurn(gameContext);
         double executeTurn = (double) System.nanoTime();
-        log.info("executeTurn TIME: " + (executeTurn - startTime) / (1000_000));
+//        log.info("executeTurn TIME: " + (executeTurn - startTime) / (1000_000));
         updateLighting();
         double endTime = (double) System.nanoTime();
 
-        log.info("LIGHTING TIME: " + (endTime - executeTurn) / (1000_000));
+//        log.info("LIGHTING TIME: " + (endTime - executeTurn) / (1000_000));
     }
 
 
@@ -334,7 +342,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
      * @param selectedPosition позиция, с которой запрашивается сущность(и)
      * @return List<AbstractEntity>, пустой если сущность(и) нет
      */
-    public List<AbstractEntity> getEntitiesAt(Position selectedPosition) {
+    public Collection<AbstractEntity> getEntitiesAt(Position selectedPosition) {
         try {
             GameBlock block = fetchBlockAtOrElse(selectedPosition.toPosition3D(0),
                     (pos) -> {
@@ -372,8 +380,7 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
             if (block.getEntities().isEmpty()) {
                 return new BlockEntity(selectedPosition, block);
             }
-            //TODO: Если на одной клеточке больше 1 сущности - не работает
-            return block.getEntities().get(0);
+            return block.getEntities().stream().findFirst().get();
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -405,4 +412,5 @@ public class World extends WorldDelegate implements GameArea<Tile, GameBlock> {
                 })
                 .collect(Collectors.toList());
     }
+
 }

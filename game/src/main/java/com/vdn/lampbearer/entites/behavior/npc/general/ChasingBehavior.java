@@ -36,6 +36,9 @@ public class ChasingBehavior extends NonPlayerCharacterBehavior {
             targetPosition = lastSeenPositionOfPlayer;
         }
 
+        if(targetPosition == null) {
+            return false;
+        }
         boolean isMoved = movementAi.move(npc, targetPosition, context);
         if (isMoved && isMemoryAvailable && npc.getPosition().equals(lastSeenPositionOfPlayer)) {
             lastSeenPositionOfPlayer = null;
@@ -62,13 +65,13 @@ public class ChasingBehavior extends NonPlayerCharacterBehavior {
 
     @Override
     public boolean isApplicable(NonPlayerCharacter npc, GameContext context) {
-        if (sightAi.isPlayerInSight(npc, context)) {
+        if (sightAi.isPlayerInSight(npc, context) || smellAi.isPlayerScentAround(npc, context)) {
             if (isMemoryAvailable) {
                 lastSeenPositionOfPlayer = context.getPlayer().getPosition();
             }
             return true;
         }
 
-        return smellAi.isPlayerScentAround(npc, context) || lastSeenPositionOfPlayer != null;
+        return lastSeenPositionOfPlayer != null;
     }
 }

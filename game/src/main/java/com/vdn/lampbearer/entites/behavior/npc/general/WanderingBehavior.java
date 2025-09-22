@@ -1,6 +1,5 @@
 package com.vdn.lampbearer.entites.behavior.npc.general;
 
-import com.vdn.lampbearer.attributes.creature.PerceptionAttr;
 import com.vdn.lampbearer.entites.NonPlayerCharacter;
 import com.vdn.lampbearer.entites.behavior.ai.movement.MovementAi;
 import com.vdn.lampbearer.game.GameContext;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
 
 import static com.vdn.lampbearer.services.RandomService.getRandom;
 

@@ -18,6 +18,7 @@ import org.hexworks.zircon.api.data.Size3D;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -54,7 +55,7 @@ public class GenerativeWorldBuilder implements WorldBuilderService {
 
     private static void placeLampPosts(Map<Position3D, GameBlock> positionToBlockMap, World world) {
         List<AbstractEntity> lampposts = positionToBlockMap.values().stream()
-                .filter(GameBlock::hasEntities).map(GameBlock::getEntities).flatMap(List::stream)
+                .filter(GameBlock::hasEntities).map(GameBlock::getEntities).flatMap(Set::stream)
                 .filter(e -> e instanceof LampPost).collect(Collectors.toList());
 
         lampposts.forEach(lp -> world.addStaticLight(((LampPost) lp).getLight()));

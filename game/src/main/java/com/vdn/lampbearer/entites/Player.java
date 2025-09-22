@@ -11,14 +11,11 @@ import com.vdn.lampbearer.entites.behavior.player.PlayerBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerMoveAndAttackBehavior;
 import com.vdn.lampbearer.entites.behavior.player.PlayerTargetBehavior;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
-import com.vdn.lampbearer.entites.item.FirstAidKit;
-import com.vdn.lampbearer.entites.item.LighthouseKey;
-import com.vdn.lampbearer.entites.item.firearm.Revolver;
-import com.vdn.lampbearer.entites.item.projectile.Stone;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.engine.EngineState;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.DiceBuilder;
 import com.vdn.lampbearer.services.light.PlayerFOWSight;
 import com.vdn.lampbearer.services.light.PlayerSight;
 import com.vdn.lampbearer.utils.PositionUtils;
@@ -72,18 +69,15 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setName(block.getName());
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
-        InventoryAttr inventoryAttr = new InventoryAttr(10);
-//        inventoryAttr.putItem(LighthouseKey.createForWorld(position3D));
-
-        HealthAttr healthAttr = new HealthAttr(1000);
-        healthAttr.reduceHealth(40);
+        InventoryAttr inventoryAttr = new InventoryAttr(6);
+        HealthAttr healthAttr = new HealthAttr(120);
 
         PerceptionAttr perceptionAttr = new PerceptionAttr(20);
 
         setAttributes(List.of(
                 healthAttr,
-                new StrengthAttr(5),
-                new SpeedAttr(1),
+                new StrengthAttr(DiceBuilder.dice(1, 3).plus(3)),
+                new SpeedAttr(3),
                 perceptionAttr,
                 StaticBlockOccupier.getInstance(),
                 inventoryAttr

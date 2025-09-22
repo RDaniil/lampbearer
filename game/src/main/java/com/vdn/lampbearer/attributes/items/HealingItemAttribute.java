@@ -1,11 +1,14 @@
 package com.vdn.lampbearer.attributes.items;
 
 import com.vdn.lampbearer.attributes.Attribute;
-import lombok.Getter;
+import com.vdn.lampbearer.services.DiceBuilder;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @RequiredArgsConstructor
 public class HealingItemAttribute implements Attribute {
-    private final int healingAmount;
+    private final DiceBuilder healingAmount;
+
+    public int getHealingAmount() {
+        return healingAmount.roll();
+    }
 }

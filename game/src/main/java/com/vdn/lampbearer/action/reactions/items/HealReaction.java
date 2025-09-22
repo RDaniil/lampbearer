@@ -10,6 +10,10 @@ import com.vdn.lampbearer.entites.Actor;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
+import org.hexworks.zircon.api.component.LogArea;
+import org.hexworks.zircon.api.data.Tile;
 
 import java.util.Optional;
 
@@ -26,7 +30,15 @@ public class HealReaction implements Reaction {
         if (healingItemAttribute.isEmpty()) return false;
 
         HealthAttr healthAttr = target.findAttribute(HealthAttr.class).get();
-        healthAttr.increaseHealth(healingItemAttribute.get().getHealingAmount());
+        int healingAmount = healingItemAttribute.get().getHealingAmount();
+
+        context.getLogArea().addInlineText("You healed ");
+        logColorText(context.getLogArea(), String.valueOf(healingAmount), healingItem.getTile());
+        context.getLogArea().addInlineText(" health.");
+        context.getLogArea().commitInlineElements();
+
+        healthAttr.increaseHealth(healingAmount);
+        context.getScoreService().addHealed(healingAmount);
 
         Optional<UsableAttr> usableAttribute =
                 healingItem.findAttribute(UsableAttr.class);
@@ -38,7 +50,7 @@ public class HealReaction implements Reaction {
         Optional<InventoryAttr> inventoryOpt = target.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
 
-        if (usableAttribute.get().useOnce() == 0) {
+        if (usableAttribute.get().getUsesLeft() <= 0) {
             //TODO: 1) Если будет возможность хилять не только себя - это не сработает, т.к. надо
             // удалять из чужого инвентаря а не из нашего. 2) Наверное не очень хорошо, что
             // действие лечения заботится о том чтобы удалить используемый предмет...
@@ -48,5 +60,20 @@ public class HealReaction implements Reaction {
         log.info(String.format("%s's been healed by %s", target.getName(), healingItem.getName()));
 
         return true;
+    }
+
+    private void logColorText(LogArea logArea, String name, Tile tile) {
+        logArea
+                .addInlineComponent(
+                        Components.label()
+                                .withText(name)
+                                .withComponentRenderer((graphics, cntxt) -> {
+                                    var bang = CharacterTileStringBuilder.newBuilder()
+                                            .withText(name)
+                                            .withForegroundColor(tile.getForegroundColor())
+                                            .build();
+                                    graphics.draw(bang);
+                                }).build());
+
     }
 }

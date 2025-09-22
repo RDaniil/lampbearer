@@ -2,7 +2,9 @@ package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.combat.AttackAction;
 import com.vdn.lampbearer.action.reactions.LookReaction;
-import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
+import com.vdn.lampbearer.action.reactions.revolver.RotateCyllinderLeftReaction;
+import com.vdn.lampbearer.action.reactions.revolver.RotateCyllinderRightReaction;
+import com.vdn.lampbearer.action.reactions.revolver.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.LightSourceAttr;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
@@ -54,8 +56,16 @@ public class PlayerMoveAndAttackBehavior extends PlayerBehavior {
             return new PlayerTargetBehavior(new LookReaction());
         if (isThrowAction(keyboardEvent))
             return new PlayerTargetBehavior(new ThrowReaction());
-        if (isRevolverAction(keyboardEvent))
+        if (isShootRevolverAction(keyboardEvent))
             return new PlayerTargetBehavior(new ShootFirearmReaction());
+        if (isRotateCylinderAction(keyboardEvent)) {
+            if (isRotateCylinderLeftAction(keyboardEvent)) {
+                new RotateCyllinderLeftReaction().execute(player, player, context);
+            } else {
+                new RotateCyllinderRightReaction().execute(player, player, context);
+            }
+            return this;
+        }
 
         return this;
     }

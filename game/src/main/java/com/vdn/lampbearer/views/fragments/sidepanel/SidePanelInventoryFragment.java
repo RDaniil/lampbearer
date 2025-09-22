@@ -32,7 +32,7 @@ public class SidePanelInventoryFragment implements Fragment {
     public SidePanelInventoryFragment(InventoryAttr inventory) {
         this.inventory = inventory;
         inventoryRow = Components.vbox()
-                .withPreferredSize(SIDEBAR_WIDTH - 2, inventory.getMaxSize())
+                .withPreferredSize(SIDEBAR_WIDTH - 2, inventory.getMaxSize() + 2)
                 .withDecorations(box(BoxType.SINGLE, "Inventory"))
                 .withUpdateOnAttach(true)
                 .build();

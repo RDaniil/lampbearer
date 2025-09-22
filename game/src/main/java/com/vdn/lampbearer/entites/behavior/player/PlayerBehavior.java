@@ -23,7 +23,7 @@ public abstract class PlayerBehavior extends Behavior<Player> {
             List.of(KeyCode.KEY_D, KeyCode.KEY_P, KeyCode.KEY_U)
     );
 
-    private static final KeyCode INTERACTION_KEY = KeyCode.KEY_E;
+    private static final KeyCode INTERACTION_KEY = KeyCode.KEY_F;
     private static final KeyCode THROW_KEY = KeyCode.KEY_T;
     private static final KeyCode REVOLVER_KEY = KeyCode.KEY_R;
     private static final KeyCode LOOK_KEY = KeyCode.KEY_L;
@@ -66,10 +66,22 @@ public abstract class PlayerBehavior extends Behavior<Player> {
     }
 
 
-    protected static boolean isRevolverAction(KeyboardEvent event) {
+    protected static boolean isShootRevolverAction(KeyboardEvent event) {
         return event != null && REVOLVER_KEY.equals(event.getCode());
     }
 
+
+    protected static boolean isRotateCylinderAction(KeyboardEvent event) {
+        return (isRotateCylinderLeftAction(event) || isRotateCylinderRightAction(event));
+    }
+
+    protected static boolean isRotateCylinderLeftAction(KeyboardEvent event) {
+        return event != null && event.getCode().equals(KeyCode.KEY_Q);
+    }
+
+    protected static boolean isRotateCylinderRightAction(KeyboardEvent event) {
+        return event != null && event.getCode().equals(KeyCode.KEY_E);
+    }
 
     protected static boolean isLookAction(KeyboardEvent event) {
         return event != null && LOOK_KEY.equals(event.getCode())

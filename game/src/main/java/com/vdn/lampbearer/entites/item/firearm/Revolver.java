@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.entites.item.firearm;
 
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
+import com.vdn.lampbearer.action.actions.items.CheckChamberAction;
 import com.vdn.lampbearer.action.actions.items.ShootFirearmAction;
 import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.attributes.items.HealingItemAttribute;
@@ -15,6 +16,7 @@ import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
+import org.hexworks.zircon.api.data.Tile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.List;
 
 @Slf4j
 public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
-    private final static int CYLINDER_CHAMBERS_COUNT = 6;
+    private static final int CYLINDER_CHAMBERS_COUNT = 6;
     private final List<AbstractRevolverRound> cylinder;
     private int currentChamber = 0;
 
@@ -34,14 +36,9 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
         GameBlock gameBlock = GameBlockFactory.returnGameBlock(BlockType.REVOLVER);
         setName(gameBlock.getName());
         setDescription(gameBlock.getDescription());
-        setAttributes(List.of(
-                        new HealingItemAttribute(new DiceBuilder().dice(2, 6).plus(1).roll()),
-                        new UsableAttr(1)
-                )
-        );
 
         getActions().add(ShootFirearmAction.getInstance());
-
+        getActions().add(CheckChamberAction.getInstance());
 
         cylinder = Arrays.asList(new EmptyRound(position),
                 new EmptyRound(position),
@@ -50,6 +47,16 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
                 new EmptyRound(position),
                 new EmptyRound(position)
         );
+    }
+
+    public List<Tile> getChamberContents() {
+        List<Tile> chamberContents = new ArrayList<>();
+        for (int i = 0; i < cylinder.size(); i++) {
+            var offsetChamber = (currentChamber + i) % cylinder.size();
+            AbstractRevolverRound round = cylinder.get(offsetChamber);
+            chamberContents.add(round.getTile());
+        }
+        return chamberContents;
     }
 
 
@@ -109,6 +116,7 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
             if (cylinder.get(i) instanceof EmptyRound) {
                 loadedRounds++;
                 cylinder.set(i, (AbstractRevolverRound) round);
+                setCurrentChamber(i);
                 break;
             }
         }
@@ -141,4 +149,5 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
     public Class<AbstractRevolverRound> getAllowedProjectileType() {
         return AbstractRevolverRound.class;
     }
+
 }

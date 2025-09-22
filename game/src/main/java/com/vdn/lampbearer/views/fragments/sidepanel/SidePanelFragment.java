@@ -24,6 +24,7 @@ public class SidePanelFragment implements Fragment {
 
     private SidePanelInventoryFragment sidePanelInventoryFragment;
     private SidePanelPlayerAttributesFragment playerAttributesFragment;
+    private SidePanelHelpFragment sidePanelHelpFragment;
 
 
     @NotNull
@@ -42,6 +43,9 @@ public class SidePanelFragment implements Fragment {
         sidePanelInventoryFragment = new SidePanelInventoryFragment(
                 context.getPlayer().findAttribute(InventoryAttr.class).get());
         sidePanel.addFragment(sidePanelInventoryFragment);
+
+        sidePanelHelpFragment = new SidePanelHelpFragment();
+        sidePanel.addFragment(sidePanelHelpFragment);
 
         return sidePanel;
     }

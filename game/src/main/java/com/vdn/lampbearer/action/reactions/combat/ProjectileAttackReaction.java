@@ -6,6 +6,10 @@ import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;
 import com.vdn.lampbearer.game.GameContext;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
+import org.hexworks.zircon.api.component.LogArea;
+import org.hexworks.zircon.api.data.Tile;
 
 import java.util.Optional;
 
@@ -22,22 +26,23 @@ public class ProjectileAttackReaction implements Reaction {
         if (healthAttr.isEmpty()) {
             return true;
         }
-        int remainingHealth = healthAttr.get().reduceHealth(projectile.getProjectileDamage().getValue());
+        int projectileDamage = projectile.getProjectileDamage().getValue();
+        int remainingHealth = healthAttr.get().reduceHealth(projectileDamage);
+        context.getScoreService().addDamageDealt(projectileDamage);
 
-        context.getLogArea().addParagraph(
-                String.format(
-                        "%s's been attacked by %s for %d damage",
-                        target.getName(),
-                        initiator.getName(),
-                        projectile.getProjectileDamage().getValue()
-                ),
-                false,
-                0
-        );
+
+        logEnemy(context.getLogArea(), initiator.getName(),  initiator.getTile());
+        context.getLogArea().addInlineText(" attacked ");
+        logEnemy(context.getLogArea(), target.getName(), target.getTile());
+        context.getLogArea().addInlineText(String.format(
+                " for %d damage",
+                projectileDamage
+        ));
+        context.getLogArea().commitInlineElements();
 
         if (remainingHealth <= 0) {
-            context.getLogArea()
-                    .addParagraph(String.format("%s's died!", target.getName()), false, 0);
+            logEnemy(context.getLogArea(), target.getName(), target.getTile());
+            context.getLogArea().addInlineText(" died!");
             context.getWorld().deleteEntity(target, target.getPosition());
 
             if (target instanceof Player) {
@@ -47,5 +52,20 @@ public class ProjectileAttackReaction implements Reaction {
         }
 
         return true;
+    }
+
+    private void logEnemy(LogArea logArea, String name, Tile tile) {
+        logArea
+                .addInlineComponent(
+                        Components.label()
+                                .withText(name)
+                                .withComponentRenderer((graphics, cntxt) -> {
+                                    var bang = CharacterTileStringBuilder.newBuilder()
+                                            .withText(name)
+                                            .withForegroundColor(tile.getForegroundColor())
+                                            .build();
+                                    graphics.draw(bang);
+                                }).build());
+
     }
 }

@@ -33,7 +33,7 @@ public class GameOverFragment implements Fragment {
         Map<EnemyInfo, Integer> killedEnemiesToCount = context.getScoreService().getKilledEnemiesMap();
 
         VBox modal = Components.vbox()
-                .withPreferredSize(50, killedEnemiesToCount.size() + 4)
+                .withPreferredSize(35, killedEnemiesToCount.size() + 15)
                 .build();
 
         var youKilledText = Components.label()
@@ -47,19 +47,31 @@ public class GameOverFragment implements Fragment {
             modal.addComponent(createComponentFromEnemyCounter(enemyToCounter));
         }
 
-
         modal.addComponent(createMoveCounterComponent(context.getScoreService()));
 
+        var damageDealt = Components.label()
+                .withDecorations(noDecoration())
+                .withText("Damage dealt: " + context.getScoreService().getDamageDealt())
+                .build();
+        modal.addComponent(damageDealt);
 
+        var damageReceived = Components.label()
+                .withDecorations(noDecoration())
+                .withText("Damage received: " + context.getScoreService().getDamageReceived())
+                .build();
+        modal.addComponent(damageReceived);
+
+        var healed = Components.label()
+                .withDecorations(noDecoration())
+                .withText("HP healed: " + context.getScoreService().getHealedAmount())
+                .build();
+        modal.addComponent(healed);
 
         var seedText = Components.label()
                 .withDecorations(noDecoration())
                 .withText("Seed: " + RandomService.getSeed())
                 .build();
         modal.addComponent(seedText);
-
-        //TODO: дошел ли до маяка, для маяка отдельное сообщение о том что игрок победил
-
         return modal;
     }
 
@@ -79,7 +91,7 @@ public class GameOverFragment implements Fragment {
 
     private Component createComponentFromEnemyCounter(Map.Entry<EnemyInfo, Integer> enemyToCounter) {
         HBox enemyCounterInfo = Components.hbox()
-                .withPreferredSize(enemyToCounter.getKey().getName().length() + 5, 1)
+                .withPreferredSize(enemyToCounter.getKey().getName().length() + 15, 1)
                 .build();
 
         var enemyIcon = Components.icon()

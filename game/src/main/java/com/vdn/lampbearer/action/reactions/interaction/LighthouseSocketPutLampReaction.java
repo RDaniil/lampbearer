@@ -4,6 +4,7 @@ import com.vdn.lampbearer.action.actions.interaction.DoorCloseAction;
 import com.vdn.lampbearer.action.actions.interaction.DoorOpenAction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
+import com.vdn.lampbearer.constants.GameOverResult;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.LighthouseKey;
@@ -25,6 +26,10 @@ public class LighthouseSocketPutLampReaction extends DoorOpeningReaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
+        if(true){
+            throw new GameOverException(context, GameOverResult.LAMP_INSTALLED);
+
+        }
         Optional<InventoryAttr> inventoryOpt = initiator.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
         Optional<AbstractItem> lighthouseLamp = inventoryOpt.get()
@@ -35,7 +40,7 @@ public class LighthouseSocketPutLampReaction extends DoorOpeningReaction {
             return false;
         }
 
-        throw new GameOverException(context);
+        throw new GameOverException(context, GameOverResult.LAMP_INSTALLED);
     }
 
     private static void printMessage(GameContext context) {

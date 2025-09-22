@@ -1,11 +1,11 @@
 package com.vdn.lampbearer.entites.item.projectile.ammo;
 
 import com.vdn.lampbearer.action.actions.LoadAllInFirearmAction;
+import com.vdn.lampbearer.action.actions.LoadOneFromBoxFirearmAction;
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
 import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
-import com.vdn.lampbearer.entites.item.projectile.Round;
 import com.vdn.lampbearer.entites.item.projectile.revolver.DefaultRevolverRound;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -24,16 +24,16 @@ public class FMJRevolverAmmoBox extends AbstractItem {
         GameBlock gameBlock = GameBlockFactory.returnGameBlock(BlockType.DEFAULT_REVOLVER_ROUND_BOX);
         setName(gameBlock.getName());
         setDescription(gameBlock.getDescription());
-        //Во вторых понять почему тайл пустой
         setAttributes(List.of(
                  RoundContainerAttr.createFilled(
-                                new DiceBuilder().dice(2, 6).roll(),
+                                DiceBuilder.dice(1, 9).roll(),
                                 () -> new DefaultRevolverRound(position),
                                 DefaultRevolverRound.class)
                 )
         );
 
         getActions().add(LoadAllInFirearmAction.getInstance());
+        getActions().add(LoadOneFromBoxFirearmAction.getInstance());
     }
 
 

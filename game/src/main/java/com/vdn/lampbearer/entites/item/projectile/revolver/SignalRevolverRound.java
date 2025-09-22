@@ -23,7 +23,7 @@ public class SignalRevolverRound extends AbstractRevolverRound {
     /**
      * Время, которое огонек будет "висеть" в воздухе
      */
-    private static final int LINGER_TIME = 600;
+    private static final int LINGER_TIME = 50;
 
     /**
      * Процент пройденного пути, начиная с которого ракета замедлится
@@ -56,7 +56,6 @@ public class SignalRevolverRound extends AbstractRevolverRound {
         GameBlock gameBlock = GameBlockFactory.returnGameBlock(blockType);
         setName(gameBlock.getName());
         setDescription(gameBlock.getDescription());
-        getActions().add(ShootFirearmAction.getInstance());
         getActions().add(LoadOneInFirearmAction.getInstance());
         lingerTimeLeft = LINGER_TIME;
 

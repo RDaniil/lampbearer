@@ -6,7 +6,7 @@
       "background": "#111111",
       "foreground": "#FF9922",
       "name": "Lampbearer",
-      "description": "It's me"
+      "description": "The guiding light in darkness."
     },
     {
       "blockType": "GROUND",
@@ -16,7 +16,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Ground",
-      "description": "Just ground"
+      "description": "Sturdy, unwavering earth beneath."
     },
     {
       "blockType": "GROUND_TRAIL",
@@ -26,7 +26,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Ground trail",
-      "description": "Just ground trail"
+      "description": "Footsteps imprinted in the soil."
     },
     {
       "blockType": "ROCK",
@@ -36,7 +36,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Rock",
-      "description": "Just rock"
+      "description": "Solid, unyielding guardian of nature."
     },
     {
       "blockType": "TREE_LG",
@@ -46,7 +46,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Majestic, reaching for the skies."
     },
     {
       "blockType": "TREE_Y",
@@ -56,7 +56,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Golden foliage whispers secrets."
     },
     {
       "blockType": "TREE_G",
@@ -66,7 +66,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Verdant sentinel of the wilderness."
     },
     {
       "blockType": "TREE_R",
@@ -76,7 +76,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Fiery leaves blaze in autumn's glory."
     },
     {
       "blockType": "SMALL_TREE_LG",
@@ -86,7 +86,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Little guardian of nature's realm."
     },
     {
       "blockType": "SMALL_TREE_Y",
@@ -96,7 +96,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Sapling clad in autumn's hues."
     },
     {
       "blockType": "SMALL_TREE_G",
@@ -106,7 +106,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Young green shoot, full of life."
     },
     {
       "blockType": "SMALL_TREE_R",
@@ -116,7 +116,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Reddish leaves whisper in the breeze."
     },
     {
       "blockType": "PINE",
@@ -126,7 +126,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Tree",
-      "description": "Just tree"
+      "description": "Evergreen, steadfast through the seasons."
     },
     {
       "blockType": "BUSH_Y",
@@ -136,7 +136,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Bush",
-      "description": "Just bush"
+      "description": "Rustling leaves, muted earthy tones."
     },
     {
       "blockType": "BUSH_LG",
@@ -146,7 +146,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Bush",
-      "description": "Just bush"
+      "description": "Lush thicket, vibrant and lively."
     },
     {
       "blockType": "GRASS",
@@ -156,7 +156,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Grass",
-      "description": "Just grass"
+      "description": "Soft, swaying under a gentle breeze."
     },
     {
       "blockType": "GRASS_SMALL",
@@ -166,7 +166,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Grass",
-      "description": "Just grass"
+      "description": "Tender blades, part of life's tapestry."
     },
     {
       "blockType": "GRASS_TRAIL",
@@ -176,7 +176,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Grass trail",
-      "description": "Just grass trail"
+      "description": "Worn pathway through verdant fields."
     },
     {
       "blockType": "SIMPLE_ZOMBIE",
@@ -184,7 +184,7 @@
       "background": "#111111",
       "foreground": "#6F0A1F",
       "name": "Zombie",
-      "description": "Scary and dangerous"
+      "description": "The restless dead, fear incarnate."
     },
     {
       "blockType": "SWARMER",
@@ -192,7 +192,7 @@
       "background": "#111111",
       "foreground": "#6F3A5F",
       "name": "Swarmer",
-      "description": "Small fast and weak"
+      "description": "Swift and numerous, overwhelming foe."
     },
     {
       "blockType": "H_CLOSED_DOOR",
@@ -200,7 +200,7 @@
       "background": "#111111",
       "foreground": "#964B00",
       "name": "Closed door",
-      "description": "Just closed door"
+      "description": "Mysteries lie behind this wooden portal."
     },
     {
       "blockType": "V_CLOSED_DOOR",
@@ -208,7 +208,7 @@
       "background": "#111111",
       "foreground": "#964B00",
       "name": "Closed door",
-      "description": "Just closed door"
+      "description": "Bound shut, conceals whatever lies beyond."
     },
     {
       "blockType": "OPENED_DOOR",
@@ -218,7 +218,7 @@
       "background": "#111111",
       "foreground": "#964B00",
       "name": "Opened door",
-      "description": "Just Opened door"
+      "description": "Open access to unknown adventures."
     },
     {
       "blockType": "UR_CORNER_THICK",
@@ -228,7 +228,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Corner",
-      "description": "Just corner"
+      "description": "Turns sharply, hiding unseen dangers."
     },
     {
       "blockType": "BR_CORNER_THICK",
@@ -238,7 +238,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Corner",
-      "description": "Just corner"
+      "description": "Seamless turn, the path is bending."
     },
     {
       "blockType": "UL_CORNER_THICK",
@@ -248,7 +248,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Corner",
-      "description": "Just corner"
+      "description": "Hugging the edges, solid structure."
     },
     {
       "blockType": "BL_CORNER_THICK",
@@ -258,7 +258,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Corner",
-      "description": "Just corner"
+      "description": "Anchored corner, security and stability."
     },
     {
       "blockType": "H_WALL_THICK",
@@ -268,7 +268,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Unyielding barrier, shielding from harm."
     },
     {
       "blockType": "H_WALL",
@@ -278,7 +278,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Divides and protects, neutral presence."
     },
     {
       "blockType": "V_WALL",
@@ -288,7 +288,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Upright barrier, standing strong."
     },
     {
       "blockType": "D_WALL_JOINT",
@@ -298,7 +298,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Joint of paths, forming boundaries."
     },
     {
       "blockType": "U_WALL_JOINT",
@@ -308,7 +308,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Joining paths, crafting secure boundaries."
     },
     {
       "blockType": "PLUS_WALL_JOINT",
@@ -318,7 +318,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Crossed lanes of safety and division."
     },
     {
       "blockType": "UR_CORNER",
@@ -328,7 +328,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Sharp curve meeting an unmarked hallway."
     },
     {
       "blockType": "BL_CORNER",
@@ -338,7 +338,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Precise angle within the structural design."
     },
     {
       "blockType": "BR_CORNER",
@@ -348,7 +348,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "A perfect right angle for defense."
     },
     {
       "blockType": "UL_CORNER",
@@ -358,7 +358,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Neat boundary shaping the secure."
     },
     {
       "blockType": "V_WALL_THICK",
@@ -368,7 +368,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Strong vertical barrier, blocking all."
     },
     {
       "blockType": "V_WALL_LEFT_JOINT_THICK",
@@ -378,7 +378,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Connects paths with a firm grip."
     },
     {
       "blockType": "FIRST_AID_KIT",
@@ -386,7 +386,7 @@
       "background": "#111111",
       "foreground": "#DA2C22",
       "name": "First aid kit",
-      "description": "Can heal me"
+      "description": "Life-saving aid for the weary."
     },
     {
       "blockType": "BROKEN_GLASS",
@@ -396,7 +396,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Broken glass",
-      "description": "Broken glass"
+      "description": "Shattered remnants of transparency."
     },
     {
       "blockType": "H_GLASS",
@@ -406,7 +406,7 @@
       "walkable": false,
       "transparent": true,
       "name": "Glass",
-      "description": "Just glass"
+      "description": "Fragile separation, clear division."
     },
     {
       "blockType": "V_GLASS",
@@ -416,7 +416,7 @@
       "walkable": false,
       "transparent": true,
       "name": "Glass",
-      "description": "Just glass"
+      "description": "Crystal-clear vertical boundary."
     },
     {
       "blockType": "D_WALL_THICK_TO_SLIM_JOINT",
@@ -426,7 +426,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Thick to slim transition, tightly secured."
     },
     {
       "blockType": "U_WALL_THICK_TO_SLIM_JOINT",
@@ -436,7 +436,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Unified joint, blending seamless divides."
     },
     {
       "blockType": "D_WALL_THICK_JOINT",
@@ -446,7 +446,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Reinforced unity of dividing strength."
     },
     {
       "blockType": "U_WALL_THICK_JOINT",
@@ -456,7 +456,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Sturdy junction blending dual paths."
     },
     {
       "blockType": "R_WALL_THICK_JOINT",
@@ -466,7 +466,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Converging lines of robust design."
     },
     {
       "blockType": "BROKEN_WALL",
@@ -476,7 +476,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Broken wall",
-      "description": "Broken wall"
+      "description": "Fragmented barrier, remnants of past."
     },
     {
       "blockType": "L_WALL_THICK_JOINT",
@@ -486,7 +486,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Infrastructure's core, steadfast joint."
     },
     {
       "blockType": "R_WALL_THICK_TO_SLIM_JOINT",
@@ -496,7 +496,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Stalwart union between thicknesses."
     },
     {
       "blockType": "L_WALL_THICK_TO_SLIM_JOINT",
@@ -506,7 +506,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Transitional construct of the boundary."
     },
     {
       "blockType": "INTERIOR_THICK_WALL",
@@ -516,7 +516,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Interior's bulwark, securing safe zones."
     },
     {
       "blockType": "INTERIOR_THICK_WALL_2",
@@ -526,7 +526,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Thick infrastructure, ensuring invulnerability."
     },
     {
       "blockType": "BROKEN_WALL_SOLID",
@@ -536,7 +536,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Broken wall",
-      "description": "Broken wall"
+      "description": "Solid yet fractured, testament to age."
     },
     {
       "blockType": "CLOSET",
@@ -546,7 +546,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Wooden closet",
-      "description": "Wooden closet"
+      "description": "A repository of hidden treasures."
     },
     {
       "blockType": "WOODEN_FURNITURE_BROKEN",
@@ -556,7 +556,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Broken wooden furniture",
-      "description": "Broken wooden furniture"
+      "description": "Splintered remnants of craftsmanship."
     },
     {
       "blockType": "WOODEN_FURNITURE_BROKEN_2",
@@ -566,7 +566,7 @@
       "walkable": true,
       "transparent": false,
       "name": "Broken wooden furniture",
-      "description": "Broken wooden furniture"
+      "description": "Shattered relics of bygone days."
     },
     {
       "blockType": "TABLE",
@@ -576,7 +576,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Wooden table",
-      "description": "Wooden table"
+      "description": "Crafted wood, ready for use."
     },
     {
       "blockType": "NIGHTSTAND",
@@ -586,7 +586,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wooden nightstand",
-      "description": "Wooden nightstand"
+      "description": "Small table, keeper of nighttime essentials."
     },
     {
       "blockType": "BED_PART",
@@ -596,7 +596,7 @@
       "walkable": false,
       "transparent": true,
       "name": "Bed",
-      "description": "Bed nightstand"
+      "description": "Restful night's companion, awaiting slumber."
     },
     {
       "blockType": "L_CHAIR",
@@ -606,7 +606,7 @@
       "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
-      "description": "Wooden chair"
+      "description": "Sturdy and practical seating solution."
     },
     {
       "blockType": "R_CHAIR",
@@ -616,7 +616,7 @@
       "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
-      "description": "Wooden chair"
+      "description": "Old-world charm in coarse wood."
     },
     {
       "blockType": "FALLEN_CHAIR",
@@ -626,7 +626,7 @@
       "walkable": true,
       "transparent": false,
       "name": "Wooden chair",
-      "description": "Wooden chair"
+      "description": "Toppled seating in quiet disarray."
     },
     {
       "blockType": "UNSEEN",
@@ -640,7 +640,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lamp post",
-      "description": "Light source"
+      "description": "Illuminating path in the night."
     },
     {
       "blockType": "LANTERN",
@@ -648,7 +648,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lantern",
-      "description": "Light source"
+      "description": "Portable beacon against encroaching darkness."
     },
     {
       "blockType": "OIL_BOTTLE",
@@ -656,7 +656,7 @@
       "background": "#111111",
       "foreground": "#4DA0FF",
       "name": "Oil bottle",
-      "description": "Fuel for lantern"
+      "description": "Vital fuel for flickering flames."
     },
     {
       "blockType": "STONE",
@@ -664,7 +664,7 @@
       "background": "#111111",
       "foreground": "#fc8403",
       "name": "Stone",
-      "description": "I can throw it"
+      "description": "Compact, throwable, earth's artillery."
     },
     {
       "blockType": "DEFAULT_REVOLVER_ROUND",
@@ -672,7 +672,7 @@
       "background": "#111111",
       "foreground": "#e7d5c8",
       "name": "Revolver round",
-      "description": "FMJ rounds"
+      "description": "Lethal metallic projectile, full metal jacket."
     },
     {
       "blockType": "SIGNAL_REVOLVER_ROUND",
@@ -680,7 +680,7 @@
       "background": "#111111",
       "foreground": "#f12d23",
       "name": "Signal round",
-      "description": "Hunters signal round used to signal one's position"
+      "description": "Crimson calling card for the lost."
     },
     {
       "blockType": "REVOLVER",
@@ -688,15 +688,15 @@
       "background": "#111111",
       "foreground": "#aaaacc",
       "name": "Revolver",
-      "description": "Military issue revolver"
+      "description": "Reliable companion in dire circumstances."
     },
     {
       "blockType": "DEFAULT_REVOLVER_ROUND_BOX",
       "tile": "◘",
       "background": "#111111",
       "foreground": "#e7d5c8",
-      "name": "Revolver rounds Box",
-      "description": "Box of FMJ revolver rounds"
+      "name": "Ammo box",
+      "description": "Enclosure of deadly surprise."
     },
     {
       "blockType": "LIGHTHOUSE_LAMP",
@@ -704,7 +704,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lighthouse lamp",
-      "description": "Lamp that I have to get to the lighthouse"
+      "description": "Guiding light for the lost at sea."
     },
     {
       "blockType": "LIGHTHOUSE_LAMP_SOCKET",
@@ -712,7 +712,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Lighthouse lamp socket",
-      "description": "Lamp socket missing it's lamp"
+      "description": "Awaiting lamp reunion, sole purpose unfulfilled."
     },
     {
       "blockType": "H_CLOSED_DOOR_LAMBEARER_HOUSE",
@@ -720,7 +720,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Closed door",
-      "description": "Just closed door"
+      "description": "Silent sentinel, guarding entryway secrets."
     },
     {
       "blockType": "V_CLOSED_DOOR_LAMBEARER_HOUSE",
@@ -728,7 +728,7 @@
       "background": "#111111",
       "foreground": "#ffba37",
       "name": "Closed door",
-      "description": "Just closed door"
+      "description": "Barrier between known and unknown."
     },
     {
       "blockType": "OPENED_DOOR_LAMBEARER_HOUSE",
@@ -738,7 +738,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Opened door",
-      "description": "Just Opened door"
+      "description": "Gateway to new, uncharted paths."
     },
     {
       "blockType": "H_CLOSED_DOOR_LIGHTHOUSE",
@@ -746,7 +746,7 @@
       "background": "#111111",
       "foreground": "#f12d23",
       "name": "Lighthouse closed door",
-      "description": "Lighthouse closed door, has a lock on it"
+      "description": "Sealed barrier, revealing nothing."
     },
     {
       "blockType": "V_CLOSED_DOOR_LIGHTHOUSE",
@@ -754,7 +754,7 @@
       "background": "#111111",
       "foreground": "#f12d23",
       "name": "Lighthouse closed door",
-      "description": "Lighthouse closed door, has a lock on it"
+      "description": "Locked entryway, mysterious maritime secrets."
     },
     {
       "blockType": "OPENED_DOOR_LIGHTHOUSE",
@@ -764,15 +764,15 @@
       "walkable": true,
       "transparent": true,
       "name": "Lighthouse opened door",
-      "description": "Just Opened door"
+      "description": "Welcoming entry to the guiding light"
     },
     {
       "blockType": "LIGHTHOUSE_KEY",
       "tile": "¥",
       "background": "#111111",
       "foreground": "#f12d23",
-      "name": "Lighthouse door key",
-      "description": "Key that can open the lighthouse"
+      "name": "Lighthouse key",
+      "description": "Unlocks passage to the beacon."
     },
     {
       "blockType": "BROKEN_LIGHTHOUSE_KEY",
@@ -782,7 +782,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Broken lighthouse key",
-      "description": "Broken key that could've open the lighthouse. I need to find new one"
+      "description": "Fractured, failing its ancient duty."
     },
     {
       "blockType": "V_WALL_THICK_LIGHTHOUSE",
@@ -792,7 +792,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Fortress-like partition, standing the test of time."
     },
     {
       "blockType": "H_WALL_THICK_LIGHTHOUSE",
@@ -802,7 +802,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Horizontal sentinel, withstanding relentless tides."
     },
     {
       "blockType": "V_WALL_THICK_LIGHTHOUSE_RED",
@@ -812,7 +812,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Defiant structure, stained with battle's hue."
     },
     {
       "blockType": "H_WALL_THICK_LIGHTHOUSE_RED",
@@ -822,10 +822,7 @@
       "walkable": false,
       "transparent": false,
       "name": "Wall",
-      "description": "Just wall"
+      "description": "Sturdy shield, cloaked in crimson tint."
     }
   ]
 }
-
-
-

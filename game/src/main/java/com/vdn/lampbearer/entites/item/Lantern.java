@@ -12,8 +12,11 @@ import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.attributes.projectile.PenetrationPowerAttr;
 import com.vdn.lampbearer.attributes.projectile.ProjectileDamageAttr;
+import com.vdn.lampbearer.constants.GameOverResult;
 import com.vdn.lampbearer.entites.AbstractEntity;
+import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;
+import com.vdn.lampbearer.exception.GameOverException;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -22,15 +25,24 @@ import com.vdn.lampbearer.services.light.CircleSparkLight;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
 import org.hexworks.zircon.api.color.TileColor;
+import org.hexworks.zircon.api.component.Component;
+import org.hexworks.zircon.api.component.HBox;
+import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
+import org.hexworks.zircon.api.data.Tile;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static org.hexworks.zircon.api.ComponentDecorations.noDecoration;
 
 @Slf4j
 public class Lantern extends Projectile {
@@ -41,8 +53,24 @@ public class Lantern extends Projectile {
     private final UsableAttr usableAttr;
 
     @Setter(AccessLevel.NONE)
+    @Getter
     private LightSourceAttr lightSource;
 
+
+    @Override
+    public Component toComponent() {
+        HBox component = (HBox) super.toComponent();
+
+        if(lightSource.isOn()) {
+            var status = Components.label()
+                    .withDecorations(noDecoration())
+                    .withText("(On)")
+                    .build();
+
+            component.addComponent(status);
+        }
+        return component;
+    }
 
     @Override
     public int getTime() {
@@ -65,7 +93,7 @@ public class Lantern extends Projectile {
         setName(block.getName());
         setDescription(block.getDescription());
 
-        usableAttr = new UsableAttr(100, 70);
+        usableAttr = new UsableAttr(50, 40);
         lightSource = new LightSourceAttr(
                 new CircleLight(position3D, MAX_LIGHT_RADIUS, TileColor.fromString("#cba731"))
         );
@@ -92,6 +120,19 @@ public class Lantern extends Projectile {
         return String.format("%s. %s", description, usableAttr.getStringPercentageLeft());
     }
 
+    public String getFuelLeft(){
+        return usableAttr.getStringPercentageLeft();
+    }
+
+    public int getFuelLeftNumber(){
+        return usableAttr.getPercentageLeft();
+    }
+
+    @Override
+    protected void onPathStart(GameContext context, Position startPosition) {
+        context.getWorld().removeDynamicLight(context.getPlayer(), lightSource.getLight());
+        context.getWorld().addDynamicLight(this, lightSource.getLight());
+    }
 
     @Override
     public void update(GameContext context) {
@@ -103,8 +144,9 @@ public class Lantern extends Projectile {
         if (!lightSource.isOn()) {
             return;
         }
-        context.getWorld().forceUpdateLighting();
+        context.getWorld().updateLighting();
         if (usableAttr.useOnce() == 0) {
+            context.getLogArea().addParagraph("Lantern ran out of oil!", false, 0);
             new PutOutLampReaction().execute(null, this, context);
             return;
         }
@@ -143,15 +185,25 @@ public class Lantern extends Projectile {
         
         Position centerPos = getPosition().to2DPosition();
         
-        CircleSparkLight.createNow(context, centerPos, explosionRadius + 2,
-                TileColor.fromString("#FF8833"), 4);
-
-        context.getLogArea().addParagraph(
-                String.format("%s explodes!", getName()),
-                false,
-                0
+        CircleSparkLight.createNow(context, centerPos, explosionRadius,
+                TileColor.fromString("#FF8833"), 6);
+        context.getLogArea()
+            .addInlineComponent(
+                Components.label()
+                    .withText("******")
+                    .withComponentRenderer((graphics, cntxt) -> {
+                        var bang = CharacterTileStringBuilder.newBuilder()
+                                .withText("!BOOM!")
+                                .withForegroundColor(TileColor.fromString("#222222"))
+                                .withBackgroundColor(TileColor.fromString("#FF8833"))
+                                .build();
+                        graphics.draw(bang);
+                    }).build());
+        context.getLogArea().addInlineText(
+                String.format("%s explodes!", getName())
         );
 
+        context.getLogArea().commitInlineElements();
         List<AbstractEntity> entitiesToDamage = getEntitiesToDamage(context, explosionRadius, centerPos);
 
         for (AbstractEntity entity : entitiesToDamage) {
@@ -171,7 +223,7 @@ public class Lantern extends Projectile {
                 double distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance <= explosionRadius) {
-                    List<AbstractEntity> entitiesAt = context.getWorld().getEntitiesAt(targetPos);
+                    Collection<AbstractEntity> entitiesAt = context.getWorld().getEntitiesAt(targetPos);
                     for (AbstractEntity entity : entitiesAt) {
                         if (entity.hasAttribute(BlockOccupier.class) && !entity.equals(this)) {
                             entitiesToDamage.add(entity);
@@ -190,21 +242,44 @@ public class Lantern extends Projectile {
         }
 
         int remainingHealth = healthAttr.get().reduceHealth(damage);
-
-        context.getLogArea().addParagraph(
-                String.format("%s takes %d explosion damage", target.getName(), damage),
-                false,
-                0
-        );
+        context.getScoreService().addDamageDealt(damage);
+        if(target instanceof Player){
+            context.getScoreService().addDamageReceived(damage);
+        }
+        logEnemy(context.getLogArea(), target.getName(),  target.getTile());
+        context.getLogArea().addInlineText(" takes ");
+        context.getLogArea().addInlineText(String.format(
+                " %d explosion damage",
+                damage
+        ));
+        context.getLogArea().commitInlineElements();
 
         if (remainingHealth <= 0) {
-            context.getLogArea().addParagraph(
-                    String.format("%s dies from the explosion!", target.getName()),
-                    false,
-                    0
-            );
+            logEnemy(context.getLogArea(), target.getName(),  target.getTile());
+            context.getLogArea().addInlineText(" dies from the explosion!");
+            context.getLogArea().commitInlineElements();
+
+            if(target instanceof Player){
+                throw new GameOverException(context, GameOverResult.PLAYER_DEAD);
+            }
             context.getWorld().deleteEntity(target, target.getPosition());
         }
+    }
+
+
+    private void logEnemy(LogArea logArea, String name, Tile tile) {
+        logArea
+                .addInlineComponent(
+                        Components.label()
+                                .withText(name)
+                                .withComponentRenderer((graphics, cntxt) -> {
+                                    var bang = CharacterTileStringBuilder.newBuilder()
+                                            .withText(name)
+                                            .withForegroundColor(tile.getForegroundColor())
+                                            .build();
+                                    graphics.draw(bang);
+                                }).build());
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.vdn.lampbearer.action.reactions;
+package com.vdn.lampbearer.action.reactions.revolver;
 
 import com.vdn.lampbearer.action.AbstractProjectileReaction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
@@ -7,6 +7,9 @@ import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.firearm.AbstractFirearm;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
+import org.hexworks.zircon.api.Components;
+import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
+import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.data.Position3D;
 
 import java.util.Optional;
@@ -47,6 +50,25 @@ public class ShootFirearmReaction extends AbstractProjectileReaction {
         initProjectile(projectile, targetPosition, initiatorPosition, context);
         inventoryOpt.get().removeItem(projectile);
 
+        drawLog(context);
+
+        new CheckChamberReaction().execute(initiator, target, context);
         return true;
+    }
+
+    private void drawLog(GameContext context) {
+        context.getLogArea()
+            .addInlineComponent(
+                Components.label()
+                    .withText("******")
+                    .withComponentRenderer((graphics, cntxt) -> {
+                        var bang = CharacterTileStringBuilder.newBuilder()
+                            .withText("!BANG!")
+                            .withForegroundColor(TileColor.fromString("#A94F42"))
+                            .withBackgroundColor(TileColor.fromString("#ffba37"))
+                            .build();
+                        graphics.draw(bang);
+                    }).build());
+        context.getLogArea().commitInlineElements();
     }
 }

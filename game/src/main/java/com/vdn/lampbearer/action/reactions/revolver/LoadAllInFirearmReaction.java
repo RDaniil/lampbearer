@@ -1,12 +1,11 @@
-package com.vdn.lampbearer.action.reactions;
+package com.vdn.lampbearer.action.reactions.revolver;
 
-import com.vdn.lampbearer.attributes.ItemContainerAttr;
+import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.RoundContainerAttr;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
 import com.vdn.lampbearer.entites.item.firearm.AbstractFirearm;
-import com.vdn.lampbearer.entites.item.projectile.Round;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +21,7 @@ public class LoadAllInFirearmReaction implements Reaction {
 
         Optional<AbstractItem> foundFirearm = inventoryOpt.get().findItem(AbstractFirearm.class);
         if (foundFirearm.isEmpty()) {
+            context.getLogArea().addParagraph("No firearm to load this ammo", false, 0);
             return false;
         }
         Optional<RoundContainerAttr> ammoBoxInventory =
@@ -40,6 +40,7 @@ public class LoadAllInFirearmReaction implements Reaction {
             context.getLogArea().addParagraph(String.format("%s rounds loaded, %s left in a box.",
                     roundsLoaded, ammoBoxInventory.get().getItemCount()), false, 0);
 
+            new CheckChamberReaction().execute(initiator, ammoBox, context);
             deleteAmmoBoxIfEmpty((AbstractItem) ammoBox, ammoBoxInventory.get(), inventoryOpt.get());
         } else {
             return false;

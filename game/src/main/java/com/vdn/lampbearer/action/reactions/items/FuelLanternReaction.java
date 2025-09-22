@@ -7,6 +7,7 @@ import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
 import com.vdn.lampbearer.attributes.items.UsableAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.item.AbstractItem;
+import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,21 +31,33 @@ public class FuelLanternReaction implements Reaction {
         List<AbstractItem> oilLamps = inventoryOpt.get()
                 .findByAttribute(FueledByOilAttr.class);
 
-        //TODO: Если в инвентаре две лампы - это не рабоатет
         if (oilLamps.isEmpty()) {
             return false;
         }
-        AbstractItem oilLamp = oilLamps.get(0);
+        Lantern lampToFuel = (Lantern) oilLamps.get(0);
 
-        Optional<UsableAttr> oilLampUses = oilLamp.findAttribute(UsableAttr.class);
+        for (AbstractItem oilLamp : oilLamps) {
+            Lantern lamp = (Lantern) oilLamp;
+            if (lampToFuel.getFuelLeftNumber() < lamp.getFuelLeftNumber()) {
+                lampToFuel = lamp;
+            }
+            if(lamp.getLightSource().isOn()){
+                lampToFuel = lamp;
+            }
+        }
+
+        Optional<UsableAttr> oilLampUses = lampToFuel.findAttribute(UsableAttr.class);
         if (oilLampUses.isEmpty()) {
             return false;
         }
 
         int addedFuel = oilLampUses.get().addUses(oilBottleUses.get());
+        if (oilBottleUses.get().getUsesLeft() <= 0) {
+            inventoryOpt.get().removeItem((AbstractItem) oilBottle);
+        }
         context.getLogArea()
-                .addParagraph(String.format("%s's been fueled, it's %s now", oilLamp.getName(),
-                        oilLamp.getDescription()), false, 0);
+                .addParagraph(String.format("%s's been fueled, it's %s now", lampToFuel.getName(),
+                        lampToFuel.getFuelLeft()), false, 0);
         log.info(String.format("%s's been fuelled by %d oil", oilBottle.getName(), addedFuel));
 
         return true;

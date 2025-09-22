@@ -1,7 +1,7 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
 import com.vdn.lampbearer.action.actions.inventory.AbstractPickUpItemAction;
-import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
+import com.vdn.lampbearer.action.reactions.revolver.ShootFirearmReaction;
 import com.vdn.lampbearer.action.reactions.TargetedReaction;
 import com.vdn.lampbearer.action.reactions.ThrowReaction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
@@ -9,7 +9,6 @@ import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.views.inventory.InventoryItemSelectModalView;
-import lombok.SneakyThrows;
 import org.hexworks.zircon.api.uievent.KeyCode;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +38,7 @@ public class PlayerInventoryInteractionBehavior extends PlayerBehavior {
         if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
         if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
         if (isThrowAction(keyboardEvent)) return new PlayerTargetBehavior(new ThrowReaction());
-        if (isRevolverAction(keyboardEvent))
+        if (isShootRevolverAction(keyboardEvent))
             return new PlayerTargetBehavior(new ShootFirearmReaction());
 
         return this;

@@ -19,7 +19,7 @@ public abstract class AbstractItem extends AbstractEntity implements Printable {
     @Override
     public Component toComponent() {
         HBox inventoryRow = Components.hbox()
-                .withPreferredSize(getName().length() + 2, 1)
+                .withPreferredSize(getName().length() + 6, 1)
                 .build();
 
         var itemIcon = Components.icon()

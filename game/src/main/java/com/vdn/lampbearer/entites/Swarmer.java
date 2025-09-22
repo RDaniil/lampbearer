@@ -11,6 +11,8 @@ import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
+import com.vdn.lampbearer.services.DiceBuilder;
+import com.vdn.lampbearer.services.RandomService;
 import com.vdn.lampbearer.views.BlockType;
 import com.vdn.lampbearer.views.TileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Swarmer extends NonPlayerCharacter implements Schedulable {
 
-    private NonPlayerCharacterBehavior behavior = new AttackingBehavior();
+    private NonPlayerCharacterBehavior behavior = new SleepingBehavior();
 
 
     public Swarmer(Position3D position3D) {
@@ -35,11 +37,11 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
         setAttributes(List.of(
-                new HealthAttr(12),
-                new StrengthAttr(0),
-                new PerceptionAttr(10),
-                new SmellAttr(20),
-                new SpeedAttr(2),
+                new HealthAttr(DiceBuilder.dice(1, 4).plus(3).roll()),
+                new StrengthAttr(DiceBuilder.dice(2, 3)),
+                new PerceptionAttr(5),
+                new SmellAttr(4),
+                new SpeedAttr(RandomService.getRandom(2,3)),
                 StaticBlockOccupier.getInstance()
         ));
         setActions(List.of(AttackAction.getInstance()));
@@ -51,8 +53,8 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
                 AstarMovementAi.getInstance(),
                 true
         ));
-        behaviors.add(new WanderingBehavior(AstarMovementAi.getInstance()));
         behaviors.add(new FleeingBehavior(AstarMovementAi.getInstance()));
+        behaviors.add(new SleepingBehavior());
     }
 
 
@@ -94,6 +96,10 @@ public class Swarmer extends NonPlayerCharacter implements Schedulable {
 
     @Override
     public int getTime() {
+        if(behavior instanceof SleepingBehavior){
+            //Костыль чтобы во время "сна" не считать миллион ходов. Искусственно уменьшаем скорость npc
+            return 3;
+        }
         return findAttribute(SpeedAttr.class).get().getValue();
     }
 }

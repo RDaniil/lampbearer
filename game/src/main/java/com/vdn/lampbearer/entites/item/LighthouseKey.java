@@ -9,7 +9,7 @@ import org.hexworks.zircon.api.data.Position3D;
 
 public class LighthouseKey extends AbstractItem {
 
-    private LighthouseKey(Position3D position) {
+    public LighthouseKey(Position3D position) {
         super(position);
 
         BlockType type = BlockType.LIGHTHOUSE_KEY;

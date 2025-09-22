@@ -6,20 +6,27 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.entites.interfaces.Schedulable;
 import com.vdn.lampbearer.entites.interfaces.Updatable;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.utils.PositionUtils;
 import com.vdn.lampbearer.views.SidePanelView;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.uievent.KeyboardEvent;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
 @Slf4j
 public class ScheduledEngine implements Engine {
-    private final ArrayList<AbstractEntity> entities = new ArrayList<>();
+
+    /**
+     * Радиус вокруг игрока в котором считается логика npc
+     */
+    private static final int DISTANCE_TO_COMPUTE_NPC_ACTIONS = 25;
+    private final Set<AbstractEntity> entities = new HashSet<>();
     private SidePanelView sidePanelView;
     @Setter
     private EngineState state;
@@ -110,8 +117,12 @@ public class ScheduledEngine implements Engine {
 
         while (true) {
             if (nextSchedulable instanceof Actor) {
-                boolean isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
-                log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
+                boolean isActionDone = false;
+
+                if(shouldMove((Actor)nextSchedulable, gameContext)){
+                    isActionDone = ((Actor<?>) nextSchedulable).makeAction(gameContext);
+//                    log.info(Scheduler.currentTime + ": " + nextSchedulable + " makes a move");
+                }
                 if (nextSchedulable instanceof Player) {
                     //Если игрок ничего не сделал - не нужно давать ход всем остальным. Нужно снова дать
                     // ход игроку
@@ -135,7 +146,7 @@ public class ScheduledEngine implements Engine {
                         sleep(100);
                     }
                     updatable.update(gameContext);
-                    log.info(Scheduler.currentTime + ": " + nextSchedulable + " updated");
+//                    log.info(Scheduler.currentTime + ": " + nextSchedulable + " updated");
                 }
 
                 nextSchedulable = peekNextSchedulable();
@@ -143,6 +154,11 @@ public class ScheduledEngine implements Engine {
             if (nextSchedulable instanceof Player && isPlayerActed) break;
             sleep(1);
         }
+    }
+
+    private boolean shouldMove(Actor nextSchedulable, GameContext gameContext) {
+        return PositionUtils.getDistance(gameContext.getPlayer().getPosition(),
+                nextSchedulable.getPosition()) < DISTANCE_TO_COMPUTE_NPC_ACTIONS;
     }
 
 

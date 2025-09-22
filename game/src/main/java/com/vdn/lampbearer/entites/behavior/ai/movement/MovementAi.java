@@ -31,7 +31,7 @@ public abstract class MovementAi implements Ai {
         // потмоу что мб нужно больше одного и разных типов
 
         Optional<ArrayList<Position3D>> path = findPath(npc, targetPos, context);
-        if (path.isEmpty()) return false;
+        if (path.isEmpty() || path.get().size() < 2) return false;
 
         ArrayList<Position3D> positions = path.get();
         Position3D nextPos = positions.get(1);

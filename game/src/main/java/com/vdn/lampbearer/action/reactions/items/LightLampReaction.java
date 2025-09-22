@@ -30,6 +30,7 @@ public class LightLampReaction implements Reaction {
 
         World world = context.getWorld();
         lightAttr.get().setOn(true);
+        context.getWorld().addEntityToEngine(lamp, target.getPosition());
 
         lightAttr.get().getLight().setPosition(target.getPosition().to2DPosition());
         world.addDynamicLight(target, lightAttr.get().getLight());

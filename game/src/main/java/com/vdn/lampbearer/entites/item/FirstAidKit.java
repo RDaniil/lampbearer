@@ -25,8 +25,8 @@ public class FirstAidKit extends AbstractItem {
         setName(block.getName());
         setDescription(block.getDescription());
         setAttributes(List.of(
-                new HealingItemAttribute(new DiceBuilder().dice(2, 6).plus(1).roll()),
-                new UsableAttr(1)
+                new HealingItemAttribute(DiceBuilder.dice(2, 15).plus(5)),
+                new UsableAttr(DiceBuilder.dice(1, 3).roll())
         ));
 
         getActions().add(HealAction.getInstance());

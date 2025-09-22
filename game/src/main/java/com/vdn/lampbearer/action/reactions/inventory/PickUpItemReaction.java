@@ -22,7 +22,10 @@ public class PickUpItemReaction implements Reaction {
         Optional<InventoryAttr> inventoryOpt = initiator.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
 
-        inventoryOpt.get().putItem((AbstractItem) target);
+        if(!inventoryOpt.get().putItem((AbstractItem) target)){
+            context.getLogArea().addParagraph("Inventory full!", false, 0);
+            return false;
+        }
         context.getWorld().removeEntity(target, initiator.getPosition());
         target.removeAction(PickUpItemAction.class);
         target.getActions().add(DropItemAction.getInstance());

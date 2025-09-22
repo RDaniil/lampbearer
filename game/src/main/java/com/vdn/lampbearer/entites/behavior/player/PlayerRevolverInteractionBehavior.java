@@ -1,6 +1,6 @@
 package com.vdn.lampbearer.entites.behavior.player;
 
-import com.vdn.lampbearer.action.reactions.ShootFirearmReaction;
+import com.vdn.lampbearer.action.reactions.revolver.ShootFirearmReaction;
 import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
 import com.vdn.lampbearer.dto.ItemUseReactionContextDto;
 import com.vdn.lampbearer.entites.Player;
@@ -37,12 +37,20 @@ public class PlayerRevolverInteractionBehavior extends PlayerBehavior {
         KeyboardEvent keyboardEvent = (KeyboardEvent) event;
 
         if (isShooting(keyboardEvent)) return new PlayerTargetBehavior(new ShootFirearmReaction());
+        if (isRotatingCylinder(keyboardEvent)) return new PlayerTargetBehavior(new ShootFirearmReaction());
 
         if (isMovement(keyboardEvent)) return new PlayerMoveAndAttackBehavior();
         if (isInteraction(keyboardEvent)) return new PlayerInteractionBehavior();
         if (isInventoryAction(keyboardEvent)) return new PlayerInventoryInteractionBehavior();
 
         return this;
+    }
+
+    private boolean isRotatingCylinder(KeyboardEvent keyboardEvent) {
+        return keyboardEvent.getCode().equals(KeyCode.KEY_E) || keyboardEvent.getCode().equals(KeyCode.KEY_Q)
+                && !keyboardEvent.getCtrlDown()
+                && !keyboardEvent.getAltDown()
+                && !keyboardEvent.getShiftDown();
     }
 
 

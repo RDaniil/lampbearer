@@ -54,9 +54,9 @@
       }
     ],
     "stuffRestrictions": {
-      "FIRST_AID_KIT": 3,
-      "LANTERN": 3,
-      "OIL_BOTTLE": 4,
+      "FIRST_AID_KIT": 5,
+      "LANTERN": 8,
+      "OIL_BOTTLE": 10,
       "LIGHTHOUSE_KEY": 1
     },
     "probabilities": {

@@ -14,9 +14,7 @@ import org.hexworks.zircon.api.data.BlockTileType;
 import org.hexworks.zircon.api.data.Tile;
 import org.hexworks.zircon.api.data.base.BaseBlock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static kotlinx.collections.immutable.ExtensionsKt.persistentMapOf;
@@ -37,7 +35,7 @@ public class GameBlock extends BaseBlock<Tile> {
     private String name;
     private String description;
 
-    private final ArrayList<AbstractEntity> entities = new ArrayList<>(3);
+    private final Set<AbstractEntity> entities = new HashSet <>(3);
 
 
     public GameBlock(Tile tile) {
@@ -82,7 +80,6 @@ public class GameBlock extends BaseBlock<Tile> {
         Player player = (Player) actors.stream()
                 .filter(entity -> entity instanceof Player)
                 .findFirst().orElse(null);
-        //TODO здесь нпе когда стреляешь только что заряженым реваольвером
         if (actors.isEmpty() ||
                 (player == null && !BlockLightingState.IN_LIGHT.equals(lightingState))) {
             List<Tile> notActorTiles = entities.stream()
@@ -108,7 +105,7 @@ public class GameBlock extends BaseBlock<Tile> {
         } else if (lightingState == BlockLightingState.SEEN) {
             newContent = getDisplayedTile().withForegroundColor(
                     newContent.getForegroundColor()
-                            .darkenByPercent(0.4)
+                            .darkenByPercent(0.5)
                             .desaturate(0.3));
         }
         setContent(newContent);
@@ -135,7 +132,7 @@ public class GameBlock extends BaseBlock<Tile> {
     }
 
 
-    public void cloneEntities(ArrayList<AbstractEntity> entities) {
+    public void cloneEntities(Collection<AbstractEntity> entities) {
         entities.forEach(e -> this.entities.add(e.clone()));
     }
 
