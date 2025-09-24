@@ -26,10 +26,6 @@ public class LighthouseSocketPutLampReaction extends DoorOpeningReaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        if(true){
-            throw new GameOverException(context, GameOverResult.LAMP_INSTALLED);
-
-        }
         Optional<InventoryAttr> inventoryOpt = initiator.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
         Optional<AbstractItem> lighthouseLamp = inventoryOpt.get()
@@ -44,25 +40,9 @@ public class LighthouseSocketPutLampReaction extends DoorOpeningReaction {
     }
 
     private static void printMessage(GameContext context) {
-        context.getLogArea().addInlineComponent(
-                Components.label().withText("I need to find the ").build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label()
-                                .withText("lighthouse lamp ♦")
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    CharacterTileString str = CharacterTileStringBuilder.newBuilder()
-                                            .withText("lighthouse lamp ♦")
-                                            .withForegroundColor(TileColor.fromString("#ffba37"))
-                                            .build();
-                                    graphics.draw(str);
-                                }).build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label().withText(" to put it into the socket").build());
-
+        context.getLogArea().addInlineText("I need to find the ");
+        context.getLogArea().addInlineComponent("lighthouse lamp ♦", TileColor.fromString("#ffba37"));
+        context.getLogArea().addInlineText(" to put it into the socket");
         context.getLogArea().commitInlineElements();
     }
 }

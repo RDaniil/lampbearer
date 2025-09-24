@@ -48,25 +48,9 @@ public class LighthouseDoorOpeningReaction extends DoorOpeningReaction {
     }
 
     private static void printMessage(GameContext context) {
-        context.getLogArea().addInlineComponent(
-                Components.label().withText("Door is locked. I should find a ").build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label()
-                                .withText("key ¥")
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    CharacterTileString str = CharacterTileStringBuilder.newBuilder()
-                                            .withText("key ¥")
-                                            .withForegroundColor(TileColor.fromString("#f12d23"))
-                                            .build();
-                                    graphics.draw(str);
-                                }).build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label().withText(" somewhere").build());
-
         context.getLogArea().commitInlineElements();
-    }
+        context.getLogArea().addInlineText("Door is locked. I should find a ");
+        context.getLogArea().addInlineComponent("key ¥", TileColor.fromString("#f12d23"));
+        context.getLogArea().addInlineText(" somewhere");
+        context.getLogArea().commitInlineElements();    }
 }

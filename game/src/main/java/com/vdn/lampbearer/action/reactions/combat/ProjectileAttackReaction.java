@@ -31,9 +31,9 @@ public class ProjectileAttackReaction implements Reaction {
         context.getScoreService().addDamageDealt(projectileDamage);
 
 
-        logEnemy(context.getLogArea(), initiator.getName(),  initiator.getTile());
+        context.getLogArea().addInlineComponent(initiator.getName(), initiator.getTile().getForegroundColor());
         context.getLogArea().addInlineText(" attacked ");
-        logEnemy(context.getLogArea(), target.getName(), target.getTile());
+        context.getLogArea().addInlineComponent(target.getName(), target.getTile().getForegroundColor());
         context.getLogArea().addInlineText(String.format(
                 " for %d damage",
                 projectileDamage
@@ -41,8 +41,9 @@ public class ProjectileAttackReaction implements Reaction {
         context.getLogArea().commitInlineElements();
 
         if (remainingHealth <= 0) {
-            logEnemy(context.getLogArea(), target.getName(), target.getTile());
+            context.getLogArea().addInlineComponent(target.getName(), target.getTile().getForegroundColor());
             context.getLogArea().addInlineText(" died!");
+            context.getLogArea().commitInlineElements();
             context.getWorld().deleteEntity(target, target.getPosition());
 
             if (target instanceof Player) {
@@ -52,20 +53,5 @@ public class ProjectileAttackReaction implements Reaction {
         }
 
         return true;
-    }
-
-    private void logEnemy(LogArea logArea, String name, Tile tile) {
-        logArea
-                .addInlineComponent(
-                        Components.label()
-                                .withText(name)
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    var bang = CharacterTileStringBuilder.newBuilder()
-                                            .withText(name)
-                                            .withForegroundColor(tile.getForegroundColor())
-                                            .build();
-                                    graphics.draw(bang);
-                                }).build());
-
     }
 }

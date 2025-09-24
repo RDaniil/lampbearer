@@ -3,6 +3,7 @@ package com.vdn.lampbearer;
 import com.vdn.lampbearer.exception.GameOverException;
 import com.vdn.lampbearer.game.Game;
 import com.vdn.lampbearer.game.GameContext;
+import com.vdn.lampbearer.services.Log;
 import com.vdn.lampbearer.services.ScoreService;
 import com.vdn.lampbearer.views.GameOverView;
 import com.vdn.lampbearer.views.PlayView;
@@ -39,7 +40,7 @@ public class GameStarter {
                 playView.getSidePanel(),
                 null,
                 game.getPlayer(),
-                logArea,
+                new Log(logArea),
                 screen,
                 new ScoreService());
         game.getWorld().initUi(gameContext);

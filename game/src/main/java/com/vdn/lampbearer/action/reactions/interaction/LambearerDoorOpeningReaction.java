@@ -57,25 +57,9 @@ public class LambearerDoorOpeningReaction extends DoorOpeningReaction {
     }
 
     private static boolean printMessage(GameContext context) {
-        context.getLogArea().addInlineComponent(
-                Components.label().withText("I should get ").build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label()
-                                .withText("lighthouse lamp ♦")
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    CharacterTileString str = CharacterTileStringBuilder.newBuilder()
-                                            .withText("lighthouse lamp ♦")
-                                            .withForegroundColor(TileColor.fromString("#ffba37"))
-                                            .build();
-                                    graphics.draw(str);
-                                }).build());
-
-        context.getLogArea()
-                .addInlineComponent(
-                        Components.label().withText(" before going out").build());
-
+        context.getLogArea().addInlineText("I should take ");
+        context.getLogArea().addInlineComponent("lighthouse lamp ♦", TileColor.fromString("#ffba37"));
+        context.getLogArea().addInlineText(" before going out there...");
         context.getLogArea().commitInlineElements();
         return false;
     }

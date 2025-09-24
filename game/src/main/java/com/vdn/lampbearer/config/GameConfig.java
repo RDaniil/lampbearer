@@ -8,9 +8,9 @@ import org.hexworks.zircon.api.component.ColorTheme;
 public class GameConfig {
 
     public static final ColorTheme THEME = GameTheme.getTheme();
-    public static final int WINDOW_WIDTH = 100;
+    public static final int WINDOW_WIDTH = 90;
     public static final int WINDOW_HEIGHT = 50;
-    public static final int SIDEBAR_WIDTH = WINDOW_WIDTH / 4;
+    public static final int SIDEBAR_WIDTH = WINDOW_WIDTH / 4 + 5;
     public static final int SIDEBAR_HEIGHT = WINDOW_HEIGHT - 2;
     public static final int LOG_AREA_HEIGHT = WINDOW_HEIGHT / 5;
 

@@ -10,11 +10,6 @@ import com.vdn.lampbearer.entites.Player;
 import com.vdn.lampbearer.exception.GameOverException;
 import com.vdn.lampbearer.game.GameContext;
 import lombok.extern.slf4j.Slf4j;
-import org.hexworks.zircon.api.Components;
-import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
-import org.hexworks.zircon.api.color.TileColor;
-import org.hexworks.zircon.api.component.LogArea;
-import org.hexworks.zircon.api.data.Tile;
 
 import java.util.Optional;
 
@@ -41,9 +36,8 @@ public class AttackReaction implements Reaction {
                 target.getName(),
                 damageAmount
         ));
-        logEnemy(context.getLogArea(), initiator.getName(),  initiator.getTile());
+        context.getLogArea().addInlineComponent(initiator.getName(), initiator.getTile().getForegroundColor());
         context.getLogArea().addInlineText(" attacked ");
-        logEnemy(context.getLogArea(), target.getName(), target.getTile());
         context.getLogArea().addInlineText(String.format(
                 " for %d damage",
                 damageAmount
@@ -51,13 +45,13 @@ public class AttackReaction implements Reaction {
         context.getLogArea().commitInlineElements();
 
         if (remainingHealth <= 0) {
-            logEnemy(context.getLogArea(), target.getName(), target.getTile());
+            context.getLogArea().addInlineComponent(target.getName(), target.getTile().getForegroundColor());
             context.getLogArea().addInlineText(" died!");
-            context.getWorld().deleteEntity(target, target.getPosition());
             context.getLogArea().commitInlineElements();
+            context.getWorld().deleteEntity(target, target.getPosition());
 
             if (target instanceof Player) {
-                context.getLogArea().addParagraph("GAME IS OVER", false, 0);
+                context.getLogArea().addParagraph("GAME IS OVER");
                 throw new GameOverException(context, GameOverResult.PLAYER_DEAD);
             }
 
@@ -65,20 +59,5 @@ public class AttackReaction implements Reaction {
         }
 
         return true;
-    }
-
-    private void logEnemy(LogArea logArea, String name, Tile tile) {
-        logArea
-                .addInlineComponent(
-                        Components.label()
-                                .withText(name)
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    var bang = CharacterTileStringBuilder.newBuilder()
-                                            .withText(name)
-                                            .withForegroundColor(tile.getForegroundColor())
-                                            .build();
-                                    graphics.draw(bang);
-                                }).build());
-
     }
 }

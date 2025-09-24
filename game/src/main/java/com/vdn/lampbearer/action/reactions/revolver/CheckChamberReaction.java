@@ -38,7 +38,7 @@ public class CheckChamberReaction implements Reaction {
         Revolver revolver = (Revolver) foundFirearm.get();
         List<Tile> chamberContents = revolver.getChamberContents();
 
-        context.getLogArea().addInlineComponent(Components.label().withText("Revolver chamber: ").build());
+        context.getLogArea().addInlineText("Revolver chamber: ");
 
         context.getLogArea()
                 .addInlineComponent(

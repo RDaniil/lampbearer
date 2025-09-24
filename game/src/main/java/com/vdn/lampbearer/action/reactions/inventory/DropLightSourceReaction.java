@@ -36,10 +36,10 @@ public class DropLightSourceReaction implements Reaction {
         lightSource.removeAction(DropLightSourceAction.class);
         lightSource.getActions().add(PickUpLightSourceAction.getInstance());
 
-        log.info(String.format("%s's been dropped", lightSource.getName()));
-        context.getLogArea()
-                .addParagraph(String.format("%s's been dropped", lightSource.getName()), false, 0);
-
+        context.getLogArea().addInlineText("Dropped ");
+        context.getLogArea().addInlineComponent(String.valueOf(lightSource.getName()),
+                lightSource.getTile().getForegroundColor());
+        context.getLogArea().commitInlineElements();
 
         return true;
     }

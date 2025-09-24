@@ -9,10 +9,9 @@ public class LookReaction implements TargetedReaction {
 
     @Override
     public boolean execute(AbstractEntity initiator, AbstractEntity target, GameContext context) {
-        context.getLogArea().addParagraph(
-                String.format("%s. %s", target.getName(), target.getDescription()),
-                false,
-                0);
+        context.getLogArea().addInlineComponent(target.getName() + " ", target.getTile().getForegroundColor());
+        context.getLogArea().addInlineText(target.getName().length() + 1, target.getDescription());
+        context.getLogArea().commitInlineElements();
         return false;
     }
 }

@@ -782,7 +782,7 @@
       "walkable": true,
       "transparent": true,
       "name": "Broken lighthouse key",
-      "description": "Fractured, failing its ancient duty."
+      "description": "I need to find a new one in order to open the lighthouse"
     },
     {
       "blockType": "V_WALL_THICK_LIGHTHOUSE",

@@ -29,14 +29,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
-import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
 import org.hexworks.zircon.api.color.TileColor;
 import org.hexworks.zircon.api.component.Component;
 import org.hexworks.zircon.api.component.HBox;
-import org.hexworks.zircon.api.component.LogArea;
 import org.hexworks.zircon.api.data.Position;
 import org.hexworks.zircon.api.data.Position3D;
-import org.hexworks.zircon.api.data.Tile;
 
 import java.util.Collection;
 import java.util.List;
@@ -93,7 +90,7 @@ public class Lantern extends Projectile {
         setName(block.getName());
         setDescription(block.getDescription());
 
-        usableAttr = new UsableAttr(50, 40);
+        usableAttr = new UsableAttr(60, 50);
         lightSource = new LightSourceAttr(
                 new CircleLight(position3D, MAX_LIGHT_RADIUS, TileColor.fromString("#cba731"))
         );
@@ -187,18 +184,13 @@ public class Lantern extends Projectile {
         
         CircleSparkLight.createNow(context, centerPos, explosionRadius,
                 TileColor.fromString("#FF8833"), 6);
-        context.getLogArea()
-            .addInlineComponent(
-                Components.label()
-                    .withText("******")
-                    .withComponentRenderer((graphics, cntxt) -> {
-                        var bang = CharacterTileStringBuilder.newBuilder()
-                                .withText("!BOOM!")
-                                .withForegroundColor(TileColor.fromString("#222222"))
-                                .withBackgroundColor(TileColor.fromString("#FF8833"))
-                                .build();
-                        graphics.draw(bang);
-                    }).build());
+
+
+        context.getLogArea().addInlineComponent("!BOOM!",
+                TileColor.fromString("#222222"),
+                TileColor.fromString("#FF8833"));
+        context.getLogArea().commitInlineElements();
+
         context.getLogArea().addInlineText(
                 String.format("%s explodes!", getName())
         );
@@ -246,7 +238,7 @@ public class Lantern extends Projectile {
         if(target instanceof Player){
             context.getScoreService().addDamageReceived(damage);
         }
-        logEnemy(context.getLogArea(), target.getName(),  target.getTile());
+        context.getLogArea().addInlineComponent(target.getName(), target.getTile().getForegroundColor());
         context.getLogArea().addInlineText(" takes ");
         context.getLogArea().addInlineText(String.format(
                 " %d explosion damage",
@@ -255,7 +247,7 @@ public class Lantern extends Projectile {
         context.getLogArea().commitInlineElements();
 
         if (remainingHealth <= 0) {
-            logEnemy(context.getLogArea(), target.getName(),  target.getTile());
+            context.getLogArea().addInlineComponent(target.getName(), target.getTile().getForegroundColor());
             context.getLogArea().addInlineText(" dies from the explosion!");
             context.getLogArea().commitInlineElements();
 
@@ -264,22 +256,6 @@ public class Lantern extends Projectile {
             }
             context.getWorld().deleteEntity(target, target.getPosition());
         }
-    }
-
-
-    private void logEnemy(LogArea logArea, String name, Tile tile) {
-        logArea
-                .addInlineComponent(
-                        Components.label()
-                                .withText(name)
-                                .withComponentRenderer((graphics, cntxt) -> {
-                                    var bang = CharacterTileStringBuilder.newBuilder()
-                                            .withText(name)
-                                            .withForegroundColor(tile.getForegroundColor())
-                                            .build();
-                                    graphics.draw(bang);
-                                }).build());
-
     }
 
     @Override

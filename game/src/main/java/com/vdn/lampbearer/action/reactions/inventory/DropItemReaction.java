@@ -27,10 +27,10 @@ public class DropItemReaction implements Reaction {
         target.removeAction(DropItemAction.class);
         target.getActions().add(PickUpItemAction.getInstance());
 
-        log.info(String.format("%s's been dropped", target.getName()));
-        context.getLogArea()
-                .addParagraph(String.format("%s's been dropped", target.getName()), false, 0);
-
+        context.getLogArea().addInlineText("Dropped ");
+        context.getLogArea().addInlineComponent(String.valueOf(target.getName()),
+                target.getTile().getForegroundColor());
+        context.getLogArea().commitInlineElements();
 
         return true;
     }

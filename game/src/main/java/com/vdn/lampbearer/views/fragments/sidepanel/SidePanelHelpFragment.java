@@ -47,7 +47,7 @@ public class SidePanelHelpFragment implements Fragment {
         attributesVbox.addComponent(Components.label().withText("Interact: F").build());
         attributesVbox.addComponent(Components.label().withText("Shoot revolver: R").build());
         attributesVbox.addComponent(Components.label().withText("Use inventory: U").build());
-        attributesVbox.addComponent(Components.label().withText("Rotate revolver: E,Q").build());
+        attributesVbox.addComponent(Components.label().withText("Rotate revolver:E,Q").build());
 
         attributesVbox.addComponent(Components.label().withText("Confirm: Enter").build());
         attributesVbox.addComponent(Components.label().withText("Cancel/Exit: Esc").build());
