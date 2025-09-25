@@ -24,8 +24,7 @@ public class OilBottle extends AbstractItem {
         setTile(TileRepository.getTile(type));
         setName(block.getName());
         setDescription(block.getDescription());
-        //TODO; сделать заправку текущей заженной лампы
-        this.usableAttr = new UsableAttr(50);
+        this.usableAttr = new UsableAttr(0);
         setAttributes(List.of(usableAttr));
 
         getActions().add(PickUpItemAction.getInstance());

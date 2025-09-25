@@ -67,7 +67,8 @@
       {
         "prefab": "SMALL_BUILDING",
         "number": 1,
-        "shouldBeConnectedByTrails": true
+        "shouldBeConnectedByTrails": true,
+        "staticEntities": true
       },
       {
         "prefab": "SMALL_BUILDING_BROKEN",

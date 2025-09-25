@@ -130,8 +130,6 @@ public class Revolver extends AbstractFirearm<AbstractRevolverRound> {
         var projectile = cylinder.get(currentChamber);
         cylinder.set(currentChamber, new EmptyRound(Position3D.defaultPosition()));
         rotateCylinderClockwise();
-        log.info("REVOLVER: chamber " + currentChamber);
-        cylinder.forEach(ch -> log.info(ch instanceof EmptyRound ? "o" : "*"));
 
         return projectile instanceof EmptyRound ? null : projectile;
     }

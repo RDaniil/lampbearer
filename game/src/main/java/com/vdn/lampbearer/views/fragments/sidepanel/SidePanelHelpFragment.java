@@ -1,24 +1,13 @@
 package com.vdn.lampbearer.views.fragments.sidepanel;
 
-import com.vdn.lampbearer.attributes.inventory.InventoryAttr;
-import com.vdn.lampbearer.entites.interfaces.Printable;
-import com.vdn.lampbearer.entites.item.AbstractItem;
 import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.Components;
-import org.hexworks.zircon.api.color.TileColor;
-import org.hexworks.zircon.api.component.*;
-import org.hexworks.zircon.api.graphics.BoxType;
-import org.hexworks.zircon.api.graphics.StyleSet;
+import org.hexworks.zircon.api.component.Component;
+import org.hexworks.zircon.api.component.Fragment;
+import org.hexworks.zircon.api.component.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import static com.vdn.lampbearer.config.GameConfig.SIDEBAR_WIDTH;
-import static org.hexworks.zircon.api.ComponentDecorations.box;
 import static org.hexworks.zircon.api.ComponentDecorations.margin;
 
 /**

@@ -90,7 +90,7 @@ public class Lantern extends Projectile {
         setName(block.getName());
         setDescription(block.getDescription());
 
-        usableAttr = new UsableAttr(60, 50);
+        usableAttr = new UsableAttr(60, 60);
         lightSource = new LightSourceAttr(
                 new CircleLight(position3D, MAX_LIGHT_RADIUS, TileColor.fromString("#cba731"))
         );

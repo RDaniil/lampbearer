@@ -1,10 +1,7 @@
 package com.vdn.lampbearer.entites.item.projectile.revolver;
 
 import com.vdn.lampbearer.action.actions.LoadOneInFirearmAction;
-import com.vdn.lampbearer.action.actions.ShootFirearmAction;
 import com.vdn.lampbearer.action.actions.inventory.PickUpItemAction;
-import com.vdn.lampbearer.attributes.LightSourceAttr;
-import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.factories.GameBlockFactory;
 import com.vdn.lampbearer.game.GameContext;
 import com.vdn.lampbearer.game.world.block.GameBlock;
@@ -23,7 +20,7 @@ public class SignalRevolverRound extends AbstractRevolverRound {
     /**
      * Время, которое огонек будет "висеть" в воздухе
      */
-    private static final int LINGER_TIME = 50;
+    private static final int LINGER_TIME = 70;
 
     /**
      * Процент пройденного пути, начиная с которого ракета замедлится

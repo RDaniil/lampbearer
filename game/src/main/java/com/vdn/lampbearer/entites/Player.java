@@ -69,7 +69,7 @@ public class Player extends Actor<PlayerBehavior> implements Schedulable {
         setName(block.getName());
         setDescription(block.getDescription());
         setTile(TileRepository.getTile(type));
-        InventoryAttr inventoryAttr = new InventoryAttr(6);
+        InventoryAttr inventoryAttr = new InventoryAttr(7);
         HealthAttr healthAttr = new HealthAttr(120);
 
         PerceptionAttr perceptionAttr = new PerceptionAttr(20);

@@ -38,7 +38,7 @@ public class FuelLanternReaction implements Reaction {
 
         for (AbstractItem oilLamp : oilLamps) {
             Lantern lamp = (Lantern) oilLamp;
-            if (lampToFuel.getFuelLeftNumber() < lamp.getFuelLeftNumber()) {
+            if (lamp.getFuelLeftNumber() < lampToFuel.getFuelLeftNumber()) {
                 lampToFuel = lamp;
             }
             if(lamp.getLightSource().isOn()){
