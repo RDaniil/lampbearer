@@ -647,8 +647,8 @@
       "tile": "Ω",
       "background": "#111111",
       "foreground": "#ffba37",
-      "name": "Lantern",
-      "description": "Portable beacon against encroaching darkness."
+      "name": "Oil Lantern",
+      "description": "Portable beacon against encroaching darkness. Contains flammable liquid"
     },
     {
       "blockType": "OIL_BOTTLE",
@@ -656,7 +656,7 @@
       "background": "#111111",
       "foreground": "#4DA0FF",
       "name": "Oil bottle",
-      "description": "Vital fuel for flickering flames."
+      "description": "Vital fuel for flickering flames of a lantern."
     },
     {
       "blockType": "STONE",
@@ -680,7 +680,7 @@
       "background": "#111111",
       "foreground": "#f12d23",
       "name": "Signal round",
-      "description": "Crimson calling card for the lost."
+      "description": "Crimson light for the lost in the dark."
     },
     {
       "blockType": "REVOLVER",

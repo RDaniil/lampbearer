@@ -26,7 +26,11 @@ public class PickUpLightSourceReaction implements Reaction {
         Optional<InventoryAttr> inventoryOpt = initiator.findAttribute(InventoryAttr.class);
         if (inventoryOpt.isEmpty()) return false;
 
-        inventoryOpt.get().putItem((AbstractItem) lightSource);
+        if (!inventoryOpt.get().putItem((AbstractItem) lightSource)) {
+            context.getLogArea().addParagraph("Inventory full!", false, 0);
+            return false;
+        }
+
         context.getWorld().removeEntity(lightSource, initiator.getPosition());
         if (lightSourceAttr.get().isOn()) {
             Light light = lightSourceAttr.get().getLight();

@@ -185,6 +185,10 @@ public class LightingService {
     private Set<AbstractEntity> getMovedEntities() {
         Set<AbstractEntity> movedEntities = new HashSet<>();
         for (AbstractEntity entity : entityToDynamicLight.keySet()) {
+            if (entity instanceof Player) {
+                movedEntities.add(entity);
+                continue;
+            }
             Position currentPos = entity.getPosition().to2DPosition();
             Position previousPos = entityPreviousPositions.get(entity);
             if (!currentPos.equals(previousPos)) {

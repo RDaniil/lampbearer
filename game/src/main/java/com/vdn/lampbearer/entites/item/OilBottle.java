@@ -24,7 +24,7 @@ public class OilBottle extends AbstractItem {
         setTile(TileRepository.getTile(type));
         setName(block.getName());
         setDescription(block.getDescription());
-        this.usableAttr = new UsableAttr(0);
+        this.usableAttr = new UsableAttr(90);
         setAttributes(List.of(usableAttr));
 
         getActions().add(PickUpItemAction.getInstance());

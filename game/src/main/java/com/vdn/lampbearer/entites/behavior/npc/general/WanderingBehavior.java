@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hexworks.zircon.api.data.Position3D;
 import org.jetbrains.annotations.NotNull;
 
-
 import static com.vdn.lampbearer.services.RandomService.getRandom;
 
 /**
@@ -33,7 +32,6 @@ public class WanderingBehavior extends NonPlayerCharacterBehavior {
             positionToMoveTo = getRandomPositionInView(npc);
             numberOfTries++;
             if(numberOfTries > MAX_TRIES_UNTIL_SWITCHING_TO_WAITING){
-                log.info(String.format("Entity %s is waiting", npc));
                 return true;
             }
         }

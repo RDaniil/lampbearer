@@ -1,6 +1,7 @@
 package com.vdn.lampbearer.entites.item.interfaces;
 
 import com.vdn.lampbearer.action.reactions.combat.ProjectileAttackReaction;
+import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
 import com.vdn.lampbearer.attributes.occupation.BlockOccupier;
 import com.vdn.lampbearer.attributes.projectile.PenetrationPowerAttr;
 import com.vdn.lampbearer.attributes.projectile.ProjectileDamageAttr;
@@ -134,7 +135,8 @@ public abstract class Projectile extends AbstractItem implements Updatable {
 
 
     protected boolean isCollided(GameContext context) {
-        return !context.getWorld().isBlockWalkable(position);
+        return !context.getWorld().isBlockWalkable(position)
+                || context.getWorld().getEntitiesAt(position.to2DPosition()).size() > 1;
     }
 
 
@@ -183,7 +185,7 @@ public abstract class Projectile extends AbstractItem implements Updatable {
     private static Optional<AbstractEntity> getAttackableEntityAtPosition(GameContext context, Position nextPosition) {
         return context.getWorld()
                 .getEntitiesAt(nextPosition).stream()
-                .filter(e -> e.hasAttribute(BlockOccupier.class))
+                .filter(e -> e.hasAttribute(BlockOccupier.class) || e.hasAttribute(FueledByOilAttr.class))
                 .findFirst();
     }
 }

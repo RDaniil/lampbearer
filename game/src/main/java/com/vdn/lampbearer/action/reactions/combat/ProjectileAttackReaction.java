@@ -2,14 +2,12 @@ package com.vdn.lampbearer.action.reactions.combat;
 
 import com.vdn.lampbearer.action.reactions.Reaction;
 import com.vdn.lampbearer.attributes.creature.HealthAttr;
+import com.vdn.lampbearer.attributes.items.FueledByOilAttr;
 import com.vdn.lampbearer.entites.AbstractEntity;
 import com.vdn.lampbearer.entites.Player;
+import com.vdn.lampbearer.entites.item.Lantern;
 import com.vdn.lampbearer.entites.item.interfaces.Projectile;
 import com.vdn.lampbearer.game.GameContext;
-import org.hexworks.zircon.api.Components;
-import org.hexworks.zircon.api.builder.graphics.CharacterTileStringBuilder;
-import org.hexworks.zircon.api.component.LogArea;
-import org.hexworks.zircon.api.data.Tile;
 
 import java.util.Optional;
 
@@ -24,6 +22,9 @@ public class ProjectileAttackReaction implements Reaction {
 
         Optional<HealthAttr> healthAttr = target.findAttribute(HealthAttr.class);
         if (healthAttr.isEmpty()) {
+            if (target.hasAttribute(FueledByOilAttr.class) && target instanceof Lantern) {
+                ((Lantern) target).explode(context);
+            }
             return true;
         }
         int projectileDamage = projectile.getProjectileDamage().getValue();

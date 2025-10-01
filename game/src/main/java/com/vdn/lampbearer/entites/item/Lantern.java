@@ -49,6 +49,8 @@ public class Lantern extends Projectile {
 
     private final UsableAttr usableAttr;
 
+    private boolean isBroken = false;
+
     @Setter(AccessLevel.NONE)
     @Getter
     private LightSourceAttr lightSource;
@@ -113,6 +115,9 @@ public class Lantern extends Projectile {
 
     @Override
     public String getDescription() {
+        if (isBroken) {
+            return "Glass is shattered, oil spilled. It's broken";
+        }
         String description = super.getDescription();
         return String.format("%s. %s", description, usableAttr.getStringPercentageLeft());
     }
@@ -172,11 +177,19 @@ public class Lantern extends Projectile {
         if (lightSource.isOn()) {
             explode(context);
         } else {
+            isBroken = true;
+            context.getLogArea().addInlineComponent("Lantern ",
+                    getTile().getForegroundColor());
+
+            context.getLogArea().addInlineText("broke on impact!");
+            context.getLogArea().commitInlineElements();
+
+            setTile(getTile().withForegroundColor(TileColor.fromString("#613b1d")));
             super.onPathEnd(context);
         }
     }
 
-    private void explode(GameContext context) {
+    public void explode(GameContext context) {
         final int explosionRadius = 3;
         final int explosionDamage = 25;
         
@@ -184,7 +197,6 @@ public class Lantern extends Projectile {
         
         CircleSparkLight.createNow(context, centerPos, explosionRadius,
                 TileColor.fromString("#FF8833"), 6);
-
 
         context.getLogArea().addInlineComponent("!BOOM!",
                 TileColor.fromString("#222222"),
@@ -202,7 +214,13 @@ public class Lantern extends Projectile {
             damageEntity(entity, explosionDamage, context);
         }
 
-        destroyProjectile(context);
+        if (isFlying) {
+            destroyProjectile(context);
+        } else {
+            //Сюда попадем если взорвали стоячую лампу выстрелом.
+            context.getWorld().removeLight(lightSource.getLight());
+            context.getWorld().deleteEntity(this, getPosition());
+        }
         context.getWorld().removeDynamicLight(lightSource.getLight());
     }
 

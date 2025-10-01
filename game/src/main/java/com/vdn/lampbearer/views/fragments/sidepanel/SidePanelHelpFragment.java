@@ -32,7 +32,7 @@ public class SidePanelHelpFragment implements Fragment {
         attributesVbox.addComponent(Components.label().withText("Walk: WASD").build());
         attributesVbox.addComponent(Components.label().withText("Wait: Space").build());
         attributesVbox.addComponent(Components.label().withText("Look: L").build());
-        attributesVbox.addComponent(Components.label().withText("Pick up item: F").build());
+        attributesVbox.addComponent(Components.label().withText("Pick up item: P").build());
         attributesVbox.addComponent(Components.label().withText("Interact: F").build());
         attributesVbox.addComponent(Components.label().withText("Shoot revolver: R").build());
         attributesVbox.addComponent(Components.label().withText("Use inventory: U").build());
